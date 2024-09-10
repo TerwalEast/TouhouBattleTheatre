@@ -1,12 +1,12 @@
 ﻿// TouhouBattleTheatre.cpp: 定义应用程序的入口点。
 //
 
-#include "TouhouBattleTheatre.h"
 
-using namespace std;
+#include "TouhouBattleTheatre.h"
+#include "src/TestApplication.h"
 
 int main()
 {
-	cout << "Hello CMake." << endl;
+	TestApplication::run();
 	return 0;
 }
