@@ -1,0 +1,110 @@
+{
+  "$schema": "https://raw.githubusercontent.com/spdx/spdx-spec/v2.2.1/schemas/spdx-schema.json",
+  "spdxVersion": "SPDX-2.2",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "documentNamespace": "https://spdx.org/spdxdocs/cute-headers-x64-windows-2019-09-20#2-50273dbf-b80f-4016-a391-09bea1128083",
+  "name": "cute-headers:x64-windows@2019-09-20#2 005e55288f0c1c6686a97a05d04bb6a10c2b9a57440b1f54a7ef7d5655910fb7",
+  "creationInfo": {
+    "creators": [
+      "Tool: vcpkg-2024-07-10-d2dfc73769081bdd9b782d08d27794780b7a99b9"
+    ],
+    "created": "2024-08-28T08:21:54Z"
+  },
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "GENERATES",
+      "relatedSpdxElement": "SPDXRef-binary"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-0"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-1"
+    },
+    {
+      "spdxElementId": "SPDXRef-binary",
+      "relationshipType": "GENERATED_FROM",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-0",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-1",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    }
+  ],
+  "packages": [
+    {
+      "name": "cute-headers",
+      "SPDXID": "SPDXRef-port",
+      "versionInfo": "2019-09-20#2",
+      "downloadLocation": "NOASSERTION",
+      "homepage": "https://github.com/RandyGaul/cute_headers",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "description": "Collection of cross-platform one-file C/C++ libraries with no dependencies",
+      "comment": "This is the port (recipe) consumed by vcpkg."
+    },
+    {
+      "name": "cute-headers:x64-windows",
+      "SPDXID": "SPDXRef-binary",
+      "versionInfo": "005e55288f0c1c6686a97a05d04bb6a10c2b9a57440b1f54a7ef7d5655910fb7",
+      "downloadLocation": "NONE",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "comment": "This is a binary package built by vcpkg."
+    },
+    {
+      "SPDXID": "SPDXRef-resource-1",
+      "name": "RandyGaul/cute_headers",
+      "downloadLocation": "git+https://github.com/RandyGaul/cute_headers@4f765abf4a59660e72f9f49c444371ba373e834b",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "e898520dc668ce9d1f51c748da1c674f9fa0540bac7a0d10a45fde5ebb0ca6573dc5178ce41199a138e3153343b1ff0c589bc7908a8edcd4a7753d5a1440030b"
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "fileName": "./D:/Repo/vcpkg/ports/cute-headers/portfile.cmake",
+      "SPDXID": "SPDXRef-file-0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "54bcdd91fb7ce963c1b31c0a5cc807538f9580b790338b81b0a819ff08f5d9cb"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./D:/Repo/vcpkg/ports/cute-headers/vcpkg.json",
+      "SPDXID": "SPDXRef-file-1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "83f67992db247e98a4fe492de54026e839cd06d63f0aba999ea09449542ceaae"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    }
+  ]
+}

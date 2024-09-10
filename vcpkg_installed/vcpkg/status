@@ -1,0 +1,259 @@
+Package: cute-headers
+Version: 2019-09-20
+Port-Version: 2
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 005e55288f0c1c6686a97a05d04bb6a10c2b9a57440b1f54a7ef7d5655910fb7
+Description: Collection of cross-platform one-file C/C++ libraries with no dependencies
+Status: install ok installed
+
+Package: vcpkg-cmake-config
+Version: 2024-05-23
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 40a7c20e65505cf9cd0194a4095e36abab068ccf94315fc7a78f69c66f9ed748
+Status: install ok installed
+
+Package: vcpkg-cmake
+Version: 2024-04-23
+Architecture: x64-windows
+Multi-Arch: same
+Abi: a00f06fb241e4dd7cdcdaed39fe029adb5001ce72b8c4b3e3fa344f875999659
+Status: install ok installed
+
+Package: egl-registry
+Version: 2024-01-25
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 8031573466001341a9471d3055fda524318aa74e425e7aa99be490106148885b
+Description: EGL API and Extension Registry
+Status: install ok installed
+
+Package: opengl-registry
+Version: 2024-02-10
+Port-Version: 1
+Depends: egl-registry
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 9f5a9d80cee8f2655ea255b8c00648ff4de0a0277d3726f546a8636385e4c228
+Description: OpenGL, OpenGL ES, and OpenGL ES-SC API and Extension Registry
+Status: install ok installed
+
+Package: glad
+Version: 0.1.36
+Depends: egl-registry, opengl-registry, vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: f646b3d619c83be6dac9cdd589847eea4a8feec55459e5808d9c7f49cb13fc73
+Description: Multi-Language Vulkan/GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs.
+Default-Features: loader
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-10
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 1.0.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-11
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 1.1.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-12
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 1.2.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-13
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 1.3.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-14
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 1.4.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-15
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 1.5.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-20
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 2.0.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-21
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 2.1.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-30
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 3.0.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-31
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 3.1.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-32
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 3.2.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-33
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 3.3.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-40
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 4.0.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-41
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 4.1.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-42
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 4.2.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-43
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 4.3.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-44
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 4.4.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-45
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 4.5.
+Status: install ok installed
+
+Package: glad
+Feature: gl-api-46
+Architecture: x64-windows
+Multi-Arch: same
+Description: Imports extensions from OpenGL API specification version 4.6.
+Status: install ok installed
+
+Package: glad
+Feature: loader
+Architecture: x64-windows
+Multi-Arch: same
+Description: Generate loader logic.
+Status: install ok installed
+
+Package: glm
+Version: 1.0.1
+Port-Version: 3
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: b5d9de8c19c20fcfc701a128d60a7556ab08b04526dd78afc54bec103c342042
+Description: OpenGL Mathematics (GLM)
+Status: install ok installed
+
+Package: opengl
+Version: 2022-12-04
+Port-Version: 3
+Depends: opengl-registry
+Architecture: x64-windows
+Multi-Arch: same
+Abi: a5a9c81f38a839a746e91ca588f041ac427a4b97466e438d1d85b4366fe84a20
+Description: Open Graphics Library (OpenGL)[3][4][5] is a cross-language, cross-platform application programming interface (API) for rendering 2D and 3D vector graphics.
+Status: install ok installed
+
+Package: soil2
+Version: 1.3.0
+Port-Version: 1
+Depends: vcpkg-cmake
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 0fc1abe95c10001f32e72b02f5646c661f145aef06743c35b7a5cd62b633e4dd
+Description: Simple OpenGL Image Library 2
+Status: install ok installed
+
+Package: eabase
+Version: 2.09.12
+Port-Version: 3
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: d8d83d14f561d973f19600d1508ff869c82ef0e154807dd6d7be9a89dd5d1d50
+Description: Electronic Arts Base. EABase is a small set of header files that define platform-independent data types and macros.
+Status: install ok installed
+
+Package: eastl
+Version: 3.21.12
+Depends: eabase, vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 6f69e605b0c0fe1542ec3b0f9c56f4668e12aabf03a7d08d46881e18b0cbe04f
+Description: Electronic Arts Standard Template Library. It is a C++ template library of containers, algorithms, and iterators useful for runtime and tool development across multiple platforms. It is a fairly extensive and robust implementation of such a library and has an emphasis on high performance above all other considerations.
+Status: install ok installed
+
+Package: fmt
+Version: 10.2.1
+Port-Version: 2
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 26eeea72ded47f5a6fc19b3d07fadba3a65df867d9fe6e3ca5281573aa16bddf
+Description: {fmt} is an open-source formatting library providing a fast and safe alternative to C stdio and C++ iostreams.
+Status: install ok installed
+
+Package: spdlog
+Version: 1.14.1
+Depends: fmt, vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: a1c95224964e04c3904d636ab9cd0fb8009582c30b6531a81299476e0617d311
+Description: Very fast, header-only/compiled, C++ logging library.
+Status: install ok installed
+
