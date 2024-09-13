@@ -6,8 +6,11 @@ layout (triangle_strip, max_vertices = 4) out;
 out vec2 texCoord;
 
 uniform float gridSize;
-uniform mat4 view;
-uniform mat4 projection;
+layout (std140) uniform Matrices
+{
+    mat4 projection;
+    mat4 view;
+};
 uniform vec3 verticalBillVec;
 uniform vec3 horizontalBillVec;
 uniform vec3 unitPos;

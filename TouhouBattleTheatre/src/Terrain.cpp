@@ -72,14 +72,9 @@ Terrain::Terrain(int x, int y, int generateType = 0)
 		}
 		break;
 	}
-
-	shaderInfo.hasGeom = false;
-	shaderInfo.shaderCode = "terrain";
-	shaderInfo.uniformList = {"",""};
-
 	_bakeMesh();
-
-
+	_printResult();
+	_upLoadMeshToGPU();
 }
 
 Terrain::~Terrain()
@@ -90,9 +85,8 @@ Terrain::~Terrain()
 
 void Terrain::render()
 {
-
 	glBindVertexArray(vao);
-
+	glDrawArrays(GL_LINE_STRIP, 0, x * y * 4);
 }
 
 void Terrain::_bakeMesh()
@@ -151,7 +145,6 @@ void Terrain::_bakeMesh()
 			}
 		}
 	}
-	_printResult();
 }
 
 void Terrain::_getRevelentTile(int x, int y, RevelentTile& revelentTile)
@@ -187,14 +180,12 @@ void Terrain::_printResult()
 {
 	for (int i = 0; i < x * y * 4 * 3; i+=12)
 	{
-		
 		spdlog::info("Tile[{}][{}]: {} {} {}, {} {} {}, {} {} {}, {} {} {}",
 			(i / 12) / y, i / 12 % y,
 			vertices[i], vertices[i + 1], vertices[i + 2],
 			vertices[i + 3], vertices[i + 4], vertices[i + 5],
 			vertices[i + 6], vertices[i + 7], vertices[i + 8],
 			vertices[i + 9], vertices[i + 10], vertices[i + 11]);
-		
 	}
 }
 

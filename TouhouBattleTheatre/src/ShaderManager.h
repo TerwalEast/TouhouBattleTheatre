@@ -6,26 +6,53 @@
 #include <vector>
 #include <unordered_map>
 
+enum UniformType 
+{
+    FLOAT, VEC2, VEC3, VEC4,
+    MAT2, MAT3, MAT4,
+	INT, IVEC2, IVEC3, IVEC4,
+	UINT, UVEC2, UVEC3, UVEC4,
+	BOOL, BVEC2, BVEC3, BVEC4,
+    SAMPLER1D,SAMPLER2D,SAMPLER3D,SAMPLERCUBE,
+    UNKNOWN
+};
+
+
+struct UniformInfo
+{
+    GLint location;
+    UniformType type;
+};
+
+struct UniformBlockInfo
+{
+    GLint bindingPoint;
+    GLsizei size;
+    GLint bufferID;
+};
+
 struct ShaderInfo 
 {
     bool hasGeom = false;
     std::string shaderCode;
-    std::vector<std::string> uniformList;
 };
 
 struct ShaderProgram 
 {
-	std::unordered_map<std::string, GLint> uniformMap;
+	std::unordered_map<std::string, UniformInfo> uniformMap;
 	GLuint id = 0;
 };
 
 class ShaderManager 
 {
 public:
+	std::vector<ShaderInfo> shaderInfoList;
     std::unordered_map<std::string, ShaderProgram> shaderMap;
-    std::unordered_map<std::string, GLuint> uniformBindingMap;
+    std::unordered_map<std::string, UniformBlockInfo> uniformBlockMap;
     static ShaderManager& getInstance();
     bool compileShader(ShaderInfo shaderInfo);
+    bool setUniform(const std::string& shaderName, const std::string& uniformName, UniformType type, const void* value);
+    bool setUniformBlock(const std::string& uniformBlockName, const void* value);
 private:
     void _checkCompileErrors(GLuint shaderID)
     {
@@ -44,6 +71,12 @@ private:
             spdlog::warn("ERROR::SHADER_LINKING_ERROR:\n{}", infoLog);
         }
     }
+	void _initShaderInfoList();
+    
+    ShaderManager();
+    ~ShaderManager() {};
+	ShaderManager(ShaderManager const&) = delete;
+	void operator=(ShaderManager const&) = delete;
 };
 
 

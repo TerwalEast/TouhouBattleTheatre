@@ -3,6 +3,7 @@
 
 #include "../TouhouBattleTheatre.h"
 #include "Terrain.h"
+#include <glm/glm.hpp>
 
 #include <SDL3/SDL.h>
 
@@ -10,6 +11,52 @@
 using namespace std;
 
 SDL_Window* window = nullptr;
+
+struct Matrices 
+{
+    glm::mat4 projection;
+    glm::mat4 view;
+};
+
+void message_callback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, GLchar const* message, void const* user_param)
+{
+    auto const src_str = [source]() {
+        switch (source)
+        {
+        case GL_DEBUG_SOURCE_API: return "API";
+        case GL_DEBUG_SOURCE_WINDOW_SYSTEM: return "WINDOW SYSTEM";
+        case GL_DEBUG_SOURCE_SHADER_COMPILER: return "SHADER COMPILER";
+        case GL_DEBUG_SOURCE_THIRD_PARTY: return "THIRD PARTY";
+        case GL_DEBUG_SOURCE_APPLICATION: return "APPLICATION";
+        case GL_DEBUG_SOURCE_OTHER: return "OTHER";
+        }
+        }();
+
+    auto const type_str = [type]() {
+        switch (type)
+        {
+        case GL_DEBUG_TYPE_ERROR: return "ERROR";
+        case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR: return "DEPRECATED_BEHAVIOR";
+        case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR: return "UNDEFINED_BEHAVIOR";
+        case GL_DEBUG_TYPE_PORTABILITY: return "PORTABILITY";
+        case GL_DEBUG_TYPE_PERFORMANCE: return "PERFORMANCE";
+        case GL_DEBUG_TYPE_MARKER: return "MARKER";
+        case GL_DEBUG_TYPE_OTHER: return "OTHER";
+        }
+        }();
+
+    auto const severity_str = [severity]() {
+        switch (severity) {
+        case GL_DEBUG_SEVERITY_NOTIFICATION: return "NOTIFICATION";
+        case GL_DEBUG_SEVERITY_LOW: return "LOW";
+        case GL_DEBUG_SEVERITY_MEDIUM: return "MEDIUM";
+        case GL_DEBUG_SEVERITY_HIGH: return "HIGH";
+        }
+        }();
+    spdlog::warn("{}, {}, {}, {}, {}", src_str, type_str, severity_str, id, message);
+}
+
+
 
 int TestApplication::run()
 {
@@ -53,24 +100,28 @@ int TestApplication::run()
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glAlphaFunc(GL_GREATER, 0.1);
-    //glDebugMessageCallback(message_callback, nullptr);
+    glDebugMessageCallback(message_callback, nullptr);
 
     SDL_Event event;
 
     Terrain terrain = Terrain(10, 10, 2);
 
-    ShaderInfo shaderInfoBasic, shaderInfoTiles;
-    shaderInfoBasic.shaderCode = "basic";
-    shaderInfoBasic.uniformList.push_back("color");
-    shaderInfoBasic.uniformList.push_back("model");
-    shaderInfoBasic.uniformList.push_back("view");
-    shaderInfoBasic.uniformList.push_back("projection");
-    ShaderManager::getInstance().compileShader(shaderInfoBasic);
+    //ShaderInfo shaderInfoBasic, shaderInfoTiles;
+    //shaderInfoBasic.shaderCode = "basic";
+    //ShaderManager::getInstance().compileShader(shaderInfoBasic);
 
-    shaderInfoTiles.shaderCode = "tiles";
-    shaderInfoTiles.uniformList.push_back("tileSheet");
-    shaderInfoTiles.uniformList.push_back("Touhou");
-    ShaderManager::getInstance().compileShader(shaderInfoTiles);
+ //   shaderInfoTiles.shaderCode = "tiles";
+	//shaderInfoTiles.hasGeom = true;
+ //   ShaderManager::getInstance().compileShader(shaderInfoTiles);
+
+    ShaderManager::getInstance();
+    Matrices matrices;
+    matrices.projection = glm::mat4(1.0f);
+    matrices.view = glm::mat4(1.0f);
+
+
+    ShaderManager::getInstance().setUniformBlock("Matrices", (void*)&matrices);
+	ShaderManager::getInstance().setUniform("basic", "model", UniformType::MAT4, (void*)&matrices.projection);
 
 
     while (1)
@@ -83,6 +134,12 @@ int TestApplication::run()
             }
         }
 
+
+        //render 
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		
         SDL_Delay(1);
         SDL_GL_SwapWindow(window);
     }

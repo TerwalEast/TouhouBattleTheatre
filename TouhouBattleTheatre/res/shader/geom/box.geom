@@ -3,7 +3,11 @@
 layout (points) in;
 layout (triangle_strip, max_vertices = 4) out;
 
-uniform mat4 projection;
+layout (std140) uniform Matrices
+{
+    mat4 projection;
+    mat4 view;
+};
 uniform vec2 startPosition;
 uniform vec2 endPosition; 
 
