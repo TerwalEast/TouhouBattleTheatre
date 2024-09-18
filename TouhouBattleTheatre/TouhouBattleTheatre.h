@@ -16,5 +16,5 @@
 
 //const Uint8* KeyStates = SDL_GetKeyboardState(NULL);
 
-const std::string BasePath = "D:/Repo/TouhouBattleTheatre/TouhouBattleTheatre/res/";
+
 

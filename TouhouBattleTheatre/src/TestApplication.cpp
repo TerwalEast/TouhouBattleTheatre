@@ -1,11 +1,7 @@
 
 #include "TestApplication.h"
 
-#include "../TouhouBattleTheatre.h"
-#include "Terrain.h"
-#include <glm/glm.hpp>
 
-#include <SDL3/SDL.h>
 
 
 using namespace std;
@@ -150,4 +146,17 @@ END:
 
 
     return 0;
+}
+
+TestApplication& TestApplication::getInstance()
+{
+    static TestApplication ta;
+    return ta;
+}
+
+TestApplication::TestApplication() 
+{
+    std::string target = SDL_GetBasePath();
+    BasePath = target + "res/";
+    spdlog::warn("BasePath init = {}", BasePath);
 }
