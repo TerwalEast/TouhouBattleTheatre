@@ -3,10 +3,14 @@
 
 #include "../TouhouBattleTheatre.h"
 #include "Terrain.h"
-
+#include <glm/glm.hpp>
 
 #include <SDL3/SDL.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/glm.hpp>
+#include <glm/glm.hpp>
+
+#include <SDL3/SDL.h>
 
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
@@ -176,4 +180,17 @@ END:
 
 
     return 0;
+}
+
+TestApplication& TestApplication::getInstance()
+{
+    static TestApplication ta;
+    return ta;
+}
+
+TestApplication::TestApplication() 
+{
+    std::string target = SDL_GetBasePath();
+    BasePath = target + "res/";
+    spdlog::warn("BasePath init = {}", BasePath);
 }

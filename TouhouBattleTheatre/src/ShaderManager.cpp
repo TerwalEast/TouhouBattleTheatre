@@ -37,7 +37,7 @@ bool ShaderManager::compileShader(ShaderInfo shaderInfo)
         std::string glslCodeString;
         std::stringstream inputStream;
         char path[1024] = "";
-        strcat(path, BasePath.c_str());
+        strcat(path, TestApplication::getInstance().BasePath.c_str());
         strcat(path, "shader/");
         strcat(path, code);
         strcat(path, "/");
@@ -371,14 +371,14 @@ bool ShaderManager::setUniformBlock(const std::string& uniformBlockName, const v
 
 void ShaderManager::_initShaderInfoList()
 {
-	std::string path = BasePath + "shader/vert";
+	std::string path = TestApplication::getInstance().BasePath + "shader/vert";
     for (auto const& entry : std::filesystem::directory_iterator(path)) 
     {
         std::string code = entry.path().filename().stem().string();
         spdlog::debug("Scanned shader code: [{}]", code);
 		ShaderInfo shaderInfo;
 		shaderInfo.shaderCode = code;
-		std::string geomPath = BasePath + "shader/geom/" + code + ".geom";
+		std::string geomPath = TestApplication::getInstance().BasePath + "shader/geom/" + code + ".geom";
 		if(std::filesystem::exists(geomPath))
 			shaderInfo.hasGeom = true;
 		shaderInfoList.push_back(shaderInfo);

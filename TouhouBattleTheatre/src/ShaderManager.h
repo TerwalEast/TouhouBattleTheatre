@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../TouhouBattleTheatre.h"
+#include "TestApplication.h"
+
 #include <map>
 #include <string>
 #include <vector>
