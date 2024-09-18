@@ -3,10 +3,13 @@
 
 #include "../TouhouBattleTheatre.h"
 #include "Terrain.h"
-#include <glm/glm.hpp>
+
 
 #include <SDL3/SDL.h>
+#include <glm/gtc/matrix_transform.hpp>
 
+#define WINDOW_WIDTH 1600
+#define WINDOW_HEIGHT 900
 
 using namespace std;
 
@@ -17,6 +20,8 @@ struct Matrices
     glm::mat4 projection;
     glm::mat4 view;
 };
+
+
 
 void message_callback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, GLchar const* message, void const* user_param)
 {
@@ -72,7 +77,7 @@ int TestApplication::run()
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
-        window = SDL_CreateWindow(" бл Touhou Battle Theatre", 1600, 900, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+        window = SDL_CreateWindow(" бл Touhou Battle Theatre", WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
         if (window == NULL)
         {
             spdlog::error("Window creation failed. SDL_Error: {}", SDL_GetError());
@@ -99,7 +104,7 @@ int TestApplication::run()
     glEnable(GL_DEPTH_CLAMP);
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glAlphaFunc(GL_GREATER, 0.1);
+    //glAlphaFunc(GL_GREATER, 0.1);
     glDebugMessageCallback(message_callback, nullptr);
 
     SDL_Event event;
@@ -115,14 +120,31 @@ int TestApplication::run()
  //   ShaderManager::getInstance().compileShader(shaderInfoTiles);
 
     ShaderManager::getInstance();
+    
+
+
+
+    
+	//ShaderManager::getInstance().setUniform("basic", "model", UniformType::MAT4, (void*)&matrices.projection);
+
+    int lastFrame = SDL_GetTicks();
+    float deltaTime;
+
+    glm::mat4 viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0f, 20.0f), // Eye position
+        glm::vec3(0.0f, 0.0f, 0.0f),  // Viewpoint position
+        glm::vec3(0.0f, 1.0f, 0.0f)); // Up vector
+
+    glm::mat4 projectionMatrix = glm::perspective(
+        45.0f, // field of view angle (in degrees)
+        float(WINDOW_WIDTH) / float(WINDOW_HEIGHT), // aspect ratio
+        0.5f, // near plane distance
+        1000.0f); // far plane distance
+
+    
     Matrices matrices;
-    matrices.projection = glm::mat4(1.0f);
-    matrices.view = glm::mat4(1.0f);
-
-
+    matrices.projection = projectionMatrix;
+    matrices.view = viewMatrix;
     ShaderManager::getInstance().setUniformBlock("Matrices", (void*)&matrices);
-	ShaderManager::getInstance().setUniform("basic", "model", UniformType::MAT4, (void*)&matrices.projection);
-
 
     while (1)
     {
@@ -138,8 +160,12 @@ int TestApplication::run()
         //render 
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+
 
 		
+        terrain.render();
+
         SDL_Delay(1);
         SDL_GL_SwapWindow(window);
     }

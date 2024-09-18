@@ -11,6 +11,9 @@
 
 #include <glad/glad.h>
 
+#define GLM_SWIZZLE
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/glm.hpp>
 
 // TODO: 在此处引用程序需要的其他标头。
 

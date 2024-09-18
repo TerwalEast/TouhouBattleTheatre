@@ -1,5 +1,5 @@
 #include "Terrain.h"
-
+#include <glm/gtc/matrix_transform.hpp>
 
 
 Terrain::Terrain(int x, int y, int generateType = 0)
@@ -7,7 +7,7 @@ Terrain::Terrain(int x, int y, int generateType = 0)
 	this->x = x;
 	this->y = y;
 
-	vertices = (float*)malloc(sizeof(float) * x * y * 4 * 3);
+	vertices = (float*)malloc(sizeof(float) * x * y * 4 * 3 * 2);
 
 	tiles = (Tile*)malloc(sizeof(Tile) * x * y);
 
@@ -86,7 +86,30 @@ Terrain::~Terrain()
 void Terrain::render()
 {
 	glBindVertexArray(vao);
-	glDrawArrays(GL_LINE_STRIP, 0, x * y * 4);
+	glUseProgram(ShaderManager::getInstance().shaderMap["basic"].id);
+	glm::mat4 modelMatrixPyramid = glm::mat4(1.0); // We start with identity matrix
+	modelMatrixPyramid = glm::translate(modelMatrixPyramid, glm::vec3(0.0f, -30.0f, -50.0f)); // Translate first
+	modelMatrixPyramid = glm::rotate(modelMatrixPyramid, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Then rotate
+	modelMatrixPyramid = glm::scale(modelMatrixPyramid, glm::vec3(3.0f, 3.0f, 3.0f)); // Scale at last
+
+	glm::vec4 color;
+
+	ShaderManager::getInstance().setUniform("basic", "model", UniformType::MAT4, (void*)&modelMatrixPyramid);
+	color = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	ShaderManager::getInstance().setUniform("basic", "color", UniformType::VEC4, (void*)&color);
+	for (int i = 0; i < y; i++) 
+	{
+		//color = glm::vec4(84.0f / 255.0f, 174.0f / 255.0f, 247.0f / 255.0f, 0.5f);
+		//ShaderManager::getInstance().setUniform("basic", "color", UniformType::VEC4, (void*)&color);
+		//glDrawArrays(GL_TRIANGLE_STRIP, 0 + 4 * x * i, x * 4);
+		
+	}
+	//glDrawArrays(GL_LINE_STRIP, 0 , x * 4 * y);
+	
+	
+	glDrawElementsInstanced(GL_LINE_STRIP, 4, GL_UNSIGNED_INT, (void*)0, 10);
+		
+
 }
 
 void Terrain::_bakeMesh()
@@ -110,7 +133,7 @@ void Terrain::_bakeMesh()
 						vertices[offset + 1] = baseHeight;
 						vertices[offset + 2] = vertexY;
 						offset += 3;
-						spdlog::info("Point:{} {} {}", vertexX, baseHeight, vertexY);
+						spdlog::debug("Point:{} {} {}", vertexX, baseHeight, vertexY);
 					}
 				}
 				continue;
@@ -154,26 +177,47 @@ void Terrain::_getRevelentTile(int x, int y, RevelentTile& revelentTile)
 	{
 		for (int j = y - 1; j < y + 1; j++)
 		{
-			if (i < 0 || i > this->x + 1 || j < 0 || j > this->y + 1)
+			if (i < 0 || i > (this->x - 1) || j < 0 || j > (this->y - 1) )
 			{
 				continue;
 			}
-			revelentTile.num ++;
-			revelentTile.positions[revelentTile.num * 2 - 2] = i;
-			revelentTile.positions[revelentTile.num * 2 - 1] = j;
+			revelentTile.positions[revelentTile.num * 2 ] = i;
+			revelentTile.positions[revelentTile.num * 2 + 1] = j;
+			revelentTile.num++;
 		}
 	}
+	
 }
 
 void Terrain::_upLoadMeshToGPU()
 {
+	int indices[4 * 10 * 10];
+	for (int i = 0; i < 4 * 10 * 10; i++) 
+	{
+		indices[i] = i;
+	}
+	unsigned int ebo;
+
 	spdlog::debug("Mesh Buffer Creating");
 	glCreateBuffers(1, &_vbo);
 	glNamedBufferStorage(_vbo, sizeof(float) * x * y * 4 * 3, vertices, GL_DYNAMIC_STORAGE_BIT);
+	//glNamedBufferData(_vbo, sizeof(float) * x * y * 4 * 3, vertices, GL_STATIC_DRAW);
 	glCreateVertexArrays(1, &vao);
-	glVertexArrayVertexBuffer(vao, 0, _vbo, 0, 3 * sizeof(float));
-	glEnableVertexArrayAttrib(vao, 0);
+	glVertexArrayVertexBuffer(vao, 1, _vbo, 0, 3 * sizeof(float));
+	
+
+	glCreateBuffers(1, &ebo);
+	glNamedBufferData(ebo, sizeof(indices), indices, GL_STATIC_DRAW);
+	glVertexArrayElementBuffer(vao, ebo);
+
+
+	glVertexArrayAttribBinding(vao, 0, 1);
 	glVertexArrayAttribFormat(vao, 0, 3, GL_FLOAT, GL_FALSE, 0);
+	glVertexArrayBindingDivisor(vao, 0, 2);
+
+	glEnableVertexArrayAttrib(vao, 0);
+	
+
 }
 
 void Terrain::_printResult()
