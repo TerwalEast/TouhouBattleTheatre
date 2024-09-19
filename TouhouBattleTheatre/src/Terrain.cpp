@@ -104,11 +104,8 @@ void Terrain::render()
 		//glDrawArrays(GL_TRIANGLE_STRIP, 0 + 4 * x * i, x * 4);
 		
 	}
-	//glDrawArrays(GL_LINE_STRIP, 0 , x * 4 * y);
-	
-	
-	glDrawElementsInstanced(GL_LINE_STRIP, 4, GL_UNSIGNED_INT, (void*)0, 10);
-		
+	glDrawArrays(GL_LINE_STRIP, 0 , x * 4 * y);
+	glDrawArraysInstanced(GL_LINE_LOOP, 0, 4, 10);
 
 }
 
@@ -191,31 +188,23 @@ void Terrain::_getRevelentTile(int x, int y, RevelentTile& revelentTile)
 
 void Terrain::_upLoadMeshToGPU()
 {
-	int indices[4 * 10 * 10];
-	for (int i = 0; i < 4 * 10 * 10; i++) 
-	{
-		indices[i] = i;
-	}
-	unsigned int ebo;
 
 	spdlog::debug("Mesh Buffer Creating");
 	glCreateBuffers(1, &_vbo);
 	glNamedBufferStorage(_vbo, sizeof(float) * x * y * 4 * 3, vertices, GL_DYNAMIC_STORAGE_BIT);
 	//glNamedBufferData(_vbo, sizeof(float) * x * y * 4 * 3, vertices, GL_STATIC_DRAW);
 	glCreateVertexArrays(1, &vao);
-	glVertexArrayVertexBuffer(vao, 1, _vbo, 0, 3 * sizeof(float));
+	
+	glEnableVertexArrayAttrib(vao, 0);
+
+
+	glVertexArrayAttribBinding(vao, 0, 0);
+	glVertexArrayVertexBuffer(vao, 0, _vbo, 0, 3 * sizeof(float));
+	glVertexArrayAttribFormat(vao, 0, 3, GL_FLOAT, GL_FALSE, 0);
+	//glVertexArrayBindingDivisor(vao, 0, 1);
 	
 
-	glCreateBuffers(1, &ebo);
-	glNamedBufferData(ebo, sizeof(indices), indices, GL_STATIC_DRAW);
-	glVertexArrayElementBuffer(vao, ebo);
-
-
-	glVertexArrayAttribBinding(vao, 0, 1);
-	glVertexArrayAttribFormat(vao, 0, 3, GL_FLOAT, GL_FALSE, 0);
-	glVertexArrayBindingDivisor(vao, 0, 2);
-
-	glEnableVertexArrayAttrib(vao, 0);
+	
 	
 
 }

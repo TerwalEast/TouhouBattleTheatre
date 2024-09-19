@@ -88,6 +88,7 @@ int TestApplication::run()
             return false;
         }
         spdlog::info("Window init success, Basepath: {}", SDL_GetBasePath());
+        
     }
 
     SDL_GLContext context = SDL_GL_CreateContext(window);
@@ -192,5 +193,5 @@ TestApplication::TestApplication()
 {
     std::string target = SDL_GetBasePath();
     BasePath = target + "res/";
-    spdlog::warn("BasePath init = {}", BasePath);
+    spdlog::warn("BasePath inited, BasePath = {}", BasePath);
 }

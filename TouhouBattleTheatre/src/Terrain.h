@@ -29,7 +29,7 @@ public:
 	float* vertices;
 	Tile* tiles;
 	GLuint vao;
-	ShaderInfo shaderInfo;
+	//ShaderInfo shaderInfo;
 	Terrain() = delete;
 	//bool updateTerrain( std::string tilesXMLPath );
 	Terrain(int x, int y, int generateType);
@@ -38,7 +38,7 @@ public:
 
 private:
 	GLuint _vbo;
-	void _initShaderProgram();
+	//void _initShaderProgram();
 	void _bakeMesh();
 	void _getRevelentTile(int x, int y, RevelentTile &revelentTile);
 	void _upLoadMeshToGPU();

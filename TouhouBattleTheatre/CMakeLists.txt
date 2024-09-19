@@ -38,7 +38,7 @@ endif()
 
 add_custom_command(
         TARGET TouhouBattleTheatre POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory 
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
                 ${CMAKE_SOURCE_DIR}/TouhouBattleTheatre/res
                 ${CMAKE_CURRENT_BINARY_DIR}/res)
 
