@@ -11,6 +11,5 @@
     "opengl",
     "soil2",
     "spdlog"
-  ],
-  "builtin-baseline": "dd3adcf020e69077e83e92a0a293ceca734f6288"
+  ]
 }
