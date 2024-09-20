@@ -85,27 +85,35 @@ Terrain::~Terrain()
 
 void Terrain::render()
 {
+
+	// draw 100 instanced quads
+	glUseProgram(ShaderManager::getInstance().shaderMap["ins"].id);
 	glBindVertexArray(vao);
-	glUseProgram(ShaderManager::getInstance().shaderMap["basic"].id);
-	glm::mat4 modelMatrixPyramid = glm::mat4(1.0); // We start with identity matrix
-	modelMatrixPyramid = glm::translate(modelMatrixPyramid, glm::vec3(0.0f, -30.0f, -50.0f)); // Translate first
-	modelMatrixPyramid = glm::rotate(modelMatrixPyramid, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Then rotate
-	modelMatrixPyramid = glm::scale(modelMatrixPyramid, glm::vec3(3.0f, 3.0f, 3.0f)); // Scale at last
+	glDrawArraysInstanced(GL_TRIANGLES, 0, 6, 100); // 100 triangles of 6 vertices each
+	glBindVertexArray(0);
 
-	glm::vec4 color;
+	//glBindVertexArray(vao);
+	//glUseProgram(ShaderManager::getInstance().shaderMap["ins"].id);
+	//glm::mat4 modelMatrixPyramid = glm::mat4(1.0); // We start with identity matrix
+	//modelMatrixPyramid = glm::translate(modelMatrixPyramid, glm::vec3(0.0f, -30.0f, -50.0f)); // Translate first
+	//modelMatrixPyramid = glm::rotate(modelMatrixPyramid, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Then rotate
+	//modelMatrixPyramid = glm::scale(modelMatrixPyramid, glm::vec3(3.0f, 3.0f, 3.0f)); // Scale at last
 
-	ShaderManager::getInstance().setUniform("basic", "model", UniformType::MAT4, (void*)&modelMatrixPyramid);
-	color = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	ShaderManager::getInstance().setUniform("basic", "color", UniformType::VEC4, (void*)&color);
-	for (int i = 0; i < y; i++) 
-	{
-		//color = glm::vec4(84.0f / 255.0f, 174.0f / 255.0f, 247.0f / 255.0f, 0.5f);
-		//ShaderManager::getInstance().setUniform("basic", "color", UniformType::VEC4, (void*)&color);
-		//glDrawArrays(GL_TRIANGLE_STRIP, 0 + 4 * x * i, x * 4);
-		
-	}
-	glDrawArrays(GL_LINE_STRIP, 0 , x * 4 * y);
-	glDrawArraysInstanced(GL_LINE_LOOP, 0, 4, 10);
+	//glm::vec4 color;
+
+	//ShaderManager::getInstance().setUniform("terrain", "model", UniformType::MAT4, (void*)&modelMatrixPyramid);
+	//color = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	//ShaderManager::getInstance().setUniform("terrain", "color", UniformType::VEC4, (void*)&color);
+	//for (int i = 0; i < y; i++) 
+	//{
+
+	//	//color = glm::vec4(84.0f / 255.0f, 174.0f / 255.0f, 247.0f / 255.0f, 0.5f);
+	//	//ShaderManager::getInstance().setUniform("basic", "color", UniformType::VEC4, (void*)&color);
+	//	//glDrawArrays(GL_TRIANGLE_STRIP, 0 + 4 * x * i, x * 4);
+	//	
+	//}
+	//glDrawArrays(GL_LINE_STRIP, 0 , x * 4 * y);
+	//glDrawArraysInstanced(GL_LINE_LOOP, 0, 4, 10);
 
 }
 
@@ -188,23 +196,95 @@ void Terrain::_getRevelentTile(int x, int y, RevelentTile& revelentTile)
 
 void Terrain::_upLoadMeshToGPU()
 {
+	//float squd[] = {
+	//	0.0f, 0.0f, 0.0f,
+	//};
+	//GLuint instanceVBO;
+	//spdlog::debug("Mesh Buffer Creating");
+	//glCreateBuffers(1, &_vbo);
+	//glNamedBufferStorage(_vbo, sizeof(squd), squd, GL_DYNAMIC_STORAGE_BIT);
+	//glCreateBuffers(1, &instanceVBO);
+	//glNamedBufferStorage(instanceVBO, sizeof(float) * 4 * 3, vertices, GL_DYNAMIC_STORAGE_BIT);
 
-	spdlog::debug("Mesh Buffer Creating");
-	glCreateBuffers(1, &_vbo);
-	glNamedBufferStorage(_vbo, sizeof(float) * x * y * 4 * 3, vertices, GL_DYNAMIC_STORAGE_BIT);
-	//glNamedBufferData(_vbo, sizeof(float) * x * y * 4 * 3, vertices, GL_STATIC_DRAW);
+	//glCreateVertexArrays(1, &vao);
+	//
+	//glEnableVertexArrayAttrib(vao, 0);
+	//glEnableVertexArrayAttrib(vao, 1);
+
+	//glVertexArrayAttribBinding(vao, 0, 0);
+	//glVertexArrayAttribBinding(vao, 1, 1);
+	//glVertexArrayVertexBuffer(vao, 0, instanceVBO, 0, 3 * sizeof(float));
+	//glVertexArrayVertexBuffer(vao, 1, _vbo, 0, 3 * sizeof(float));
+	//glVertexArrayAttribFormat(vao, 0, 3, GL_FLOAT, GL_FALSE, 0);
+	//glVertexArrayAttribFormat(vao, 1, 3, GL_FLOAT, GL_FALSE, 0);
+	////glVertexArrayBindingDivisor(vao, 0, 1);
+
+	float quadVertices[] = {
+		// positions     // colors
+		-0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
+		 0.05f, -0.05f,  0.0f, 1.0f, 0.0f,
+		-0.05f, -0.05f,  0.0f, 0.0f, 1.0f,
+
+		-0.05f,  0.05f,  1.0f, 0.0f, 0.0f,
+		 0.05f, -0.05f,  0.0f, 1.0f, 0.0f,
+		 0.05f,  0.05f,  0.0f, 1.0f, 1.0f
+	};
+
+	glm::vec2 translations[100];
+	int index = 0;
+	float offset = 0.1f;
+	for (int y = -10; y < 10; y += 2)
+	{
+		for (int x = -10; x < 10; x += 2)
+		{
+			glm::vec2 translation;
+			translation.x = (float)x / 10.0f + offset;
+			translation.y = (float)y / 10.0f + offset;
+			translations[index++] = translation;
+		}
+	}
+
+	unsigned int instanceVBO;
+	glCreateBuffers(1, &instanceVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
+	glNamedBufferStorage(instanceVBO, sizeof(glm::vec2) * 100, &translations[0], GL_DYNAMIC_STORAGE_BIT);
+
+	unsigned int quadVBO;
+
+
+	//glGenBuffers(1, &quadVBO);
+	glCreateBuffers(1, &quadVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+	glNamedBufferStorage(quadVBO, sizeof(quadVertices), quadVertices, GL_DYNAMIC_STORAGE_BIT);
+
 	glCreateVertexArrays(1, &vao);
-	
+	glBindVertexArray(vao);
+
 	glEnableVertexArrayAttrib(vao, 0);
-
-
+	//glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glVertexArrayAttribBinding(vao, 0, 0);
-	glVertexArrayVertexBuffer(vao, 0, _vbo, 0, 3 * sizeof(float));
-	glVertexArrayAttribFormat(vao, 0, 3, GL_FLOAT, GL_FALSE, 0);
-	//glVertexArrayBindingDivisor(vao, 0, 1);
+	glVertexArrayVertexBuffer(vao, 0, quadVBO, 0, 5 * sizeof(float));
+	glVertexArrayAttribFormat(vao, 0, 2, GL_FLOAT, GL_FALSE, 0);
+	
 	
 
-	
+	glEnableVertexArrayAttrib(vao, 1);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+	glVertexArrayAttribBinding(vao, 1, 1);
+	glVertexArrayVertexBuffer(vao, 1, quadVBO, 0, 5 * sizeof(float));
+	glVertexArrayAttribFormat(vao, 1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(float));
+
+	// also set instance data
+	glEnableVertexArrayAttrib(vao, 2);
+	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO); // this attribute comes from a different vertex buffer
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glVertexAttribDivisor(2, 1); // tell OpenGL this is an instanced vertex attribute.
+
+
+
+
+
 	
 
 }

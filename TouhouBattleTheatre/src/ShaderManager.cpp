@@ -208,8 +208,7 @@ bool ShaderManager::compileShader(ShaderInfo shaderInfo)
             
         }
 
-        shaderMap.emplace(std::make_pair(
-            shaderInfo.shaderCode, shaderProgram));
+        
 
         //spdlog::warn("Uniform Block Count = {}", uniformBlockCount);
         if (uniformBlockCount != 0)
@@ -255,7 +254,8 @@ bool ShaderManager::compileShader(ShaderInfo shaderInfo)
 
     }
 
-
+    shaderMap.emplace(std::make_pair(
+        shaderInfo.shaderCode, shaderProgram));
 
 
 
