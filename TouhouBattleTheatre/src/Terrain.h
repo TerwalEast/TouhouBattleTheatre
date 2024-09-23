@@ -43,5 +43,6 @@ private:
 	void _getRevelentTile(int x, int y, RevelentTile &revelentTile);
 	void _upLoadMeshToGPU();
 	void _printResult();
+	bool _test = false;
 	
 };

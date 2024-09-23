@@ -114,7 +114,7 @@ int TestApplication::run()
 
     SDL_Event event;
 
-    Terrain terrain = Terrain(10, 10, 2);
+    Terrain terrain = Terrain(10, 10, 3);
 
     //ShaderInfo shaderInfoBasic, shaderInfoTiles;
     //shaderInfoBasic.shaderCode = "basic";
