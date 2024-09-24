@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    "cute-headers",
+    {
+      "name": "glad",
+      "features": [
+        "gl-api-46"
+      ]
+    },
+    "glm",
+    "opengl",
+    "soil2",
+    "spdlog"
+  ],
+  "builtin-baseline": "91f002cae2281636da5155efc5a11d67efa72415"
+}
