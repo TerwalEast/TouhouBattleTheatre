@@ -12,7 +12,7 @@ ShaderManager& ShaderManager::getInstance()
 bool ShaderManager::compileShader(ShaderInfo shaderInfo)
 {
     
-    if (shaderMap.contains(shaderInfo.shaderCode)) 
+    if (_shaderMap.contains(shaderInfo.shaderCode)) 
     {
         spdlog::info("Shader {} is already inited", shaderInfo.shaderCode);
         return true;
@@ -108,13 +108,6 @@ bool ShaderManager::compileShader(ShaderInfo shaderInfo)
         shaderProgram.uniformMap[uniformName] = uniformID;
     }*/
     
-
-    //for (auto sp : shaderMap)
-    //{
-    //    spdlog::warn("sp:{}|{}", sp.first,sp.second.id);
-    //    for (auto un : sp.second.uniformMap)
-    //        spdlog::warn("un:{}|{}",un.first,un.second);
-    //}
 
     GLint uniformCount = 0;
     GLint uniformBlockCount = 0;
@@ -218,10 +211,10 @@ bool ShaderManager::compileShader(ShaderInfo shaderInfo)
                 glGetActiveUniformBlockName(shaderProgramID, i, nameMaxLength, &nameLength, uniformName.get());
                 spdlog::debug("Got a uniform block. Name:[{}], Shader ID:[{}]", 
                     uniformName.get(), shaderProgramID);
-                if (!uniformBlockMap.contains(uniformName.get())) // 如果没有注册这个uniform block
+                if (!_uniformBlockMap.contains(uniformName.get())) // 如果没有注册这个uniform block
                 {
                     GLuint uniformBlockIndex = glGetUniformBlockIndex(shaderProgramID, uniformName.get());
-                    GLuint bindingPoint = uniformBlockMap.size();
+                    GLuint bindingPoint = _uniformBlockMap.size();
                     glUniformBlockBinding(shaderProgramID, uniformBlockIndex, bindingPoint);
 
                     GLint blockSize;
@@ -238,7 +231,7 @@ bool ShaderManager::compileShader(ShaderInfo shaderInfo)
 					uniformBlockInfo.bufferID = uniformBufferID;
                     uniformBlockInfo.bindingPoint = bindingPoint;
                     uniformBlockInfo.size = blockSize;
-                    uniformBlockMap.emplace(std::make_pair(
+                    _uniformBlockMap.emplace(std::make_pair(
                         std::string(uniformName.get(), nameLength), uniformBlockInfo));
 
                 }//if ends
@@ -254,7 +247,7 @@ bool ShaderManager::compileShader(ShaderInfo shaderInfo)
 
     }
 
-    shaderMap.emplace(std::make_pair(
+    _shaderMap.emplace(std::make_pair(
         shaderInfo.shaderCode, shaderProgram));
 
 
@@ -269,12 +262,12 @@ bool ShaderManager::compileShader(ShaderInfo shaderInfo)
 
 bool ShaderManager::setUniform(const std::string& shaderName, const std::string& uniformName, UniformType type, const void* value)
 {
-	if (!shaderMap.contains(shaderName))
+	if (!_shaderMap.contains(shaderName))
 	{
 		spdlog::warn("Shader [{}] not found in shader map", shaderName);
 		return false;
 	}
-	auto& shaderProgram = shaderMap[shaderName];
+	auto& shaderProgram = _shaderMap[shaderName];
     if (!shaderProgram.uniformMap.contains(uniformName))
     {
         spdlog::warn("Uniform [{}] not found in shader [{}]", uniformName, shaderName);
@@ -356,12 +349,12 @@ bool ShaderManager::setUniform(const std::string& shaderName, const std::string&
 
 bool ShaderManager::setUniformBlock(const std::string& uniformBlockName, const void* value)
 {
-	if (!uniformBlockMap.contains(uniformBlockName))
+	if (!_uniformBlockMap.contains(uniformBlockName))
 	{
 		spdlog::warn("Uniform block [{}] not found in uniform block map", uniformBlockName);
 		return false;
 	}
-	auto& uniformBlockInfo = uniformBlockMap[uniformBlockName];
+	auto& uniformBlockInfo = _uniformBlockMap[uniformBlockName];
 	glNamedBufferSubData(uniformBlockInfo.bufferID, 0, uniformBlockInfo.size, value);
     return true;
 }
@@ -381,14 +374,14 @@ void ShaderManager::_initShaderInfoList()
 		std::string geomPath = TestApplication::getInstance().BasePath + "shader/geom/" + code + ".geom";
 		if(std::filesystem::exists(geomPath))
 			shaderInfo.hasGeom = true;
-		shaderInfoList.push_back(shaderInfo);
+		_shaderInfoList.push_back(shaderInfo);
 		spdlog::debug("Shader code [{}] added to list. {} geom", code, shaderInfo.hasGeom);
     }
-    for (auto shaderInfo : shaderInfoList) 
+    for (auto shaderInfo : _shaderInfoList) 
     {
 		compileShader(shaderInfo);
     }
-    for (auto shaderInfo : shaderMap) 
+    for (auto shaderInfo : _shaderMap) 
     {
         spdlog::debug("Code: [{}], id: [{}]", shaderInfo.first, shaderInfo.second.id);
         for (auto uniform : shaderInfo.second.uniformMap) 
@@ -396,7 +389,7 @@ void ShaderManager::_initShaderInfoList()
             spdlog::debug("uniform name: [{}], loc: [{}], type:[{}]", uniform.first, uniform.second.location, (int)uniform.second.type);
         }
     }
-    for (auto block : uniformBlockMap) 
+    for (auto block : _uniformBlockMap) 
     {
         spdlog::debug("Code: [{}], binding: [{}], size: [{}], bufferId: [{}]",
             block.first,

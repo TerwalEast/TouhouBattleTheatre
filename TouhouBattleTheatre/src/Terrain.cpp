@@ -85,7 +85,7 @@ Terrain::~Terrain()
 
 void Terrain::render()
 {
-	glUseProgram(ShaderManager::getInstance().shaderMap["terrain"].id);
+	glUseProgram(ShaderManager::getInstance().ShaderMap().at("terrain").id);
 	glBindVertexArray(vao);
 	glm::mat4 modelMatrixPyramid = glm::mat4(1.0); // We start with identity matrix
 	modelMatrixPyramid = glm::translate(modelMatrixPyramid, glm::vec3(0.0f, -30.0f, -50.0f)); // Translate first
@@ -97,13 +97,6 @@ void Terrain::render()
 	ShaderManager::getInstance().setUniform("terrain", "model", UniformType::MAT4, (void*)&modelMatrixPyramid);
 	color = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	ShaderManager::getInstance().setUniform("terrain", "color", UniformType::VEC4, (void*)&color);
-	/*for (int i = 0; i < y; i++)
-	{
-		color = glm::vec4(84.0f / 255.0f, 174.0f / 255.0f, 247.0f / 255.0f, 0.5f);
-		ShaderManager::getInstance().setUniform("basic", "color", UniformType::VEC4, (void*)&color);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0 + 4 * x * i, x * 4);
-	}*/
-	//glDrawArrays(GL_LINE_STRIP, 0, x * 4 * y);
 	glDrawArraysInstanced(GL_POINTS, 0, 1, x * y);
 	glBindVertexArray(0);
 }

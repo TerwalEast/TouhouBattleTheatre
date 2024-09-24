@@ -48,14 +48,15 @@ struct ShaderProgram
 class ShaderManager 
 {
 public:
-	std::vector<ShaderInfo> shaderInfoList;
-    std::unordered_map<std::string, ShaderProgram> shaderMap;
-    std::unordered_map<std::string, UniformBlockInfo> uniformBlockMap;
+    const std::unordered_map<std::string, ShaderProgram>& ShaderMap() { return _shaderMap; };
     static ShaderManager& getInstance();
     bool compileShader(ShaderInfo shaderInfo);
     bool setUniform(const std::string& shaderName, const std::string& uniformName, UniformType type, const void* value);
     bool setUniformBlock(const std::string& uniformBlockName, const void* value);
 private:
+    std::unordered_map<std::string, ShaderProgram> _shaderMap;
+    std::vector<ShaderInfo> _shaderInfoList;
+    std::unordered_map<std::string, UniformBlockInfo> _uniformBlockMap;
     void _checkCompileErrors(GLuint shaderID)
     {
         GLint success;
@@ -73,8 +74,7 @@ private:
             spdlog::warn("ERROR::SHADER_LINKING_ERROR:\n{}", infoLog);
         }
     }
-	void _initShaderInfoList();
-    
+	void _initShaderInfoList(); 
     ShaderManager();
     ~ShaderManager() {};
 	ShaderManager(ShaderManager const&) = delete;
