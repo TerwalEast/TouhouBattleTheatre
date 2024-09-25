@@ -23,20 +23,17 @@ struct RevelentTile {
 class Terrain {
 
 public:
-	int x;
-	int y;
-	int vertexSize;
-	float* vertices;
-	Tile* tiles;
-	GLuint vao;
-	//ShaderInfo shaderInfo;
 	Terrain() = delete;
-	//bool updateTerrain( std::string tilesXMLPath );
 	Terrain(int x, int y, int generateType);
 	~Terrain();
-	void render();
-
+	void Render();
 private:
+	int _x;
+	int _y;
+	int _vertexSize;
+	float* _vertices;
+	Tile* _tiles;
+	GLuint _vao;
 	GLuint _vbo;
 	//void _initShaderProgram();
 	void _bakeMesh();

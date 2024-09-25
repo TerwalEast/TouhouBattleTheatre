@@ -4,12 +4,12 @@
 
 Terrain::Terrain(int x, int y, int generateType = 0)
 {
-	this->x = x;
-	this->y = y;
+	this->_x = x;
+	this->_y = y;
 
-	vertices = (float*)malloc(sizeof(float) * x * y * 4 * 3 * 2);
+	_vertices = (float*)malloc(sizeof(float) * x * y * 4 * 3 * 2);
 
-	tiles = (Tile*)malloc(sizeof(Tile) * x * y);
+	_tiles = (Tile*)malloc(sizeof(Tile) * x * y);
 
 	switch (generateType)
 	{
@@ -19,8 +19,8 @@ Terrain::Terrain(int x, int y, int generateType = 0)
 		{
 			for (int j = 0; j < y; j++)
 			{
-				tiles[i * y + j].height = 1;
-				tiles[i * y + j].mergeType = ALL;
+				_tiles[i * y + j].height = 1;
+				_tiles[i * y + j].mergeType = ALL;
 			}
 		}
 		break;
@@ -31,8 +31,8 @@ Terrain::Terrain(int x, int y, int generateType = 0)
 		{
 			for (int j = 0; j < y; j++)
 			{
-				tiles[i * y + j].height = rand() % 10;
-				tiles[i * y + j].mergeType = NONE;
+				_tiles[i * y + j].height = rand() % 10;
+				_tiles[i * y + j].mergeType = NONE;
 			}
 		}
 		break;
@@ -43,8 +43,8 @@ Terrain::Terrain(int x, int y, int generateType = 0)
 		{
 			for (int j = 0; j < y; j++)
 			{
-				tiles[i * y + j].height = i;
-				tiles[i * y + j].mergeType = ALL;
+				_tiles[i * y + j].height = i;
+				_tiles[i * y + j].mergeType = ALL;
 			}
 		}
 		break;
@@ -55,8 +55,8 @@ Terrain::Terrain(int x, int y, int generateType = 0)
 		{
 			for (int j = 0; j < y; j++)
 			{
-				tiles[i * y + j].height = i % 3;
-				tiles[i * y + j].mergeType = ALL;
+				_tiles[i * y + j].height = i % 3;
+				_tiles[i * y + j].mergeType = ALL;
 			}
 		}
 		break;
@@ -67,7 +67,7 @@ Terrain::Terrain(int x, int y, int generateType = 0)
 		{
 			for (int j = 0; j < y; j++)
 			{
-				tiles[i * y + j] = { 0, NONE };
+				_tiles[i * y + j] = { 0, NONE };
 			}
 		}
 		break;
@@ -79,14 +79,14 @@ Terrain::Terrain(int x, int y, int generateType = 0)
 
 Terrain::~Terrain()
 {
-	free(tiles);
-	free(vertices);
+	free(_tiles);
+	free(_vertices);
 }
 
-void Terrain::render()
+void Terrain::Render()
 {
-	glUseProgram(ShaderManager::getInstance().ShaderMap().at("terrain").id);
-	glBindVertexArray(vao);
+	glUseProgram(ShaderManager::GetInstance().ShaderMap().at("terrain").id);
+	glBindVertexArray(_vao);
 	glm::mat4 modelMatrixPyramid = glm::mat4(1.0); // We start with identity matrix
 	modelMatrixPyramid = glm::translate(modelMatrixPyramid, glm::vec3(0.0f, -30.0f, -50.0f)); // Translate first
 	modelMatrixPyramid = glm::rotate(modelMatrixPyramid, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Then rotate
@@ -94,10 +94,10 @@ void Terrain::render()
 
 	glm::vec4 color;
 
-	ShaderManager::getInstance().setUniform("terrain", "model", UniformType::MAT4, (void*)&modelMatrixPyramid);
+	ShaderManager::GetInstance().SetUniform("terrain", "model", UniformType::MAT4, (void*)&modelMatrixPyramid);
 	color = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	ShaderManager::getInstance().setUniform("terrain", "color", UniformType::VEC4, (void*)&color);
-	glDrawArraysInstanced(GL_POINTS, 0, 1, x * y);
+	ShaderManager::GetInstance().SetUniform("terrain", "color", UniformType::VEC4, (void*)&color);
+	glDrawArraysInstanced(GL_POINTS, 0, 1, _x * _y);
 	glBindVertexArray(0);
 }
 
@@ -107,27 +107,27 @@ void Terrain::_bakeMesh()
 	
 	int offset = 0;
 	RevelentTile revelentTile;
-	for (int tileX = 0; tileX < x; tileX++)
+	for (int tileX = 0; tileX < _x; tileX++)
 	{
-		for (int tileY = 0; tileY < y; tileY++)
+		for (int tileY = 0; tileY < _y; tileY++)
 		{
-			int baseHeight = tiles[tileX * y + tileY].height;
-			if (tiles[tileX * y + tileY].mergeType == NONE)
+			int baseHeight = _tiles[tileX * _y + tileY].height;
+			if (_tiles[tileX * _y + tileY].mergeType == NONE)
 			{
 				for (int vertexX = tileX; vertexX < tileX + 2; vertexX++)
 				{
 					for (int vertexY = tileY; vertexY < tileY + 2; vertexY++)
 					{
-						vertices[offset] = vertexX;
-						vertices[offset + 1] = baseHeight;
-						vertices[offset + 2] = vertexY;
+						_vertices[offset] = vertexX;
+						_vertices[offset + 1] = baseHeight;
+						_vertices[offset + 2] = vertexY;
 						offset += 3;
 						spdlog::debug("Point:{} {} {}", vertexX, baseHeight, vertexY);
 					}
 				}
 				continue;
 			}
-			if (tiles[tileX * y + tileY].mergeType == ALL)
+			if (_tiles[tileX * _y + tileY].mergeType == ALL)
 			{
 				for (int vertexX = tileX; vertexX < tileX + 2; vertexX++) 
 				{
@@ -138,8 +138,8 @@ void Terrain::_bakeMesh()
 						_getRevelentTile(vertexX, vertexY, revelentTile);
 						for (int targetVertexIndex = 0; targetVertexIndex < revelentTile.num; targetVertexIndex++) //Ë³ÐòÊÇ-x-y,-x+y,+x-y,+x+y
 						{
-							Tile* targetTile = &tiles
-								[revelentTile.positions[targetVertexIndex * 2] * y 
+							Tile* targetTile = &_tiles
+								[revelentTile.positions[targetVertexIndex * 2] * _y 
 								+ revelentTile.positions[targetVertexIndex * 2 + 1]];
 							if (targetTile->mergeType == ALL)
 							{
@@ -147,9 +147,9 @@ void Terrain::_bakeMesh()
 								total++;
 							}
 						}
-						vertices[offset] = vertexX;
-						vertices[offset + 1] = (float)sum / (float)total;
-						vertices[offset + 2] = vertexY;
+						_vertices[offset] = vertexX;
+						_vertices[offset + 1] = (float)sum / (float)total;
+						_vertices[offset + 2] = vertexY;
 						offset += 3;
 					}
 				}
@@ -166,7 +166,7 @@ void Terrain::_getRevelentTile(int x, int y, RevelentTile& revelentTile)
 	{
 		for (int j = y - 1; j < y + 1; j++)
 		{
-			if (i < 0 || i > (this->x - 1) || j < 0 || j > (this->y - 1) )
+			if (i < 0 || i > (this->_x - 1) || j < 0 || j > (this->_y - 1) )
 			{
 				continue;
 			}
@@ -185,51 +185,51 @@ void Terrain::_upLoadMeshToGPU()
 
 	glCreateBuffers(1, &instanceVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-	glNamedBufferStorage(instanceVBO, sizeof(float) * 4 * 3 * x * y, vertices, GL_DYNAMIC_STORAGE_BIT);
+	glNamedBufferStorage(instanceVBO, sizeof(float) * 4 * 3 * _x * _y, _vertices, GL_DYNAMIC_STORAGE_BIT);
 
-	glCreateVertexArrays(1, &vao);
-	glBindVertexArray(vao);
+	glCreateVertexArrays(1, &_vao);
+	glBindVertexArray(_vao);
 	
-	glEnableVertexArrayAttrib(vao, 0);
-	glVertexArrayAttribBinding(vao, 0, 0);
-	glVertexArrayVertexBuffer(vao, 0, instanceVBO, 0, 12 * sizeof(float));
-	glVertexArrayAttribFormat(vao, 0, 3, GL_FLOAT, GL_FALSE, 0);
+	glEnableVertexArrayAttrib(_vao, 0);
+	glVertexArrayAttribBinding(_vao, 0, 0);
+	glVertexArrayVertexBuffer(_vao, 0, instanceVBO, 0, 12 * sizeof(float));
+	glVertexArrayAttribFormat(_vao, 0, 3, GL_FLOAT, GL_FALSE, 0);
 
-	glVertexArrayBindingDivisor(vao, 0, 1);
+	glVertexArrayBindingDivisor(_vao, 0, 1);
 
-	glEnableVertexArrayAttrib(vao, 1);
-	glVertexArrayAttribBinding(vao, 1, 1);
-	glVertexArrayVertexBuffer(vao, 1, instanceVBO, 0, 12 * sizeof(float));
-	glVertexArrayAttribFormat(vao, 1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float));
+	glEnableVertexArrayAttrib(_vao, 1);
+	glVertexArrayAttribBinding(_vao, 1, 1);
+	glVertexArrayVertexBuffer(_vao, 1, instanceVBO, 0, 12 * sizeof(float));
+	glVertexArrayAttribFormat(_vao, 1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float));
 
-	glVertexArrayBindingDivisor(vao, 1, 1);
+	glVertexArrayBindingDivisor(_vao, 1, 1);
 
-	glEnableVertexArrayAttrib(vao, 2);
-	glVertexArrayAttribBinding(vao, 2, 2);
-	glVertexArrayVertexBuffer(vao, 2, instanceVBO, 0, 12 * sizeof(float));
-	glVertexArrayAttribFormat(vao, 2, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float));
+	glEnableVertexArrayAttrib(_vao, 2);
+	glVertexArrayAttribBinding(_vao, 2, 2);
+	glVertexArrayVertexBuffer(_vao, 2, instanceVBO, 0, 12 * sizeof(float));
+	glVertexArrayAttribFormat(_vao, 2, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float));
 
-	glVertexArrayBindingDivisor(vao, 2, 1);
+	glVertexArrayBindingDivisor(_vao, 2, 1);
 
-	glEnableVertexArrayAttrib(vao, 3);
-	glVertexArrayAttribBinding(vao, 3, 3);
-	glVertexArrayVertexBuffer(vao, 3, instanceVBO, 0, 12 * sizeof(float));
-	glVertexArrayAttribFormat(vao, 3, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float));
+	glEnableVertexArrayAttrib(_vao, 3);
+	glVertexArrayAttribBinding(_vao, 3, 3);
+	glVertexArrayVertexBuffer(_vao, 3, instanceVBO, 0, 12 * sizeof(float));
+	glVertexArrayAttribFormat(_vao, 3, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float));
 
-	glVertexArrayBindingDivisor(vao, 3, 1);
+	glVertexArrayBindingDivisor(_vao, 3, 1);
 
 }
 
 void Terrain::_printResult()
 {
-	for (int i = 0; i < x * y * 4 * 3; i+=12)
+	for (int i = 0; i < _x * _y * 4 * 3; i+=12)
 	{
 		spdlog::info("Tile[{}][{}]: {} {} {}, {} {} {}, {} {} {}, {} {} {}",
-			(i / 12) / y, i / 12 % y,
-			vertices[i], vertices[i + 1], vertices[i + 2],
-			vertices[i + 3], vertices[i + 4], vertices[i + 5],
-			vertices[i + 6], vertices[i + 7], vertices[i + 8],
-			vertices[i + 9], vertices[i + 10], vertices[i + 11]);
+			(i / 12) / _y, i / 12 % _y,
+			_vertices[i], _vertices[i + 1], _vertices[i + 2],
+			_vertices[i + 3], _vertices[i + 4], _vertices[i + 5],
+			_vertices[i + 6], _vertices[i + 7], _vertices[i + 8],
+			_vertices[i + 9], _vertices[i + 10], _vertices[i + 11]);
 	}
 }
 

@@ -3,13 +3,13 @@
 #include <fstream>
 #include <filesystem>
 
-ShaderManager& ShaderManager::getInstance()
+ShaderManager& ShaderManager::GetInstance()
 {
 	static ShaderManager sm;
 	return sm;
 }
 
-bool ShaderManager::compileShader(ShaderInfo shaderInfo)
+bool ShaderManager::CompileShader(ShaderInfo shaderInfo)
 {
     
     if (_shaderMap.contains(shaderInfo.shaderCode)) 
@@ -260,7 +260,7 @@ bool ShaderManager::compileShader(ShaderInfo shaderInfo)
     return true;
 }
 
-bool ShaderManager::setUniform(const std::string& shaderName, const std::string& uniformName, UniformType type, const void* value)
+bool ShaderManager::SetUniform(const std::string& shaderName, const std::string& uniformName, UniformType type, const void* value)
 {
 	if (!_shaderMap.contains(shaderName))
 	{
@@ -347,7 +347,7 @@ bool ShaderManager::setUniform(const std::string& shaderName, const std::string&
 	return true;
 }
 
-bool ShaderManager::setUniformBlock(const std::string& uniformBlockName, const void* value)
+bool ShaderManager::SetUniformBlock(const std::string& uniformBlockName, const void* value)
 {
 	if (!_uniformBlockMap.contains(uniformBlockName))
 	{
@@ -379,7 +379,7 @@ void ShaderManager::_initShaderInfoList()
     }
     for (auto shaderInfo : _shaderInfoList) 
     {
-		compileShader(shaderInfo);
+		CompileShader(shaderInfo);
     }
     for (auto shaderInfo : _shaderMap) 
     {

@@ -49,10 +49,10 @@ class ShaderManager
 {
 public:
     const std::unordered_map<std::string, ShaderProgram>& ShaderMap() { return _shaderMap; };
-    static ShaderManager& getInstance();
-    bool compileShader(ShaderInfo shaderInfo);
-    bool setUniform(const std::string& shaderName, const std::string& uniformName, UniformType type, const void* value);
-    bool setUniformBlock(const std::string& uniformBlockName, const void* value);
+    static ShaderManager& GetInstance();
+    bool CompileShader(ShaderInfo shaderInfo);
+    bool SetUniform(const std::string& shaderName, const std::string& uniformName, UniformType type, const void* value);
+    bool SetUniformBlock(const std::string& uniformBlockName, const void* value);
 private:
     std::unordered_map<std::string, ShaderProgram> _shaderMap;
     std::vector<ShaderInfo> _shaderInfoList;

@@ -124,7 +124,7 @@ int TestApplication::run()
 	//shaderInfoTiles.hasGeom = true;
  //   ShaderManager::getInstance().compileShader(shaderInfoTiles);
 
-    ShaderManager::getInstance();
+    ShaderManager::GetInstance();
     
 
 
@@ -149,7 +149,7 @@ int TestApplication::run()
     Matrices matrices;
     matrices.projection = projectionMatrix;
     matrices.view = viewMatrix;
-    ShaderManager::getInstance().setUniformBlock("Matrices", (void*)&matrices);
+    ShaderManager::GetInstance().SetUniformBlock("Matrices", (void*)&matrices);
 
     while (1)
     {
@@ -169,7 +169,7 @@ int TestApplication::run()
 
 
 		
-        terrain.render();
+        terrain.Render();
 
         SDL_Delay(1);
         SDL_GL_SwapWindow(window);
