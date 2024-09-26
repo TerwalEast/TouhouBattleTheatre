@@ -41,9 +41,9 @@ public:
 		_projMat = glm::ortho(0.0f, w, 0.0f, h, near_plane, far_plane);
 		_inversedProjMat = glm::inverse(_projMat);
     }
-    void UploadProjViewToShaderManager(const std::string& uniformBlockName)
+    void UploadProjViewToShaderManager()
     {
-		ShaderManager::GetInstance().SetUniformBlock(uniformBlockName, (void*)&_viewMat);
+		ShaderManager::GetInstance().SetUniformBlock(_uniformBlockName, (void*)&_viewMat);
     }
 
     const glm::mat4& ViewMatrix() const { return _viewMat; }
@@ -75,17 +75,7 @@ private:
     float        _aspect;
     float        _nearPlane, _farPlane;
     
+    const std::string _uniformBlockName = "Matrices";
 };
 
 
-class CameraController
-{
-public:
-    CameraController();
-    void Update(float dt);
-private:
-	std::unique_ptr<Camera> _camera;
-
-
-
-};
