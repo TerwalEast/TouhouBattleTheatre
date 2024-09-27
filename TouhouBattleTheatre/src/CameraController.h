@@ -6,5 +6,5 @@ public:
     CameraController();
     virtual void Update(float dt);
 protected:
-    std::unique_ptr<Camera> _camera;
+	std::unique_ptr<Camera> _camera;
 };

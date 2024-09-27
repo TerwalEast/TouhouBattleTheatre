@@ -11,7 +11,7 @@
 class Camera 
 {
 public:
-    Camera();
+    Camera(const std::string& uniformBlockName = "Matrices") : _uniformBlockName(uniformBlockName) {}
     void ViewParams(glm::vec3 const& eye_pos, glm::vec3 const& lookat) 
     {
 		this->ViewParams(eye_pos, lookat, glm::vec3(0, 1, 0));
@@ -75,7 +75,7 @@ private:
     float        _aspect;
     float        _nearPlane, _farPlane;
     
-    const std::string _uniformBlockName = "Matrices";
+    const std::string _uniformBlockName;
 };
 
 
