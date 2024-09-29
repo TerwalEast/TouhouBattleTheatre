@@ -43,7 +43,7 @@ public:
     }
     void UploadProjViewToShaderManager()
     {
-		ShaderManager::GetInstance().SetUniformBlock(_uniformBlockName, (void*)&_viewMat);
+		ShaderManager::GetInstance().SetUniformBlock(_uniformBlockName, (void*)&_projMat);
     }
 
     const glm::mat4& ViewMatrix() const { return _viewMat; }

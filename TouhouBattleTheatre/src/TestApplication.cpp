@@ -3,6 +3,7 @@
 
 #include "../TouhouBattleTheatre.h"
 #include "Terrain.h"
+#include "RTSCameraController.h"
 #include <glm/glm.hpp>
 
 #include <SDL3/SDL.h>
@@ -18,12 +19,6 @@
 using namespace std;
 
 SDL_Window* window = nullptr;
-
-struct Matrices 
-{
-    glm::mat4 projection;
-    glm::mat4 view;
-};
 
 
 
@@ -101,6 +96,8 @@ int TestApplication::run()
         return false;
     }
 
+    Uint8* KeyStates = (Uint8*)SDL_GetKeyboardState(NULL);
+
     glEnable(GL_DEBUG_OUTPUT);
     //glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
@@ -114,7 +111,7 @@ int TestApplication::run()
 
     SDL_Event event;
 
-    Terrain terrain = Terrain(10, 10, 3);
+    Terrain terrain = Terrain(20, 20, 2);
 
     //ShaderInfo shaderInfoBasic, shaderInfoTiles;
     //shaderInfoBasic.shaderCode = "basic";
@@ -133,26 +130,15 @@ int TestApplication::run()
 	//ShaderManager::getInstance().setUniform("basic", "model", UniformType::MAT4, (void*)&matrices.projection);
 
     int lastFrame = SDL_GetTicks();
+	int thisFrame = lastFrame;
     float deltaTime;
 
-    glm::mat4 viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0f, 20.0f), // Eye position
-        glm::vec3(0.0f, 0.0f, 0.0f),  // Viewpoint position
-        glm::vec3(0.0f, 1.0f, 0.0f)); // Up vector
-
-    glm::mat4 projectionMatrix = glm::perspective(
-        45.0f, // field of view angle (in degrees)
-        float(WINDOW_WIDTH) / float(WINDOW_HEIGHT), // aspect ratio
-        0.5f, // near plane distance
-        1000.0f); // far plane distance
-
-    
-    Matrices matrices;
-    matrices.projection = projectionMatrix;
-    matrices.view = viewMatrix;
-    ShaderManager::GetInstance().SetUniformBlock("Matrices", (void*)&matrices);
-
+	RTSCameraController cameraController = RTSCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 100.0f, -100.0f), glm::vec3(0.0f, 0.0f, 0.0f), 45.0f);
+	
+    glm::vec3 movement;
     while (1)
     {
+        movement = glm::vec3(0.0f, 0.0f, 0.0f);
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_EVENT_QUIT)
@@ -160,9 +146,34 @@ int TestApplication::run()
                 goto END;
             }
         }
+        if (KeyStates[SDL_SCANCODE_W])
+			movement.x += 1.0f;
+        if (KeyStates[SDL_SCANCODE_S])
+			movement.x -= 1.0f;
+        if (KeyStates[SDL_SCANCODE_A])
+			movement.z -= 1.0f;
+        if (KeyStates[SDL_SCANCODE_D])
+			movement.z += 1.0f;
+        if (KeyStates[SDL_SCANCODE_LSHIFT])
+			movement.y += 1.0f;
+        if (KeyStates[SDL_SCANCODE_LCTRL])
+			movement.y -= 1.0f;
+        if (KeyStates[SDL_SCANCODE_ESCAPE])
+            goto END;
 
 
-        //render 
+
+		thisFrame = SDL_GetTicks();
+		deltaTime = (thisFrame - lastFrame) / 1000.0f;
+		lastFrame = thisFrame;
+        
+        // update camera
+        if(movement.x != 0 || movement.y != 0 || movement.z != 0)
+		    cameraController.Movement(movement);
+		cameraController.Update(deltaTime);
+
+
+        // render 
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         

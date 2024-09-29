@@ -88,7 +88,7 @@ void Terrain::Render()
 	glUseProgram(ShaderManager::GetInstance().ShaderMap().at("terrain").id);
 	glBindVertexArray(_vao);
 	glm::mat4 modelMatrixPyramid = glm::mat4(1.0); // We start with identity matrix
-	modelMatrixPyramid = glm::translate(modelMatrixPyramid, glm::vec3(0.0f, -30.0f, -50.0f)); // Translate first
+	modelMatrixPyramid = glm::translate(modelMatrixPyramid, glm::vec3(0.0f, 0.0f, 0.0f)); // Translate first
 	modelMatrixPyramid = glm::rotate(modelMatrixPyramid, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Then rotate
 	modelMatrixPyramid = glm::scale(modelMatrixPyramid, glm::vec3(3.0f, 3.0f, 3.0f)); // Scale at last
 
