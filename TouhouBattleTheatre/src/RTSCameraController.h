@@ -24,9 +24,20 @@ public:
 		//spdlog::debug("Position: ({0}, {1}, {2})", _position.x, _position.y, _position.z);
 		//spdlog::debug("LookAt: ({0}, {1}, {2})", _lookAt.x, _lookAt.y, _lookAt.z);
 		//spdlog::debug("Speed: {0}", _speed);
+
 		glm::vec3 direction = _right * movement.z + _forward * movement.x + _up * movement.y;
 		_position += direction * _speed;
 		_lookAt += direction * _speed;
+
+	}
+	void ArcballRotate(float movement) 
+	{
+		glm::vec3 target = _position - _lookAt;
+		glm::mat4 rotateMat = glm::rotate(glm::mat4(1.0f), glm::radians(-0.1f * movement), glm::vec3(0.0f, 1.0f, 0.0f));
+		target = rotateMat * glm::vec4(target, 1.0f);
+		//target = glm::normalize(target);
+		_position = _lookAt + target;
+		_updateDirection();
 	}
 	void MoveToNewPosition(const glm::vec3& newLookAt) 
 	{ 

@@ -20,8 +20,6 @@ using namespace std;
 
 SDL_Window* window = nullptr;
 
-
-
 void message_callback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, GLchar const* message, void const* user_param)
 {
     auto const src_str = [source]() {
@@ -59,8 +57,6 @@ void message_callback(GLenum source, GLenum type, GLuint id, GLenum severity, GL
         }();
     spdlog::warn("{}, {}, {}, {}, {}", src_str, type_str, severity_str, id, message);
 }
-
-
 
 int TestApplication::run()
 {
@@ -111,23 +107,9 @@ int TestApplication::run()
 
     SDL_Event event;
 
-    Terrain terrain = Terrain(20, 20, 2);
-
-    //ShaderInfo shaderInfoBasic, shaderInfoTiles;
-    //shaderInfoBasic.shaderCode = "basic";
-    //ShaderManager::getInstance().compileShader(shaderInfoBasic);
-
- //   shaderInfoTiles.shaderCode = "tiles";
-	//shaderInfoTiles.hasGeom = true;
- //   ShaderManager::getInstance().compileShader(shaderInfoTiles);
+    Terrain terrain = Terrain(20, 20, 3);
 
     ShaderManager::GetInstance();
-    
-
-
-
-    
-	//ShaderManager::getInstance().setUniform("basic", "model", UniformType::MAT4, (void*)&matrices.projection);
 
     int lastFrame = SDL_GetTicks();
 	int thisFrame = lastFrame;
@@ -136,9 +118,11 @@ int TestApplication::run()
 	RTSCameraController cameraController = RTSCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 100.0f, -100.0f), glm::vec3(0.0f, 0.0f, 0.0f), 45.0f);
 	
     glm::vec3 movement;
+    float rotation;
     while (1)
     {
         movement = glm::vec3(0.0f, 0.0f, 0.0f);
+        rotation = 0.0f;
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_EVENT_QUIT)
@@ -154,14 +138,16 @@ int TestApplication::run()
 			movement.z -= 1.0f;
         if (KeyStates[SDL_SCANCODE_D])
 			movement.z += 1.0f;
-        if (KeyStates[SDL_SCANCODE_LSHIFT])
+        if (KeyStates[SDL_SCANCODE_SPACE])
 			movement.y += 1.0f;
         if (KeyStates[SDL_SCANCODE_LCTRL])
 			movement.y -= 1.0f;
+        if (KeyStates[SDL_SCANCODE_Q])
+            rotation -= 1.0f;
+        if (KeyStates[SDL_SCANCODE_E])
+            rotation += 1.0f;
         if (KeyStates[SDL_SCANCODE_ESCAPE])
             goto END;
-
-
 
 		thisFrame = SDL_GetTicks();
 		deltaTime = (thisFrame - lastFrame) / 1000.0f;
@@ -170,18 +156,14 @@ int TestApplication::run()
         // update camera
         if(movement.x != 0 || movement.y != 0 || movement.z != 0)
 		    cameraController.Movement(movement);
+        if (rotation != 0.0f)
+            cameraController.ArcballRotate(rotation);
 		cameraController.Update(deltaTime);
-
 
         // render 
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
-
-
-		
         terrain.Render();
-
         SDL_Delay(1);
         SDL_GL_SwapWindow(window);
     }
