@@ -26,8 +26,9 @@ public:
 		//spdlog::debug("Speed: {0}", _speed);
 
 		glm::vec3 direction = _right * movement.z + _forward * movement.x + _up * movement.y;
-		_position += direction * _speed;
-		_lookAt += direction * _speed;
+		glm::vec3 offset = direction * _speed;
+		_position += offset;
+		_lookAt += glm::vec3(offset.x, 0, offset.z);
 
 	}
 	void ArcballRotate(float movement) 
