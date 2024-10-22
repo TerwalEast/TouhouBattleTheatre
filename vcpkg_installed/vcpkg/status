@@ -3,7 +3,7 @@ Version: 2019-09-20
 Port-Version: 2
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 005e55288f0c1c6686a97a05d04bb6a10c2b9a57440b1f54a7ef7d5655910fb7
+Abi: 501430d7c98caccb5682062a67124dd2dfb628298ce824e788c5df9b435e7ed3
 Description: Collection of cross-platform one-file C/C++ libraries with no dependencies
 Status: install ok installed
 
@@ -11,21 +11,21 @@ Package: vcpkg-cmake-config
 Version: 2024-05-23
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 40a7c20e65505cf9cd0194a4095e36abab068ccf94315fc7a78f69c66f9ed748
+Abi: 84281401a0bd9b32a338b94aa0336cb5a728d5d8b8fbafae1b30c1f0bc989fca
 Status: install ok installed
 
 Package: vcpkg-cmake
 Version: 2024-04-23
 Architecture: x64-windows
 Multi-Arch: same
-Abi: a00f06fb241e4dd7cdcdaed39fe029adb5001ce72b8c4b3e3fa344f875999659
+Abi: c8d8537389788b6c391badd0eaaaeca0145f41755f0557622db16564856fa171
 Status: install ok installed
 
 Package: egl-registry
 Version: 2024-01-25
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 8031573466001341a9471d3055fda524318aa74e425e7aa99be490106148885b
+Abi: 3d3ebc798d21cba88378cf41bd2d064cc59c640444af8c9ed1b3e41e31b2a5ef
 Description: EGL API and Extension Registry
 Status: install ok installed
 
@@ -35,7 +35,7 @@ Port-Version: 1
 Depends: egl-registry
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 9f5a9d80cee8f2655ea255b8c00648ff4de0a0277d3726f546a8636385e4c228
+Abi: dc0e87b8c1f4eac020b1a9839e147c040137f3c9fef499806b59ff4aa5831d91
 Description: OpenGL, OpenGL ES, and OpenGL ES-SC API and Extension Registry
 Status: install ok installed
 
@@ -44,7 +44,7 @@ Version: 0.1.36
 Depends: egl-registry, opengl-registry, vcpkg-cmake, vcpkg-cmake-config
 Architecture: x64-windows
 Multi-Arch: same
-Abi: f646b3d619c83be6dac9cdd589847eea4a8feec55459e5808d9c7f49cb13fc73
+Abi: fee1585c37d21c956b3f66602733663c704638a133cdd669fb1f3d9c5bd12a48
 Description: Multi-Language Vulkan/GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs.
 Default-Features: loader
 Status: install ok installed
@@ -195,7 +195,7 @@ Port-Version: 3
 Depends: vcpkg-cmake, vcpkg-cmake-config
 Architecture: x64-windows
 Multi-Arch: same
-Abi: b5d9de8c19c20fcfc701a128d60a7556ab08b04526dd78afc54bec103c342042
+Abi: e06067c3dbe45a188c954271f939fddaab3ce158780d9c7cf4060aaf80970ca5
 Description: OpenGL Mathematics (GLM)
 Status: install ok installed
 
@@ -205,7 +205,7 @@ Port-Version: 3
 Depends: opengl-registry
 Architecture: x64-windows
 Multi-Arch: same
-Abi: a5a9c81f38a839a746e91ca588f041ac427a4b97466e438d1d85b4366fe84a20
+Abi: 32f7fe8feeab1fb430f0889c185f258f63128467b5146d328e4d9e217f32fb84
 Description: Open Graphics Library (OpenGL)[3][4][5] is a cross-language, cross-platform application programming interface (API) for rendering 2D and 3D vector graphics.
 Status: install ok installed
 
@@ -215,7 +215,7 @@ Port-Version: 1
 Depends: vcpkg-cmake
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 0fc1abe95c10001f32e72b02f5646c661f145aef06743c35b7a5cd62b633e4dd
+Abi: 8ca91c76e4d58b42a27253ed7a4a05bd04b1590dfd9847bda49a8baca3e32e3d
 Description: Simple OpenGL Image Library 2
 Status: install ok installed
 
@@ -227,7 +227,7 @@ Architecture: x64-windows
 Multi-Arch: same
 Abi: d8d83d14f561d973f19600d1508ff869c82ef0e154807dd6d7be9a89dd5d1d50
 Description: Electronic Arts Base. EABase is a small set of header files that define platform-independent data types and macros.
-Status: install ok installed
+Status: purge ok not-installed
 
 Package: eastl
 Version: 3.21.12
@@ -236,15 +236,14 @@ Architecture: x64-windows
 Multi-Arch: same
 Abi: 6f69e605b0c0fe1542ec3b0f9c56f4668e12aabf03a7d08d46881e18b0cbe04f
 Description: Electronic Arts Standard Template Library. It is a C++ template library of containers, algorithms, and iterators useful for runtime and tool development across multiple platforms. It is a fairly extensive and robust implementation of such a library and has an emphasis on high performance above all other considerations.
-Status: install ok installed
+Status: purge ok not-installed
 
 Package: fmt
-Version: 10.2.1
-Port-Version: 2
+Version: 11.0.2
 Depends: vcpkg-cmake, vcpkg-cmake-config
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 26eeea72ded47f5a6fc19b3d07fadba3a65df867d9fe6e3ca5281573aa16bddf
+Abi: 67c0fd5000c6e29b9b7b6c4d9b772d65cfdf7b9deaff8b5ec9c677909c4e6f7a
 Description: {fmt} is an open-source formatting library providing a fast and safe alternative to C stdio and C++ iostreams.
 Status: install ok installed
 
@@ -253,7 +252,7 @@ Version: 1.14.1
 Depends: fmt, vcpkg-cmake, vcpkg-cmake-config
 Architecture: x64-windows
 Multi-Arch: same
-Abi: a1c95224964e04c3904d636ab9cd0fb8009582c30b6531a81299476e0617d311
+Abi: 00b1f46adbb10b586116c06cfd7e52586928a82b75fa8a076432c2ff3b05f391
 Description: Very fast, header-only/compiled, C++ logging library.
 Status: install ok installed
 

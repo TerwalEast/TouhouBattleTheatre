@@ -1,0 +1,8 @@
+Package: recastnavigation
+Version: 1.6.0
+Port-Version: 1
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 38230877da25e6f9a4cbaae5a33c69c733229ebb3ce5af77b8bbf045a9e40004
+Description: Navigation-mesh Toolset for Games

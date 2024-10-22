@@ -26,7 +26,8 @@ find_package(soil2 CONFIG REQUIRED)
 target_link_libraries(TouhouBattleTheatre PRIVATE soil2)
 find_package(spdlog CONFIG REQUIRED)
 target_link_libraries(TouhouBattleTheatre PRIVATE spdlog::spdlog)
-
+find_package(recastnavigation CONFIG REQUIRED)
+target_link_libraries(TouhouBattleTheatre PRIVATE RecastNavigation::Detour RecastNavigation::Recast RecastNavigation::DebugUtils RecastNavigation::DetourCrowd)
 
 if (WIN32)
     add_custom_command(

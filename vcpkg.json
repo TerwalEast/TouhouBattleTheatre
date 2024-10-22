@@ -10,7 +10,8 @@
     "glm",
     "opengl",
     "soil2",
-    "spdlog"
+    "spdlog",
+    "recastnavigation"
   ],
   "builtin-baseline": "91f002cae2281636da5155efc5a11d67efa72415"
 }

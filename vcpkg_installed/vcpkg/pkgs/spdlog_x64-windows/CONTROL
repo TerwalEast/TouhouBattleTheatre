@@ -1,0 +1,7 @@
+Package: spdlog
+Version: 1.14.1
+Depends: fmt, vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 00b1f46adbb10b586116c06cfd7e52586928a82b75fa8a076432c2ff3b05f391
+Description: Very fast, header-only/compiled, C++ logging library.
