@@ -19,7 +19,7 @@ Terrain::Terrain(int x, int y, int generateType = 0)
 		{
 			for (int j = 0; j < y; j++)
 			{
-				_tiles[i * y + j].height = 1;
+				_tiles[i * y + j].height = 4;
 				_tiles[i * y + j].mergeType = ALL;
 			}
 		}
@@ -31,7 +31,7 @@ Terrain::Terrain(int x, int y, int generateType = 0)
 		{
 			for (int j = 0; j < y; j++)
 			{
-				_tiles[i * y + j].height = rand() % 10;
+				_tiles[i * y + j].height = rand() % 10 + 3;
 				_tiles[i * y + j].mergeType = NONE;
 			}
 		}
@@ -43,7 +43,7 @@ Terrain::Terrain(int x, int y, int generateType = 0)
 		{
 			for (int j = 0; j < y; j++)
 			{
-				_tiles[i * y + j].height = i;
+				_tiles[i * y + j].height = i + 3;
 				_tiles[i * y + j].mergeType = ALL;
 			}
 		}
@@ -55,7 +55,7 @@ Terrain::Terrain(int x, int y, int generateType = 0)
 		{
 			for (int j = 0; j < y; j++)
 			{
-				_tiles[i * y + j].height = i % 3;
+				_tiles[i * y + j].height = i % 3 + 3;
 				_tiles[i * y + j].mergeType = ALL;
 			}
 		}
@@ -95,9 +95,12 @@ void Terrain::Render()
 	glm::vec4 color;
 
 	ShaderManager::GetInstance().SetUniform("terrain", "model", UniformType::MAT4, (void*)&modelMatrixPyramid);
-	color = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	ShaderManager::GetInstance().SetUniform("terrain", "color", UniformType::VEC4, (void*)&color);
+	color = glm::vec4((64.0f/255.0f), (224.0f / 255.0f), (205.0f / 255.0f), 1.0f);
+	ShaderManager::GetInstance().SetUniform("terrain", "colorSurface", UniformType::VEC4, (void*)&color);
+	color = glm::vec4((232.0f / 255.0f), (139.0f / 255.0f), (0.0f / 255.0f), 1.0f);
+	ShaderManager::GetInstance().SetUniform("terrain", "colorSide", UniformType::VEC4, (void*)&color);
 	glDrawArraysInstanced(GL_POINTS, 0, 1, _x * _y);
+	//glDrawArraysInstanced(GL_POINTS, 0, 1, 1);
 	glBindVertexArray(0);
 }
 

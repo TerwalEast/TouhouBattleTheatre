@@ -11,6 +11,10 @@ out VS_OUT
     vec3 offset2;
     vec3 offset3;
     vec3 offset4;
+    vec3 offset5;
+    vec3 offset6;
+    vec3 offset7;
+    vec3 offset8;
 } vs_out;
 
 
@@ -21,5 +25,9 @@ void main()
     vs_out.offset2 = in_Offset2;
     vs_out.offset3 = in_Offset3;
     vs_out.offset4 = in_Offset4;
+    vs_out.offset5 = vec3(in_Offset1.x, 0.0, in_Offset1.z);
+    vs_out.offset6 = vec3(in_Offset2.x, 0.0, in_Offset2.z);
+    vs_out.offset7 = vec3(in_Offset3.x, 0.0, in_Offset3.z);
+    vs_out.offset8 = vec3(in_Offset4.x, 0.0, in_Offset4.z);
 }
 

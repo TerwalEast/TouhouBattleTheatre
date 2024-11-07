@@ -18,12 +18,6 @@ public:
 	}
 	void Movement(const glm::vec3& movement) 
 	{
-		//spdlog::debug("Movement: ({0}, {1}, {2})", movement.x, movement.y, movement.z);
-		//spdlog::debug("Forward: ({0}, {1}, {2})", _forward.x, _forward.y, _forward.z);
-		//spdlog::debug("Right: ({0}, {1}, {2})", _right.x, _right.y, _right.z);
-		//spdlog::debug("Position: ({0}, {1}, {2})", _position.x, _position.y, _position.z);
-		//spdlog::debug("LookAt: ({0}, {1}, {2})", _lookAt.x, _lookAt.y, _lookAt.z);
-		//spdlog::debug("Speed: {0}", _speed);
 
 		glm::vec3 direction = _right * movement.z + _forward * movement.x + _up * movement.y;
 		glm::vec3 offset = direction * _speed;

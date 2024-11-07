@@ -2,9 +2,12 @@
 
 out vec4 out_FragmentColor;
 
-uniform vec4 color;
+in GS_OUT
+{
+    vec4 outColor;
+} fs_in;
 
 void main()
 {
-    out_FragmentColor = color;
+    out_FragmentColor = fs_in.outColor;
 }

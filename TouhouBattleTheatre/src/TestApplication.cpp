@@ -3,7 +3,7 @@
 
 #include "../TouhouBattleTheatre.h"
 #include "Terrain.h"
-#include "RTSCameraController.h"
+#include "DebugCameraController.h"
 #include <glm/glm.hpp>
 
 #include <SDL3/SDL.h>
@@ -84,7 +84,8 @@ int TestApplication::run()
 
     SDL_GLContext context = SDL_GL_CreateContext(window);
     SDL_GL_MakeCurrent(window, context);
-    SDL_SetWindowMouseGrab(window, SDL_FALSE);
+    SDL_SetWindowMouseGrab(window, SDL_TRUE);
+    SDL_SetWindowRelativeMouseMode(window, true);
     SDL_ShowCursor();
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
     {
@@ -95,7 +96,7 @@ int TestApplication::run()
     Uint8* KeyStates = (Uint8*)SDL_GetKeyboardState(NULL);
 
     glEnable(GL_DEBUG_OUTPUT);
-    //glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     glEnable(GL_BLEND);
@@ -107,7 +108,7 @@ int TestApplication::run()
 
     SDL_Event event;
 
-    Terrain terrain = Terrain(20, 20, 3);
+    Terrain terrain = Terrain(20, 20, 2);
 
     ShaderManager::GetInstance();
 
@@ -115,7 +116,7 @@ int TestApplication::run()
 	int thisFrame = lastFrame;
     float deltaTime;
 
-	RTSCameraController cameraController = RTSCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 100.0f, -100.0f), glm::vec3(0.0f, 0.0f, 0.0f), 45.0f);
+    DebugCameraController cameraController = DebugCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 100.0f, -100.0f), 45.0f, -45.0f, 67.5f, 0.0f);
 	
     glm::vec3 movement;
     float rotation;
@@ -129,6 +130,10 @@ int TestApplication::run()
             {
                 goto END;
             }
+            if(event.type == SDL_EVENT_MOUSE_MOTION)
+			{
+				cameraController.Rotate(event.motion.xrel, event.motion.yrel);
+			}
         }
         if (KeyStates[SDL_SCANCODE_W])
 			movement.x += 1.0f;
@@ -156,8 +161,8 @@ int TestApplication::run()
         // update camera
         if(movement.x != 0 || movement.y != 0 || movement.z != 0)
 		    cameraController.Movement(movement);
-        if (rotation != 0.0f)
-            cameraController.ArcballRotate(rotation);
+        //if (rotation != 0.0f)
+            //cameraController.ArcballRotate(rotation);
 		cameraController.Update(deltaTime);
 
         // render 
