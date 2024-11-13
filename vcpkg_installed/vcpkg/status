@@ -256,3 +256,46 @@ Abi: 00b1f46adbb10b586116c06cfd7e52586928a82b75fa8a076432c2ff3b05f391
 Description: Very fast, header-only/compiled, C++ logging library.
 Status: install ok installed
 
+Package: recastnavigation
+Version: 1.6.0
+Port-Version: 1
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 38230877da25e6f9a4cbaae5a33c69c733229ebb3ce5af77b8bbf045a9e40004
+Description: Navigation-mesh Toolset for Games
+Status: install ok installed
+
+Package: sdl2
+Version: 2.30.7
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 36704dfe1d2bcf5c9e2d2f17ad1816ca577144f8bc21b348db78e50d9ece35b1
+Description: Simple DirectMedia Layer is a cross-platform development library designed to provide low level access to audio, keyboard, mouse, joystick, and graphics hardware via OpenGL and Direct3D.
+Status: install ok installed
+
+Package: imgui
+Version: 1.91.0
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 2f71e7c5d1aab5fa8054b3f77b7b052632fb7619cadea6394c9c60364ce4b3d6
+Description: Bloat-free Immediate Mode Graphical User interface for C++ with minimal dependencies.
+Status: install ok installed
+
+Package: imgui
+Feature: opengl3-binding
+Architecture: x64-windows
+Multi-Arch: same
+Description: Make available OpenGL3/ES/ES2 (modern) binding
+Status: install ok installed
+
+Package: imgui
+Feature: sdl2-binding
+Depends: sdl2
+Architecture: x64-windows
+Multi-Arch: same
+Description: Make available SDL2 binding
+Status: install ok installed
+

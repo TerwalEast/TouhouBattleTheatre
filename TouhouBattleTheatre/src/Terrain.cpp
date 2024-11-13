@@ -79,6 +79,7 @@ Terrain::Terrain(int x, int y, int generateType = 0)
 
 Terrain::~Terrain()
 {
+	_exportToObj();
 	free(_tiles);
 	free(_vertices);
 }
@@ -234,5 +235,46 @@ void Terrain::_printResult()
 			_vertices[i + 6], _vertices[i + 7], _vertices[i + 8],
 			_vertices[i + 9], _vertices[i + 10], _vertices[i + 11]);
 	}
+}
+
+void Terrain::_exportToObj()
+{
+	FILE* fp = fopen("C:\\Users\\xhs\\Downloads\\recastnavigation-main\\RecastDemo\\Bin\\Meshes\\test.obj", "wb");
+	for (int i = 0; i < _x * _y * 4 * 3; i += 12)
+	{
+		//上四个点
+		fprintf(fp, "v %f %f %f\nv %f %f %f\nv %f %f %f\nv %f %f %f\n",
+				_vertices[i], _vertices[i + 1], _vertices[i + 2],
+				_vertices[i + 3], _vertices[i + 4], _vertices[i + 5],
+				_vertices[i + 6], _vertices[i + 7], _vertices[i + 8],
+				_vertices[i + 9], _vertices[i + 10], _vertices[i + 11]);
+		//下四个点
+		fprintf(fp, "v %f %f %f\nv %f %f %f\nv %f %f %f\nv %f %f %f\n",
+			_vertices[i], 0.0f, _vertices[i + 2],
+			_vertices[i + 3], 0.0f, _vertices[i + 5],
+			_vertices[i + 6], 0.0f, _vertices[i + 8],
+			_vertices[i + 9], 0.0f, _vertices[i + 11]);
+	}
+
+	for (int i = 0; i < _x * _y * 8; i +=8) 
+	{
+		//面调用的顶点序号从1开始
+		fprintf(fp, "f %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\n",
+			i + 1, i + 2, i + 3,
+			i + 2, i + 4, i + 3,
+			i + 3, i + 4, i + 7,
+			i + 4, i + 8, i + 7,
+			i + 6, i + 8, i + 2,
+			i + 8, i + 4, i + 2,
+			i + 7, i + 5, i + 3,
+			i + 5, i + 1, i + 3,
+			i + 5, i + 6, i + 1,
+			i + 6, i + 2, i + 1,
+			i + 5, i + 8, i + 6,
+			i + 5, i + 7, i + 8);
+	}
+
+
+	fclose(fp);
 }
 

@@ -30,7 +30,6 @@ public:
 private:
 	int _x;
 	int _y;
-	int _vertexSize;
 	float* _vertices;
 	Tile* _tiles;
 	GLuint _vao;
@@ -40,6 +39,7 @@ private:
 	void _getRevelentTile(int x, int y, RevelentTile &revelentTile);
 	void _upLoadMeshToGPU();
 	void _printResult();
+	void _exportToObj();
 	bool _test = false;
 	
 };

@@ -4,14 +4,14 @@
 #include "../TouhouBattleTheatre.h"
 #include "Terrain.h"
 #include "DebugCameraController.h"
-#include <glm/glm.hpp>
 
 #include <SDL3/SDL.h>
+
+#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/glm.hpp>
 #include <glm/glm.hpp>
-
-#include <SDL3/SDL.h>
+        
 
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
@@ -108,7 +108,7 @@ int TestApplication::run()
 
     SDL_Event event;
 
-    Terrain terrain = Terrain(20, 20, 2);
+    Terrain terrain = Terrain(20, 20, 3);
 
     ShaderManager::GetInstance();
 
@@ -177,7 +177,7 @@ END:
     SDL_DestroyWindow(window);
     SDL_Quit();
 
-
+    
     return 0;
 }
 

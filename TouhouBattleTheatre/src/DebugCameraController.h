@@ -59,7 +59,7 @@ public:
 		//if (_yaw < -360.0f)
 		//	_yaw += 360.0f;
 
-
+		spdlog::debug("Movement X:{0}, Movement Y:{1}", movementX, movementY);
 		spdlog::debug("Forward: ({0}, {1}, {2})", _forward.x, _forward.y, _forward.z);
 		spdlog::debug("Right: ({0}, {1}, {2})", _right.x, _right.y, _right.z);
 		spdlog::debug("Position: ({0}, {1}, {2})", _position.x, _position.y, _position.z);
