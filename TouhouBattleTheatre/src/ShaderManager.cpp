@@ -37,13 +37,13 @@ bool ShaderManager::CompileShader(ShaderInfo shaderInfo)
         std::string glslCodeString;
         std::stringstream inputStream;
         char path[1024] = "";
-        strcat(path, TestApplication::getInstance().BasePath.c_str());
-        strcat(path, "shader/");
-        strcat(path, code);
-        strcat(path, "/");
-        strcat(path, shaderInfo.shaderCode.c_str());
-        strcat(path, ".");
-        strcat(path, code);
+        strcat_s(path, TestApplication::getInstance().BasePath.c_str());
+        strcat_s(path, "shader/");
+        strcat_s(path, code);
+        strcat_s(path, "/");
+        strcat_s(path, shaderInfo.shaderCode.c_str());
+        strcat_s(path, ".");
+        strcat_s(path, code);
         spdlog::debug("Path is {}", path);
         file.open(path);
         if (!file.is_open())

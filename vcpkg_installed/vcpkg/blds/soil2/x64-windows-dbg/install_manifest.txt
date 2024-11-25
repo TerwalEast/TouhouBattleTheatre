@@ -1,0 +1,1 @@
+C:/Users/xhs/source/repos/TerwalEast/TouhouBattleTheatre/vcpkg_installed/vcpkg/pkgs/soil2_x64-windows/debug/lib/soil2.lib

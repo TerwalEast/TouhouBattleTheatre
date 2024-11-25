@@ -1,0 +1,5 @@
+C:/Users/xhs/source/repos/TerwalEast/TouhouBattleTheatre/vcpkg_installed/vcpkg/pkgs/soil2_x64-windows/lib/soil2.lib
+C:/Users/xhs/source/repos/TerwalEast/TouhouBattleTheatre/vcpkg_installed/vcpkg/pkgs/soil2_x64-windows/include/SOIL2/SOIL2.h
+C:/Users/xhs/source/repos/TerwalEast/TouhouBattleTheatre/vcpkg_installed/vcpkg/pkgs/soil2_x64-windows/share/soil2/soil2Config.cmake
+C:/Users/xhs/source/repos/TerwalEast/TouhouBattleTheatre/vcpkg_installed/vcpkg/pkgs/soil2_x64-windows/share/soil2/soil2Targets.cmake
+C:/Users/xhs/source/repos/TerwalEast/TouhouBattleTheatre/vcpkg_installed/vcpkg/pkgs/soil2_x64-windows/share/soil2/soil2Targets-release.cmake

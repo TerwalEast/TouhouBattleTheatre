@@ -1,0 +1,8 @@
+# ninja log v6
+6	478	7531651660083600	include/glad/glad.h	5f776c32552ab342
+6	478	7531651660083600	src/glad.c	5f776c32552ab342
+6	478	7531651660083600	C:/Users/xhs/source/repos/TerwalEast/TouhouBattleTheatre/vcpkg_installed/vcpkg/blds/glad/x64-windows-rel/include/glad/glad.h	5f776c32552ab342
+6	478	7531651660083600	C:/Users/xhs/source/repos/TerwalEast/TouhouBattleTheatre/vcpkg_installed/vcpkg/blds/glad/x64-windows-rel/src/glad.c	5f776c32552ab342
+484	1099	7531651660867796	CMakeFiles/glad.dir/src/glad.c.obj	70dba1320870adb4
+1100	1172	7531651667037219	glad.lib	6476b60d12cda4c4
+1172	1306	7531651667752722	CMakeFiles/install.util	9bb74456bb0c0180

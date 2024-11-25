@@ -1,47 +1,42 @@
-//Map builder tool
+
 #pragma once
 
 #include <string>
 #include <vector>
 #include <map>
-#include "glm/glm.hpp"
 
-#define MAX_MAP_SIZE 200
+#include "../TouhouBattleTheatre.h"
+#include "TestApplication.h"
 
+#define MAX_MAP_WIDTH 100
+#define MAX_MAP_HEIGHT 100
+#define MAX_TILE_INDEX 255
 
-enum TileAlign
+enum EditorTool
 {
-	NORTH,EAST,SOUTH,WEST
+	PICK,PLACE
 };
 
-struct Tile
-{
-	std::string Name;
-	int PointA;
-	int PointB;
-	int PointC;
-	int PointD;
-};
-
-struct TileInstance
+struct MapTile
 {
 	std::string Name;
-	int X;
-	int Y;
-	TileAlign Align;
+	float PointA;
+	float PointB;
+	float PointC;
+	float PointD;
 };
-
 
 class MapTool 
 {
 public:
-	MapTool();
+	MapTool() = delete;
+	MapTool(int width = 20, int height = 20);
 	~MapTool();
 
 	void Init();
-	void Update();
+	void PickTile();
 	void Render();
-	void Release();
+	void UpdateMap();
 
 	void LoadMap(std::string path);
 	void SaveMap(std::string path);
@@ -52,11 +47,18 @@ public:
 	
 private:
 	
-	int _width;
-	int _height;
-	std::vector<Tile> _tilesDictionary;
-
-
-
+	void _initTiles(int tileID);
+	void _initTilesDictionary();
+	void _initVertices();
+	void _updateVertices();
+	float _vertices[MAX_MAP_HEIGHT * MAX_MAP_WIDTH * 4 * 3];
+	int _sizeX = 20;
+	int _sizeY = 20;
+	std::vector<MapTile> _tilesDictionary;
+	int _tiles[MAX_MAP_HEIGHT][MAX_MAP_WIDTH] = { 0 };
+	int _elevation[MAX_MAP_HEIGHT][MAX_MAP_WIDTH] = { 1 };
+	int _pickedTile = 0;
+	GLuint _vao;
+	GLuint _vbo;
 
 };

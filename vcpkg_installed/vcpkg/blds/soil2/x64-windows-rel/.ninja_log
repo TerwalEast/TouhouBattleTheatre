@@ -1,0 +1,7 @@
+# ninja log v6
+200	594	7531652176716437	CMakeFiles/soil2.dir/src/SOIL2/image_helper.c.obj	d0310215611d00d1
+425	605	7531652178960436	CMakeFiles/soil2.dir/src/SOIL2/wfETC.c.obj	11dcdfc9518691ef
+6	763	7531652174771631	CMakeFiles/soil2.dir/src/SOIL2/image_DXT.c.obj	f5a14df1c351cc32
+308	1434	7531652177793555	CMakeFiles/soil2.dir/src/SOIL2/SOIL2.c.obj	b9e30ccf3d3b1ff0
+1434	1505	7531652189053756	soil2.lib	13ec07b634245ee3
+1506	1771	7531652189771809	CMakeFiles/install.util	19b9898b6f7d53a0

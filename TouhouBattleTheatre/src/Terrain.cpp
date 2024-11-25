@@ -182,6 +182,8 @@ void Terrain::_getRevelentTile(int x, int y, RevelentTile& revelentTile)
 	
 }
 
+
+// π”√πÃÃ¨¥Ê¥¢
 void Terrain::_upLoadMeshToGPU()
 {
 	GLuint instanceVBO;
@@ -277,4 +279,5 @@ void Terrain::_exportToObj()
 
 	fclose(fp);
 }
+
 

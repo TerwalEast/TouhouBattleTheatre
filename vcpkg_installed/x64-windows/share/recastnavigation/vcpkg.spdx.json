@@ -3,13 +3,13 @@
   "spdxVersion": "SPDX-2.2",
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
-  "documentNamespace": "https://spdx.org/spdxdocs/recastnavigation-x64-windows-1.6.0#1-0858de4a-6974-47ed-b5d8-27214061392d",
-  "name": "recastnavigation:x64-windows@1.6.0#1 38230877da25e6f9a4cbaae5a33c69c733229ebb3ce5af77b8bbf045a9e40004",
+  "documentNamespace": "https://spdx.org/spdxdocs/recastnavigation-x64-windows-1.6.0#1-1009bbd0-1a98-4de4-932a-fa5d15916e7d",
+  "name": "recastnavigation:x64-windows@1.6.0#1 71556d1ae63b507c2befc88ddad92c4959437abbfdb5cd65b741600b1a214cc0",
   "creationInfo": {
     "creators": [
-      "Tool: vcpkg-2024-06-10-02590c430e4ed9215d27870138c2e579cc338772"
+      "Tool: vcpkg-2024-09-30-ab8988503c7cffabfd440b243a383c0a352a023d"
     ],
-    "created": "2024-10-18T02:52:39Z"
+    "created": "2024-11-13T01:40:11Z"
   },
   "relationships": [
     {
@@ -69,7 +69,7 @@
     {
       "name": "recastnavigation:x64-windows",
       "SPDXID": "SPDXRef-binary",
-      "versionInfo": "38230877da25e6f9a4cbaae5a33c69c733229ebb3ce5af77b8bbf045a9e40004",
+      "versionInfo": "71556d1ae63b507c2befc88ddad92c4959437abbfdb5cd65b741600b1a214cc0",
       "downloadLocation": "NONE",
       "licenseConcluded": "Zlib",
       "licenseDeclared": "NOASSERTION",

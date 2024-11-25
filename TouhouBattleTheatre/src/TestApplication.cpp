@@ -4,6 +4,7 @@
 #include "../TouhouBattleTheatre.h"
 #include "Terrain.h"
 #include "DebugCameraController.h"
+#include "MapTool.h"
 
 #include <SDL3/SDL.h>
 
@@ -109,6 +110,7 @@ int TestApplication::run()
     SDL_Event event;
 
     Terrain terrain = Terrain(20, 20, 3);
+	MapTool mapTool = MapTool(20, 20);
 
     ShaderManager::GetInstance();
 
@@ -168,7 +170,7 @@ int TestApplication::run()
         // render 
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        terrain.Render();
+        mapTool.Render();
         SDL_Delay(1);
         SDL_GL_SwapWindow(window);
     }
