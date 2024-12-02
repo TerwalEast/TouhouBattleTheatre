@@ -31,92 +31,94 @@ out GS_OUT
 } gs_out;
 
 void makeTile(vec4 position)
-{    
-    gl_Position = projection * view * model * vec4(gs_in[0].offset1, 1.0);
+{   
+    mat4 pvm = projection * view * model;
+
+    gl_Position = pvm * vec4(gs_in[0].offset1, 1.0);
     gs_out.outColor = colorSurface;
     EmitVertex(); 
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset2, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset2, 1.0);
     gs_out.outColor = colorSurface;
     EmitVertex();
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset3, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset3, 1.0);
     gs_out.outColor = colorSurface;
     EmitVertex();
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset4, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset4, 1.0);
     gs_out.outColor = colorSurface;
     EmitVertex();
 
     EndPrimitive();
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset3, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset3, 1.0);
     gs_out.outColor = colorSide;
     EmitVertex();
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset4, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset4, 1.0);
     gs_out.outColor = colorSide;
     EmitVertex();
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset7, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset7, 1.0);
     gs_out.outColor = colorSide;
     EmitVertex();
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset8, 1.0);
-    gs_out.outColor = colorSide;
-    EmitVertex();
-
-    EndPrimitive();
-
-    gl_Position = projection * view * model * vec4(gs_in[0].offset6, 1.0);
-    gs_out.outColor = colorSide;
-    EmitVertex();
-
-    gl_Position = projection * view * model * vec4(gs_in[0].offset8, 1.0);
-    gs_out.outColor = colorSide;
-    EmitVertex();
-
-    gl_Position = projection * view * model * vec4(gs_in[0].offset2, 1.0);
-    gs_out.outColor = colorSide;
-    EmitVertex();
-
-    gl_Position = projection * view * model * vec4(gs_in[0].offset4, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset8, 1.0);
     gs_out.outColor = colorSide;
     EmitVertex();
 
     EndPrimitive();
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset7, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset6, 1.0);
     gs_out.outColor = colorSide;
     EmitVertex();
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset5, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset8, 1.0);
     gs_out.outColor = colorSide;
     EmitVertex();
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset3, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset2, 1.0);
     gs_out.outColor = colorSide;
     EmitVertex();
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset1, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset4, 1.0);
     gs_out.outColor = colorSide;
     EmitVertex();
 
     EndPrimitive();
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset5, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset7, 1.0);
     gs_out.outColor = colorSide;
     EmitVertex();
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset6, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset5, 1.0);
     gs_out.outColor = colorSide;
     EmitVertex();
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset1, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset3, 1.0);
     gs_out.outColor = colorSide;
     EmitVertex();
 
-    gl_Position = projection * view * model * vec4(gs_in[0].offset2, 1.0);
+    gl_Position = pvm * vec4(gs_in[0].offset1, 1.0);
+    gs_out.outColor = colorSide;
+    EmitVertex();
+
+    EndPrimitive();
+
+    gl_Position = pvm * vec4(gs_in[0].offset5, 1.0);
+    gs_out.outColor = colorSide;
+    EmitVertex();
+
+    gl_Position = pvm * vec4(gs_in[0].offset6, 1.0);
+    gs_out.outColor = colorSide;
+    EmitVertex();
+
+    gl_Position = pvm * vec4(gs_in[0].offset1, 1.0);
+    gs_out.outColor = colorSide;
+    EmitVertex();
+
+    gl_Position = pvm * vec4(gs_in[0].offset2, 1.0);
     gs_out.outColor = colorSide;
     EmitVertex();
 

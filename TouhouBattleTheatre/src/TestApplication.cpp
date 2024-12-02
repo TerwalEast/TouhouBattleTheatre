@@ -4,6 +4,7 @@
 #include "../TouhouBattleTheatre.h"
 #include "Terrain.h"
 #include "DebugCameraController.h"
+#include "RTSCameraController.h"
 #include "MapTool.h"
 
 #include <SDL3/SDL.h>
@@ -86,7 +87,7 @@ int TestApplication::run()
     SDL_GLContext context = SDL_GL_CreateContext(window);
     SDL_GL_MakeCurrent(window, context);
     SDL_SetWindowMouseGrab(window, SDL_TRUE);
-    SDL_SetWindowRelativeMouseMode(window, true);
+    //SDL_SetWindowRelativeMouseMode(window, true);
     SDL_ShowCursor();
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
     {
@@ -109,7 +110,7 @@ int TestApplication::run()
 
     SDL_Event event;
 
-    Terrain terrain = Terrain(20, 20, 3);
+    //Terrain terrain = Terrain(20, 20, 3);
 	MapTool mapTool = MapTool(20, 20);
 
     ShaderManager::GetInstance();
@@ -118,8 +119,8 @@ int TestApplication::run()
 	int thisFrame = lastFrame;
     float deltaTime;
 
-    DebugCameraController cameraController = DebugCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 100.0f, -100.0f), 45.0f, -45.0f, 67.5f, 0.0f);
-	
+    //DebugCameraController cameraController = DebugCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 100.0f, -100.0f), 45.0f, -45.0f, 67.5f, 0.0f);
+	RTSCameraController cameraController = RTSCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 130.0f, -100.0f), glm::vec3(0.0f, 0.0f, 0.0f), 25.0f);
     glm::vec3 movement;
     float rotation;
     while (1)
@@ -134,7 +135,8 @@ int TestApplication::run()
             }
             if(event.type == SDL_EVENT_MOUSE_MOTION)
 			{
-				cameraController.Rotate(event.motion.xrel, event.motion.yrel);
+				
+                //cameraController.Rotate(event.motion.xrel, event.motion.yrel);
 			}
         }
         if (KeyStates[SDL_SCANCODE_W])

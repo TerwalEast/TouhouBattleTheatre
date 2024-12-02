@@ -1,6 +1,6 @@
 #include "MapTool.h"
 #include <glm/ext/matrix_transform.hpp>
-
+#include <random>
 
 void MapTool::SetMapSize(int width, int height)
 {
@@ -15,10 +15,13 @@ void MapTool::SetMapSize(int width, int height)
 
 void MapTool::_initTiles(int tileID = 1)
 {
+	srand((unsigned)time(NULL));
 	for (int x = 0; x < MAX_MAP_HEIGHT * MAX_MAP_WIDTH; x++)
-		_tiles[x / MAX_MAP_HEIGHT][x % MAX_MAP_WIDTH] = tileID;
-	for(int x = 0; x < MAX_MAP_HEIGHT * MAX_MAP_WIDTH; x++)
-		_elevation[x / MAX_MAP_HEIGHT][x % MAX_MAP_WIDTH] = 3;
+		_tiles[x / MAX_MAP_HEIGHT][x % MAX_MAP_WIDTH] = 1;
+	//for(int x = 0; x < MAX_MAP_HEIGHT * MAX_MAP_WIDTH; x++)
+	//	_elevation[x / MAX_MAP_HEIGHT][x % MAX_MAP_WIDTH] = 3;
+	for (int x = 0; x < MAX_MAP_HEIGHT * MAX_MAP_WIDTH; x++)
+		_elevation[x / MAX_MAP_HEIGHT][x % MAX_MAP_WIDTH] = rand() % 5;
 }
 
 void MapTool::_initTilesDictionary()
@@ -33,13 +36,13 @@ void MapTool::_initTilesDictionary()
 	MapTile slopeNorth = { "SlopeN", 0.0f, 0.0f, 1.0f, 1.0f };
 	_tilesDictionary.push_back(slopeNorth);
 
-	MapTile slopeEast = { "SlopeE", 0.0f, 1.0f, 1.0f, 0.0f };
+	MapTile slopeEast = { "SlopeE", 0.0f, 1.0f, 0.0f, 1.0f };
 	_tilesDictionary.push_back(slopeEast);
 
 	MapTile slopeSouth = { "SlopeS", 1.0f, 1.0f, 0.0f, 0.0f };
 	_tilesDictionary.push_back(slopeSouth);
 
-	MapTile slopeWest = { "SlopeW", 1.0f, 0.0f, 0.0f, 1.0f };
+	MapTile slopeWest = { "SlopeW", 1.0f, 0.0f, 1.0f, 0.0f };
 	_tilesDictionary.push_back(slopeWest);
 
 	/*Tile slopeUpperNorthEast = { "SlopeUNE", 0.0f, 1.0f, 1.0f, 1.0f };
@@ -68,30 +71,71 @@ void MapTool::_initVertices()
 
 			//A
 			_vertices[offset] = vertexX;
-			_vertices[offset + 1] = _elevation[tileX][tileY] + _tilesDictionary[0].PointA;
+			_vertices[offset + 1] = _elevation[tileX][tileY] + _tilesDictionary[ _tiles[tileX][tileY] ].PointA;
 			_vertices[offset + 2] = vertexY;
 			offset += 3;
 
 			//C
 			_vertices[offset] = vertexX;
-			_vertices[offset + 1] = _elevation[tileX][tileY] + _tilesDictionary[0].PointC;
+			_vertices[offset + 1] = _elevation[tileX][tileY] + _tilesDictionary[ _tiles[tileX][tileY] ].PointC;
 			_vertices[offset + 2] = vertexY + 1;
 			offset += 3;
 
 			//B
 			_vertices[offset] = vertexX + 1;
-			_vertices[offset + 1] = _elevation[tileX][tileY] + _tilesDictionary[0].PointB;
+			_vertices[offset + 1] = _elevation[tileX][tileY] + _tilesDictionary[ _tiles[tileX][tileY] ].PointB;
 			_vertices[offset + 2] = vertexY;
 			offset += 3;
 
 			//D
 			_vertices[offset] = vertexX + 1;
-			_vertices[offset + 1] = _elevation[tileX][tileY] + _tilesDictionary[0].PointD;
+			_vertices[offset + 1] = _elevation[tileX][tileY] + _tilesDictionary[ _tiles[tileX][tileY] ].PointD;
 			_vertices[offset + 2] = vertexY + 1;
 			offset += 3;
 
 		}
 	}
+}
+
+void MapTool::_exportToObj()
+{
+	FILE* fp = fopen("C:\\Users\\xhs\\Downloads\\recastnavigation-main\\RecastDemo\\Bin\\Meshes\\test.obj", "wb");
+	for (int i = 0; i < _sizeX * _sizeY * 4 * 3; i += 12)
+	{
+		//上四个点
+		fprintf(fp, "v %f %f %f\nv %f %f %f\nv %f %f %f\nv %f %f %f\n",
+			_vertices[i], _vertices[i + 1], _vertices[i + 2],
+			_vertices[i + 3], _vertices[i + 4], _vertices[i + 5],
+			_vertices[i + 6], _vertices[i + 7], _vertices[i + 8],
+			_vertices[i + 9], _vertices[i + 10], _vertices[i + 11]);
+		//下四个点
+		fprintf(fp, "v %f %f %f\nv %f %f %f\nv %f %f %f\nv %f %f %f\n",
+			_vertices[i], 0.0f, _vertices[i + 2],
+			_vertices[i + 3], 0.0f, _vertices[i + 5],
+			_vertices[i + 6], 0.0f, _vertices[i + 8],
+			_vertices[i + 9], 0.0f, _vertices[i + 11]);
+	}
+
+	for (int i = 0; i < _sizeX * _sizeY * 8; i += 8)
+	{
+		//面调用的顶点序号从1开始
+		fprintf(fp, "f %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\nf %d %d %d\n",
+			i + 1, i + 2, i + 3,
+			i + 2, i + 4, i + 3,
+			i + 3, i + 4, i + 7,
+			i + 4, i + 8, i + 7,
+			i + 6, i + 8, i + 2,
+			i + 8, i + 4, i + 2,
+			i + 7, i + 5, i + 3,
+			i + 5, i + 1, i + 3,
+			i + 5, i + 6, i + 1,
+			i + 6, i + 2, i + 1,
+			i + 5, i + 8, i + 6,
+			i + 5, i + 7, i + 8);
+	}
+
+
+	fclose(fp);
 }
 
 MapTool::MapTool(int width, int height)
@@ -102,12 +146,13 @@ MapTool::MapTool(int width, int height)
 
 MapTool::~MapTool()
 {
+	_exportToObj();
 }
 
 void MapTool::Init()
 {
 	_initTilesDictionary();
-	_initTiles();
+	_initTiles(1);
 	_initVertices();
 	spdlog::debug("MapTool Init");
 	spdlog::debug("---------------------------- Tiles Index ----------------------------");

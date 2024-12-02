@@ -51,6 +51,7 @@ private:
 	void _initTilesDictionary();
 	void _initVertices();
 	void _updateVertices();
+	void _exportToObj();
 	float _vertices[MAX_MAP_HEIGHT * MAX_MAP_WIDTH * 4 * 3];
 	int _sizeX = 20;
 	int _sizeY = 20;

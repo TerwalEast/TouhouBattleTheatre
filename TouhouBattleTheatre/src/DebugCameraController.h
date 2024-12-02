@@ -47,7 +47,7 @@ public:
 		movementX *= sensitivity;
 		movementY *= sensitivity;
 
-		_yaw += movementX;
+		_yaw -= movementX;
 		_pitch -= movementY;
 
 		if (_pitch > 89.0f)
@@ -82,9 +82,9 @@ private:
 	{
 		glm::vec3 diff = glm::normalize(glm::vec3
 											(
-											cos(glm::radians(_yaw) * cos(glm::radians(_pitch))),
+											cos(glm::radians(_pitch)) * sin(glm::radians(_yaw)),
 											sin(glm::radians(_pitch)),
-											sin(glm::radians(_yaw) * cos(glm::radians(_pitch)))
+											cos(glm::radians(_pitch)) * cos(glm::radians(_yaw))
 											)
 									   );
 		_right = glm::normalize(glm::cross(diff, glm::vec3(0, 1, 0)));

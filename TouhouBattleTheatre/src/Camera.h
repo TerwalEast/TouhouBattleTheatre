@@ -56,7 +56,7 @@ public:
 		_aspect = aspect;
 		_nearPlane = near_plane;
 		_farPlane = far_plane;
-		_projMat = glm::perspective(fov, aspect, near_plane, far_plane);
+		_projMat = glm::perspective(glm::radians(fov), aspect, near_plane, far_plane);
 		_inversedProjMat = glm::inverse(_projMat);
 
     }
