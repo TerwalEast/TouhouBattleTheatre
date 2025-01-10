@@ -76,7 +76,7 @@ bool ShaderManager::CompileShader(ShaderInfo shaderInfo)
         if (!success) 
         {
             glGetShaderInfoLog(shaderID, 1024, NULL, path);
-            spdlog::warn("Shader [{}] compiling failed. Cause is: {}",shaderInfo.shaderCode, path);
+            spdlog::warn("Shader [{}] failed to compile. Cause is: {}",shaderInfo.shaderCode, path);
             glDeleteProgram(shaderProgramID);
             glDeleteShader(shaderID);
             return false;
@@ -200,8 +200,6 @@ bool ShaderManager::CompileShader(ShaderInfo shaderInfo)
                 , uniformName.get(), shaderProgramID, uniformInfo.location, size, (int)uniformType);
             
         }
-
-        
 
         //spdlog::warn("Uniform Block Count = {}", uniformBlockCount);
         if (uniformBlockCount != 0)

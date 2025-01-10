@@ -3,7 +3,7 @@
 #
 
 # 将源代码添加到此项目的可执行文件。
-add_executable (TouhouBattleTheatre "TouhouBattleTheatre.cpp" "TouhouBattleTheatre.h" "src/Terrain.h" "src/Terrain.cpp" "src/TestApplication.cpp" "src/TestApplication.h" "src/Touhou.h" "src/ShaderManager.h" "src/ShaderManager.cpp" "src/Camera.h" "src/RTSCameraController.h" "src/MapTool.h" "src/DebugCameraController.h" "src/MapTool.cpp")
+add_executable (TouhouBattleTheatre "TouhouBattleTheatre.cpp" "TouhouBattleTheatre.h" "src/Terrain.h" "src/Terrain.cpp" "src/TestApplication.cpp" "src/TestApplication.h" "src/Touhou.h" "src/ShaderManager.h" "src/ShaderManager.cpp" "src/Camera.h" "src/RTSCameraController.h" "src/MapTool.h" "src/DebugCameraController.h" "src/MapTool.cpp" "src/TileMap.h" "src/TileMap.cpp" "src/Stage.h" "src/WorldMap.h" "src/WorldMap.cpp" "src/Event.h" "src/OrthoCameraController.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET TouhouBattleTheatre PROPERTY CXX_STANDARD 20)
@@ -37,6 +37,8 @@ if (WIN32)
         VERBATIM
     )
 endif()
+
+
 
 add_custom_command(
         TARGET TouhouBattleTheatre POST_BUILD
