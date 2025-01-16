@@ -2,9 +2,12 @@
 
 
 #include "Stage.h"
+#include "TileMap.h"
+#include "../TouhouBattleTheatre.h"
 
 
-class WorldMap
+
+class WorldMap : public Stage
 {
 public:
 	WorldMap();
@@ -12,5 +15,9 @@ public:
 protected:
 	
 private:
+	TileMap* m_tileMap;
+	int turnNumber;
 	
+
+
 };

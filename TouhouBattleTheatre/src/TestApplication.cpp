@@ -5,6 +5,7 @@
 #include "Terrain.h"
 #include "DebugCameraController.h"
 #include "RTSCameraController.h"
+#include "OrthoCameraController.h"
 #include "MapTool.h"
 
 #include <SDL3/SDL.h>
@@ -120,7 +121,7 @@ int TestApplication::run()
     float deltaTime;
 
     //DebugCameraController cameraController = DebugCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 100.0f, -100.0f), 45.0f, -45.0f, 67.5f, 0.0f);
-	RTSCameraController cameraController = RTSCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 130.0f, -100.0f), glm::vec3(0.0f, 0.0f, 0.0f), 25.0f);
+	OrthoCameraController cameraController = OrthoCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 130.0f, -100.0f), glm::vec3(0.0f, 0.0f, 0.0f), 25.0f);
     glm::vec3 movement;
     float rotation;
     while (1)
@@ -175,6 +176,7 @@ int TestApplication::run()
         mapTool.Render();
         SDL_Delay(1);
         SDL_GL_SwapWindow(window);
+
     }
 
 END:

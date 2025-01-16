@@ -1,4 +1,60 @@
+﻿
+#pragma once
+
+#include "../TouhouBattleTheatre.h"
+
+
+//Tile Map mask dictionary
+// 0 = void
+// 1 = grassfield
+// 2 = forest
+// 3 = mountain
+// 4 = river
+// 5 = dirt road
+
+
+class Tile
+{
+public:
+	Tile();
+	~Tile();
+protected:
+	// ------------------------------------------------
+	//+Y
+	// Ʌ
+	// |
+	// |T+X+1  T+X+2  T+X+3
+	// |
+	// | T-1     T     T+1
+	// |
+	// |T-X-3  T-X-2  T-X-1
+	// O---------------------> +X
+	// -----------------------------------------------
+	int _tileType;
+};
+
+
 class TileMap
 {
+public:
+	TileMap();
+	~TileMap();
+protected:
+
+};
+
+
+class TileMap_Test
+{
+public:
+	TileMap_Test();
+	~TileMap_Test();
+
+private:
+	int _walkableMapSizeX; //Beware there is a circle of false tiles around the map
+	int _walkableMapSizeY; //So actual size of map is X+2 * Y+2
+	Tile* _tiles; //Dynamic allocate memory
+
+	void _updateMap();
 
 };

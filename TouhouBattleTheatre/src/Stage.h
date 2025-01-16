@@ -37,9 +37,6 @@ public:
 	{
 	}
 private:
-
-
-
 };
 
 class MainStage : public Stage
@@ -50,20 +47,5 @@ public:
 	}
 	~MainStage()
 	{
-	};
-
-
-class BattleStage : public Stage
-{
-public:
-	BattleStage()
-	{
-		_loadBattleMap();
 	}
-	~BattleStage()
-	{
-	}
-private:
-	void _loadBattleMap();
 };
-

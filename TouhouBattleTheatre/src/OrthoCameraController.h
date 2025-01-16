@@ -6,7 +6,7 @@ class OrthoCameraController
 {
 
 public:
-	OrthoCameraController(float screenWidth, float screenHeight, const glm::vec3& position, const glm::vec3& lookAt, float pitch, float yaw, float roll, float zoom) :
+	OrthoCameraController(float screenWidth, float screenHeight, const glm::vec3& position, const glm::vec3& lookAt, float zoom) :
 		_position(position), _lookAt(lookAt), _screenWidth(screenWidth), _screenHeight(screenHeight), _speed(1.0f), _rotateSpeed(0.1f), _zoom(zoom)
 	{
 		_camera = std::make_unique<Camera>();
