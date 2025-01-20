@@ -3,13 +3,13 @@
   "spdxVersion": "SPDX-2.2",
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
-  "documentNamespace": "https://spdx.org/spdxdocs/cute-headers-x64-windows-2019-09-20#2-544db914-3c23-49a2-ac99-223a8f8049ab",
-  "name": "cute-headers:x64-windows@2019-09-20#2 e64982936c218835898d989d33a9156dd8d4aa6188318982dbc026dcc5fc2677",
+  "documentNamespace": "https://spdx.org/spdxdocs/cute-headers-x64-windows-2019-09-20#2-8e179e80-249a-433b-913d-26fe51d68d70",
+  "name": "cute-headers:x64-windows@2019-09-20#2 582adbaf6a93dd0f53faf9f5fe9a1e4ca24e6a33b70d9d4c01cf8a74b76d33d9",
   "creationInfo": {
     "creators": [
       "Tool: vcpkg-2024-09-30-ab8988503c7cffabfd440b243a383c0a352a023d"
     ],
-    "created": "2024-11-13T01:39:11Z"
+    "created": "2025-01-15T05:27:43Z"
   },
   "relationships": [
     {
@@ -59,7 +59,7 @@
     {
       "name": "cute-headers:x64-windows",
       "SPDXID": "SPDXRef-binary",
-      "versionInfo": "e64982936c218835898d989d33a9156dd8d4aa6188318982dbc026dcc5fc2677",
+      "versionInfo": "582adbaf6a93dd0f53faf9f5fe9a1e4ca24e6a33b70d9d4c01cf8a74b76d33d9",
       "downloadLocation": "NONE",
       "licenseConcluded": "NOASSERTION",
       "licenseDeclared": "NOASSERTION",

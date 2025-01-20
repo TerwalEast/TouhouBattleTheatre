@@ -3,5 +3,5 @@ Version: 2019-09-20
 Port-Version: 2
 Architecture: x64-windows
 Multi-Arch: same
-Abi: e64982936c218835898d989d33a9156dd8d4aa6188318982dbc026dcc5fc2677
+Abi: 582adbaf6a93dd0f53faf9f5fe9a1e4ca24e6a33b70d9d4c01cf8a74b76d33d9
 Description: Collection of cross-platform one-file C/C++ libraries with no dependencies

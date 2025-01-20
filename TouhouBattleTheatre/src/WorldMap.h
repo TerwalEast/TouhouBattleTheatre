@@ -2,7 +2,7 @@
 
 
 #include "Stage.h"
-#include "TileMap.h"
+
 #include "../TouhouBattleTheatre.h"
 
 
@@ -15,7 +15,7 @@ public:
 protected:
 	
 private:
-	TileMap* m_tileMap;
+
 	int turnNumber;
 	
 

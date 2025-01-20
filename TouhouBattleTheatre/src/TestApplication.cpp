@@ -2,18 +2,15 @@
 #include "TestApplication.h"
 
 #include "../TouhouBattleTheatre.h"
-#include "Terrain.h"
-#include "DebugCameraController.h"
-#include "RTSCameraController.h"
 #include "OrthoCameraController.h"
 #include "MapTool.h"
+#include "TileMap.h"
 
 #include <SDL3/SDL.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/glm.hpp>
-#include <glm/glm.hpp>
+
         
 
 #define WINDOW_WIDTH 1600
@@ -121,9 +118,15 @@ int TestApplication::run()
     float deltaTime;
 
     //DebugCameraController cameraController = DebugCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 100.0f, -100.0f), 45.0f, -45.0f, 67.5f, 0.0f);
-	OrthoCameraController cameraController = OrthoCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 130.0f, -100.0f), glm::vec3(0.0f, 0.0f, 0.0f), 25.0f);
+	OrthoCameraController cameraController = OrthoCameraController(WINDOW_WIDTH * 0.2, WINDOW_HEIGHT * 0.2, glm::vec3(-100.0f, 100.0f, -100.0f), glm::vec3(0.0f, 0.0f, 0.0f), 25.0f);
     glm::vec3 movement;
     float rotation;
+
+    
+	TileMap_Test tileMap = TileMap_Test();
+
+    // Main Loop
+
     while (1)
     {
         movement = glm::vec3(0.0f, 0.0f, 0.0f);

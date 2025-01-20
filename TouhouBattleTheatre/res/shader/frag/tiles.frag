@@ -5,6 +5,7 @@ out vec4 out_FragmentColor;
 in vec2 texCoord;
 
 uniform sampler2D tileSheet;
+uniform sampler2DArray texarray;
 
 void main()
 {

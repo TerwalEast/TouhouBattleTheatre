@@ -13,11 +13,11 @@
 // 5 = dirt road
 
 
-class Tile
+class TerrainTile
 {
 public:
-	Tile();
-	~Tile();
+	TerrainTile();
+	~TerrainTile();
 protected:
 	// ------------------------------------------------
 	//+Y
@@ -30,7 +30,7 @@ protected:
 	// |T-X-3  T-X-2  T-X-1
 	// O---------------------> +X
 	// -----------------------------------------------
-	int _tileType;
+	int _tileType = 0;
 };
 
 
@@ -48,13 +48,12 @@ class TileMap_Test
 {
 public:
 	TileMap_Test();
-	~TileMap_Test();
 
 private:
 	int _walkableMapSizeX; //Beware there is a circle of false tiles around the map
 	int _walkableMapSizeY; //So actual size of map is X+2 * Y+2
-	Tile* _tiles; //Dynamic allocate memory
-
-	void _updateMap();
+	TerrainTile* _tiles; //Dynamic allocate memory
+	GLuint _tilesheetTexture;
+	//void _updateMap();
 
 };

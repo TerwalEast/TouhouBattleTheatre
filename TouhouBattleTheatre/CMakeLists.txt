@@ -22,13 +22,12 @@ find_package(glm CONFIG REQUIRED)
 target_link_libraries(TouhouBattleTheatre PRIVATE glm::glm)
 find_package(OpenGL REQUIRED)
 target_link_libraries(TouhouBattleTheatre PRIVATE OpenGL::GL)
-find_package(soil2 CONFIG REQUIRED)
-target_link_libraries(TouhouBattleTheatre PRIVATE soil2)
 find_package(spdlog CONFIG REQUIRED)
 target_link_libraries(TouhouBattleTheatre PRIVATE spdlog::spdlog)
 find_package(recastnavigation CONFIG REQUIRED)
 target_link_libraries(TouhouBattleTheatre PRIVATE RecastNavigation::Detour RecastNavigation::Recast RecastNavigation::DebugUtils RecastNavigation::DetourCrowd)
-
+find_package(Stb REQUIRED)
+target_include_directories(TouhouBattleTheatre PRIVATE ${Stb_INCLUDE_DIR})
 
 if (WIN32)
     add_custom_command(

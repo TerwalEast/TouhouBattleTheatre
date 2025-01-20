@@ -66,7 +66,7 @@ public:
 		_aspect = w / h;
 		_nearPlane = near_plane;
 		_farPlane = far_plane;
-		_projMat = (0.0f, w, 0.0f, h, near_plane, far_plane);
+		_projMat = glm::ortho(w * -0.5f, w * 0.5f, h * -0.5f, h * 0.5f, near_plane, far_plane);
 		_inversedProjMat = glm::inverse(_projMat);
     }
     void UploadProjViewToShaderManager()
