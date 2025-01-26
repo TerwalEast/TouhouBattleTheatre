@@ -5,6 +5,7 @@
 #include "OrthoCameraController.h"
 #include "MapTool.h"
 #include "TileMap.h"
+#include "WorldMap.h"
 
 #include <SDL3/SDL.h>
 
@@ -109,7 +110,7 @@ int TestApplication::run()
     SDL_Event event;
 
     //Terrain terrain = Terrain(20, 20, 3);
-	MapTool mapTool = MapTool(20, 20);
+	//MapTool mapTool = MapTool(20, 20);
 
     ShaderManager::GetInstance();
 
@@ -118,12 +119,13 @@ int TestApplication::run()
     float deltaTime;
 
     //DebugCameraController cameraController = DebugCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 100.0f, -100.0f), 45.0f, -45.0f, 67.5f, 0.0f);
-	OrthoCameraController cameraController = OrthoCameraController(WINDOW_WIDTH * 0.2, WINDOW_HEIGHT * 0.2, glm::vec3(-100.0f, 100.0f, -100.0f), glm::vec3(0.0f, 0.0f, 0.0f), 25.0f);
+	OrthoCameraController cameraController = OrthoCameraController(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1, glm::vec3(0.0f, -100.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 25.0f);
     glm::vec3 movement;
     float rotation;
 
     
-	TileMap_Test tileMap = TileMap_Test();
+	//TileMap tileMap = TileMap();
+	WorldMap worldMap = WorldMap();
 
     // Main Loop
 
@@ -144,17 +146,17 @@ int TestApplication::run()
 			}
         }
         if (KeyStates[SDL_SCANCODE_W])
-			movement.x += 1.0f;
-        if (KeyStates[SDL_SCANCODE_S])
-			movement.x -= 1.0f;
-        if (KeyStates[SDL_SCANCODE_A])
-			movement.z -= 1.0f;
-        if (KeyStates[SDL_SCANCODE_D])
-			movement.z += 1.0f;
-        if (KeyStates[SDL_SCANCODE_SPACE])
 			movement.y += 1.0f;
-        if (KeyStates[SDL_SCANCODE_LCTRL])
+        if (KeyStates[SDL_SCANCODE_S])
 			movement.y -= 1.0f;
+        if (KeyStates[SDL_SCANCODE_A])
+			movement.x -= 1.0f;
+        if (KeyStates[SDL_SCANCODE_D])
+			movement.x += 1.0f;
+   //     if (KeyStates[SDL_SCANCODE_SPACE])
+			//movement.z += 1.0f;
+   //     if (KeyStates[SDL_SCANCODE_LCTRL])
+			//movement.z -= 1.0f;
         if (KeyStates[SDL_SCANCODE_Q])
             rotation -= 1.0f;
         if (KeyStates[SDL_SCANCODE_E])
@@ -176,7 +178,8 @@ int TestApplication::run()
         // render 
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        mapTool.Render();
+        //mapTool.Render();
+		worldMap.Render();
         SDL_Delay(1);
         SDL_GL_SwapWindow(window);
 

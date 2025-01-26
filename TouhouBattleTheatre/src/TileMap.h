@@ -38,22 +38,14 @@ class TileMap
 {
 public:
 	TileMap();
-	~TileMap();
-protected:
-
-};
-
-
-class TileMap_Test
-{
-public:
-	TileMap_Test();
+	void Render();
 
 private:
 	int _walkableMapSizeX; //Beware there is a circle of false tiles around the map
 	int _walkableMapSizeY; //So actual size of map is X+2 * Y+2
 	TerrainTile* _tiles; //Dynamic allocate memory
 	GLuint _tilesheetTexture;
+	GLuint _vao;
 	//void _updateMap();
 
 };

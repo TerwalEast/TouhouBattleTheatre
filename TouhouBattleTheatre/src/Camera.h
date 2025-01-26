@@ -23,6 +23,13 @@ public:
 		_inversedViewMat = glm::inverse(_viewMat);
 		//_lookAtDist = glm::distance(eye_pos, lookat);
     }
+    void ViewParamsMirrored(glm::vec3 const& eye_pos, glm::vec3 const& lookat, glm::vec3 const& up)
+    {
+        _viewMat = glm::lookAt(eye_pos, lookat, up);
+		_viewMat = glm::scale(_viewMat, glm::vec3(1, 1, -1));
+        _inversedViewMat = glm::inverse(_viewMat);
+        //_lookAtDist = glm::distance(eye_pos, lookat);
+    }
     void ViewParams(float pitch, float yaw, float roll, glm::vec3 const& eye_pos, glm::vec3 const& up)
     {
         glm::vec3 diff = glm::normalize(glm::vec3(
@@ -104,6 +111,8 @@ private:
     float        _nearPlane, _farPlane;
     
     const std::string _uniformBlockName;
+
+	bool         _mirrored = false;
 };
 
 

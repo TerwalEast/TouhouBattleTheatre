@@ -3,10 +3,15 @@
 layout (points) in;
 layout (triangle_strip, max_vertices = 4) out;
 
-out vec2 texCoord;
+in VS_OUT {
+    float tileId;
+} gs_in[];
 
-uniform float gridSize;
+out vec3 texCoord;
+
+//uniform float gridSize;
 uniform mat4 model;
+
 layout (std140) uniform Matrices
 {
     mat4 projection;
@@ -15,21 +20,20 @@ layout (std140) uniform Matrices
 
 void makeTile(vec4 position)
 {    
-    gl_Position = projection * view * model * position ; // 1:左前出发点
-    texCoord = vec2(0,0);
+    gl_Position = projection * view * model * position ; 
+    texCoord = vec3(0, 0, gs_in[0].tileId);
     EmitVertex(); 
     
-    gl_Position = projection * view * model * ( position + vec4(0.0, 0.0, 0.1, 0.0) );    // 2:左后+Z
-    texCoord = vec2(0,1);
+    gl_Position = projection * view * model * ( position + vec4(0.0, 0.0, 10, 0.0) );   
+    texCoord = vec3(0, 1, gs_in[0].tileId);
     EmitVertex();
 
-    gl_Position = projection * view * model * ( position + vec4(0.1, 0.0, 0.0, 0.0) );    // 3:右前+X
-    texCoord = vec2(1,0);
+    gl_Position = projection * view * model * ( position + vec4(10, 0.0, 0.0, 0.0) );    
+    texCoord = vec3(1, 0, gs_in[0].tileId);
     EmitVertex();
 
-
-    gl_Position = projection * view * model * ( position + vec4(0.1, 0.0, 0.1, 0.0) );    // 4:右后+X+Z
-    texCoord = vec2(1,1);
+    gl_Position = projection * view * model * ( position + vec4(10, 0.0, 10, 0.0) );    
+    texCoord = vec3(1, 1, gs_in[0].tileId);
     EmitVertex();
     EndPrimitive();
 }

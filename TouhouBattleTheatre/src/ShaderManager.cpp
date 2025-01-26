@@ -187,6 +187,27 @@ bool ShaderManager::CompileShader(ShaderInfo shaderInfo)
 			case GL_SAMPLER_CUBE:
 				uniformType = UniformType::SAMPLERCUBE;
 				break;
+			case GL_UNSIGNED_INT:
+				uniformType = UniformType::UINT;
+				break;
+			case GL_UNSIGNED_INT_VEC2:
+				uniformType = UniformType::UVEC2;
+				break;
+			case GL_UNSIGNED_INT_VEC3:
+				uniformType = UniformType::UVEC3;
+				break;
+			case GL_UNSIGNED_INT_VEC4:
+				uniformType = UniformType::UVEC4;
+				break;
+			case GL_SAMPLER_1D:
+				uniformType = UniformType::SAMPLER1D;
+				break;
+			case GL_SAMPLER_3D:
+				uniformType = UniformType::SAMPLER3D;
+				break;
+			case GL_SAMPLER_2D_ARRAY:
+				uniformType = UniformType::SAMPLER2DARRAY;
+				break;
 			default:
 				uniformType = UniformType::UNKNOWN;
 				break;

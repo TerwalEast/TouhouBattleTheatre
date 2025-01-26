@@ -5,10 +5,11 @@
 class Stage 
 {
 public:
-	Stage();
-	~Stage();
+	Stage() {};
+	~Stage() {};
 	void Update();
 	void Render();
+	void HandleInput();
 protected:
 };
 
