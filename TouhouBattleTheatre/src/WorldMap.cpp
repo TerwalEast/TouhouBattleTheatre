@@ -1,6 +1,7 @@
 #include "WorldMap.h"
 #include "ShaderManager.h"
 
+#include <stb_image.h>
 
 WorldMap::WorldMap()
 {
@@ -14,7 +15,7 @@ WorldMap::~WorldMap()
 void WorldMap::Render()
 {
 	//Render background
-	
+	_background.Render();
 	//Render tilemap
 	_tileMap.Render();
 	//Render Actors
@@ -24,11 +25,21 @@ void WorldMap::Render()
 	//Render UI
 }
 
+void WorldMap::Update(const float delta)
+{
+	//Update Background
+	_background.Update(delta);
+	//Update Tilemap
+
+
+}
+
 GLuint _loadBackgroundTexture(const char* path)
 {
+	spdlog::info("Loading texture {}", path);
 	stbi_set_flip_vertically_on_load(true);
 
-	GLuint texture;
+	GLuint texture{};
 	GLsizei width, height, nrChannels;
 	stbi_uc* data = stbi_load(path, &width, &height, &nrChannels, 0);
 
@@ -44,12 +55,12 @@ GLuint _loadBackgroundTexture(const char* path)
 		if (nrChannels == 3)
 		{
 			glTextureStorage2D(texture, 1, GL_RGB8, width, height);
-			glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
+			glTextureSubImage2D(texture, 0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
 		}
 		else if (nrChannels == 4)
 		{
 			glTextureStorage2D(texture, 1, GL_RGBA8, width, height);
-			glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+			glTextureSubImage2D(texture, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		}
 		else
 		{
@@ -95,10 +106,16 @@ WorldMapBackGround::~WorldMapBackGround()
 
 void WorldMapBackGround::Render()
 {
-	glUseProgram(ShaderManager::GetInstance().ShaderMap().at("background").id);
+	glUseProgram(ShaderManager::GetInstance().ShaderMap().at("scrolling").id);
 	glBindVertexArray(_vao);
 	glBindTextureUnit(0, _backgroundTexture);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 	glBindVertexArray(0);
+}
+
+void WorldMapBackGround::Update(const float delta)
+{
+	_scrollingTime += delta * 0.01;
+	ShaderManager::GetInstance().SetUniform("scrolling", "time", UniformType::FLOAT, (void*)&_scrollingTime);
 }
 

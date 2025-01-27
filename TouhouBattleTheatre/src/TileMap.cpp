@@ -3,6 +3,8 @@
 #include "ShaderManager.h"
 #include "../TouhouBattleTheatre.h"
 
+#include <stb_image.h>
+
 GLuint _loadTex(const char* filePath, const int tileWidth, const int tileHeight)
 {
 	stbi_set_flip_vertically_on_load(true);
@@ -54,9 +56,9 @@ GLuint _bakeVAO(const int map_x, const int map_y)
 
 	for (int i = 0; i < (map_x + 2) * (map_y + 2); i++)
 	{
-		((tileVertex*)_vertices)[i].x = (i % (map_y + 2)) * 10;
+		((tileVertex*)_vertices)[i].x = (i % (map_y + 2)) * 8;
 		((tileVertex*)_vertices)[i].y = 0.0f;
-		((tileVertex*)_vertices)[i].z = (i / (map_y + 2)) * 10;
+		((tileVertex*)_vertices)[i].z = (i / (map_y + 2)) * 8;
 
 		//虽然这里理论上应该写个威猛的bitmap奇技淫巧来自动判断是否是边角tiletype
 		// 但是考虑到之后还有不止一种地形（草地沙漠道路等等）
@@ -116,8 +118,8 @@ GLuint _bakeVAO(const int map_x, const int map_y)
 
 TileMap::TileMap()
 {
-	_walkableMapSizeX = 15;
-	_walkableMapSizeY = 10;
+	_walkableMapSizeX = 64;
+	_walkableMapSizeY = 48;
 	_tiles = new TerrainTile[(_walkableMapSizeX + 2) * (_walkableMapSizeY + 2)];
 
 	//Load Texture Atlas as texture array

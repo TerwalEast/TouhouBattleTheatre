@@ -127,63 +127,86 @@ int TestApplication::run()
 	//TileMap tileMap = TileMap();
 	WorldMap worldMap = WorldMap();
 
+    //------------------------------------------------
     // Main Loop
+    //------------------------------------------------
 
     while (1)
     {
-        movement = glm::vec3(0.0f, 0.0f, 0.0f);
-        rotation = 0.0f;
-        while (SDL_PollEvent(&event))
+        //------------------------------------------------
+        // Handle Input
+        //------------------------------------------------
         {
-            if (event.type == SDL_EVENT_QUIT)
+            movement = glm::vec3(0.0f, 0.0f, 0.0f);
+            rotation = 0.0f;
+            while (SDL_PollEvent(&event))
             {
-                goto END;
+                if (event.type == SDL_EVENT_QUIT)
+                {
+                    goto END;
+                }
+                if (event.type == SDL_EVENT_MOUSE_MOTION)
+                {
+
+                    //cameraController.Rotate(event.motion.xrel, event.motion.yrel);
+                }
             }
-            if(event.type == SDL_EVENT_MOUSE_MOTION)
-			{
-				
-                //cameraController.Rotate(event.motion.xrel, event.motion.yrel);
-			}
-        }
-        if (KeyStates[SDL_SCANCODE_W])
-			movement.y += 1.0f;
-        if (KeyStates[SDL_SCANCODE_S])
-			movement.y -= 1.0f;
-        if (KeyStates[SDL_SCANCODE_A])
-			movement.x -= 1.0f;
-        if (KeyStates[SDL_SCANCODE_D])
-			movement.x += 1.0f;
-   //     if (KeyStates[SDL_SCANCODE_SPACE])
-			//movement.z += 1.0f;
-   //     if (KeyStates[SDL_SCANCODE_LCTRL])
-			//movement.z -= 1.0f;
-        if (KeyStates[SDL_SCANCODE_Q])
-            rotation -= 1.0f;
-        if (KeyStates[SDL_SCANCODE_E])
-            rotation += 1.0f;
-        if (KeyStates[SDL_SCANCODE_ESCAPE])
-            goto END;
-
-		thisFrame = SDL_GetTicks();
-		deltaTime = (thisFrame - lastFrame) / 1000.0f;
-		lastFrame = thisFrame;
+            if (KeyStates[SDL_SCANCODE_W])
+                movement.y += 1.0f;
+            if (KeyStates[SDL_SCANCODE_S])
+                movement.y -= 1.0f;
+            if (KeyStates[SDL_SCANCODE_A])
+                movement.x -= 1.0f;
+            if (KeyStates[SDL_SCANCODE_D])
+                movement.x += 1.0f;
+            //     if (KeyStates[SDL_SCANCODE_SPACE])
+                     //movement.z += 1.0f;
+            //     if (KeyStates[SDL_SCANCODE_LCTRL])
+                     //movement.z -= 1.0f;
+            if (KeyStates[SDL_SCANCODE_Q])
+                rotation -= 1.0f;
+            if (KeyStates[SDL_SCANCODE_E])
+                rotation += 1.0f;
+            if (KeyStates[SDL_SCANCODE_ESCAPE])
+                goto END;
+        }// Input End
         
-        // update camera
-        if(movement.x != 0 || movement.y != 0 || movement.z != 0)
-		    cameraController.Movement(movement);
-        //if (rotation != 0.0f)
-            //cameraController.ArcballRotate(rotation);
-		cameraController.Update(deltaTime);
 
-        // render 
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        //mapTool.Render();
-		worldMap.Render();
-        SDL_Delay(1);
-        SDL_GL_SwapWindow(window);
+        //------------------------------------------------
+        // Update
+        //------------------------------------------------
+        {
+            // Get Delta time
+            thisFrame = SDL_GetTicks();
+            deltaTime = (thisFrame - lastFrame) / 1000.0f;
+            lastFrame = thisFrame;
 
-    }
+            // update camera
+            if (movement.x != 0 || movement.y != 0 || movement.z != 0)
+                cameraController.Movement(movement);
+            //if (rotation != 0.0f)
+                //cameraController.ArcballRotate(rotation);
+            cameraController.Update(deltaTime);
+
+            // Update Stage
+			worldMap.Update(deltaTime);
+
+        }// Update End
+		
+
+        //------------------------------------------------
+        // Render
+        //------------------------------------------------
+        {
+            glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            //mapTool.Render();
+            worldMap.Render();
+            SDL_Delay(1);
+            SDL_GL_SwapWindow(window);
+        }// Render End
+
+    }// Main Loop End
 
 END:
     SDL_DestroyWindow(window);

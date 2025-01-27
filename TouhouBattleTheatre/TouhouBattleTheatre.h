@@ -15,8 +15,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+
 
 // TODO: 在此处引用程序需要的其他标头。
 

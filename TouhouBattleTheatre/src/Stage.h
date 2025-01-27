@@ -7,7 +7,7 @@ class Stage
 public:
 	Stage() {};
 	~Stage() {};
-	void Update();
+	void Update(const float delta);
 	void Render();
 	void HandleInput();
 protected:
