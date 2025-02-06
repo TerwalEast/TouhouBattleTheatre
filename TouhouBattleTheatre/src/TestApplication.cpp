@@ -12,10 +12,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-        
-
-#define WINDOW_WIDTH 1600
-#define WINDOW_HEIGHT 900
 
 using namespace std;
 
@@ -119,7 +115,7 @@ int TestApplication::run()
     float deltaTime;
 
     //DebugCameraController cameraController = DebugCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 100.0f, -100.0f), 45.0f, -45.0f, 67.5f, 0.0f);
-	OrthoCameraController cameraController = OrthoCameraController(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1, glm::vec3(0.0f, -100.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 25.0f);
+	
     glm::vec3 movement;
     float rotation;
 
@@ -137,40 +133,15 @@ int TestApplication::run()
         // Handle Input
         //------------------------------------------------
         {
-            movement = glm::vec3(0.0f, 0.0f, 0.0f);
-            rotation = 0.0f;
-            while (SDL_PollEvent(&event))
-            {
-                if (event.type == SDL_EVENT_QUIT)
-                {
-                    goto END;
-                }
-                if (event.type == SDL_EVENT_MOUSE_MOTION)
-                {
-
-                    //cameraController.Rotate(event.motion.xrel, event.motion.yrel);
-                }
-            }
-            if (KeyStates[SDL_SCANCODE_W])
-                movement.y += 1.0f;
-            if (KeyStates[SDL_SCANCODE_S])
-                movement.y -= 1.0f;
-            if (KeyStates[SDL_SCANCODE_A])
-                movement.x -= 1.0f;
-            if (KeyStates[SDL_SCANCODE_D])
-                movement.x += 1.0f;
-            //     if (KeyStates[SDL_SCANCODE_SPACE])
-                     //movement.z += 1.0f;
-            //     if (KeyStates[SDL_SCANCODE_LCTRL])
-                     //movement.z -= 1.0f;
-            if (KeyStates[SDL_SCANCODE_Q])
-                rotation -= 1.0f;
-            if (KeyStates[SDL_SCANCODE_E])
-                rotation += 1.0f;
-            if (KeyStates[SDL_SCANCODE_ESCAPE])
-                goto END;
+			worldMap.HandleInput(KeyStates);
         }// Input End
         
+        //            // update camera
+        //if (movement.x != 0 || movement.y != 0 || movement.z != 0)
+        //    cameraController.Movement(movement);
+        ////if (rotation != 0.0f)
+        //    //cameraController.ArcballRotate(rotation);
+        //cameraController.Update(deltaTime);
 
         //------------------------------------------------
         // Update
@@ -181,12 +152,7 @@ int TestApplication::run()
             deltaTime = (thisFrame - lastFrame) / 1000.0f;
             lastFrame = thisFrame;
 
-            // update camera
-            if (movement.x != 0 || movement.y != 0 || movement.z != 0)
-                cameraController.Movement(movement);
-            //if (rotation != 0.0f)
-                //cameraController.ArcballRotate(rotation);
-            cameraController.Update(deltaTime);
+
 
             // Update Stage
 			worldMap.Update(deltaTime);
@@ -208,11 +174,6 @@ int TestApplication::run()
 
     }// Main Loop End
 
-END:
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-
-    
     return 0;
 }
 
@@ -228,3 +189,9 @@ TestApplication::TestApplication()
     BasePath = target + "res/";
     spdlog::warn("BasePath inited, BasePath = {}", BasePath);
 }
+
+TestApplication::~TestApplication()
+{
+	SDL_DestroyWindow(window);
+	SDL_Quit();
+}   

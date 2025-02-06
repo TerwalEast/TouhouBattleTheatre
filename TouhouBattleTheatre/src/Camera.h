@@ -67,13 +67,13 @@ public:
 		_inversedProjMat = glm::inverse(_projMat);
 
     }
-    void ProjOrthoParams(float w, float h, float near_plane, float far_plane)
+    void ProjOrthoParams(const float w, const float h, const float near_plane, const float far_plane, const float zoom = 1.0f)
     {
 		_fov = 0;
 		_aspect = w / h;
 		_nearPlane = near_plane;
 		_farPlane = far_plane;
-		_projMat = glm::ortho(w * -0.5f, w * 0.5f, h * -0.5f, h * 0.5f, near_plane, far_plane);
+		_projMat = glm::ortho(w * -0.5f / zoom, w * 0.5f / zoom, h * -0.5f / zoom, h * 0.5f / zoom, near_plane, far_plane);
 		_inversedProjMat = glm::inverse(_projMat);
     }
     void UploadProjViewToShaderManager()
@@ -109,9 +109,9 @@ private:
     float        _fov;
     float        _aspect;
     float        _nearPlane, _farPlane;
-    
-    const std::string _uniformBlockName;
+	float		 _zoom = 1.0f;
 
+    const std::string _uniformBlockName;
 	bool         _mirrored = false;
 };
 

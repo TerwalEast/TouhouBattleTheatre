@@ -6,7 +6,7 @@ class OrthoCameraController
 {
 
 public:
-	OrthoCameraController(float screenWidth, float screenHeight, const glm::vec3& position, const glm::vec3& lookAt, float zoom) :
+	OrthoCameraController(float screenWidth, float screenHeight, const glm::vec3& position, const glm::vec3& lookAt, float zoom = 1.0f) :
 		_position(position), _lookAt(lookAt), _screenWidth(screenWidth), _screenHeight(screenHeight), _speed(1.0f), _rotateSpeed(0.1f), _zoom(zoom)
 	{
 		_camera = std::make_unique<Camera>();
@@ -27,14 +27,17 @@ public:
 		_lookAt += offset;
 		spdlog::info("Position: {} {} {}", _position.x, _position.y, _position.z);
 	}
-
+	glm::vec3 GetPosition() const
+	{
+		return _position;
+	}
 
 private:
 
 	void _updateCamera()
 	{
 		//glm::vec3 diff = glm::normalize(_lookAt - _position);
-		_camera->ProjOrthoParams(_screenWidth, _screenHeight, 10.0f, 1000.0f);
+		_camera->ProjOrthoParams(_screenWidth, _screenHeight, 10.0f, 1000.0f, _zoom);
 		_camera->ViewParamsMirrored(_position, _lookAt, _up);
 		_camera->UploadProjViewToShaderManager();
 	}
