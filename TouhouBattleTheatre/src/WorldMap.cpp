@@ -35,6 +35,10 @@ void WorldMap::Update(const float delta)
 
 	//Update Actors
 
+
+	//Update Camera
+	_cameraController.Update(delta);
+
 }
 
 void WorldMap::HandleInput(Uint8* KeyStates)
@@ -46,7 +50,7 @@ void WorldMap::HandleInput(Uint8* KeyStates)
 	{
 		if (event.type == SDL_EVENT_QUIT)
 		{
-			TestApplication::Unload();
+			TestApplication::getInstance().Quit();
 		}
 		if (event.type == SDL_EVENT_MOUSE_MOTION)
 		{
@@ -71,7 +75,14 @@ void WorldMap::HandleInput(Uint8* KeyStates)
 	if (KeyStates[SDL_SCANCODE_E])
 		rotation += 1.0f;
 	if (KeyStates[SDL_SCANCODE_ESCAPE])
-		goto END;
+		TestApplication::getInstance().Quit();
+
+	    // update camera
+	if (movement.x != 0 || movement.y != 0 || movement.z != 0)
+		_cameraController.Movement(movement);
+	//if (rotation != 0.0f)
+	    //cameraController.ArcballRotate(rotation);
+	
 
 }
 

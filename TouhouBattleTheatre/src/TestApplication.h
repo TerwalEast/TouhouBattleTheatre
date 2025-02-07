@@ -16,9 +16,11 @@ public:
 	static int run();
 	static TestApplication& getInstance();
 	std::string BasePath;
+	void Quit();
 private:
 	TestApplication();
 	~TestApplication() {};
 	TestApplication(TestApplication const&) = delete;
 	void operator=(TestApplication const&) = delete;
+	bool quiting = false;
 };

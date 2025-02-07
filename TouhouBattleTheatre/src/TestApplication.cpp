@@ -136,12 +136,6 @@ int TestApplication::run()
 			worldMap.HandleInput(KeyStates);
         }// Input End
         
-        //            // update camera
-        //if (movement.x != 0 || movement.y != 0 || movement.z != 0)
-        //    cameraController.Movement(movement);
-        ////if (rotation != 0.0f)
-        //    //cameraController.ArcballRotate(rotation);
-        //cameraController.Update(deltaTime);
 
         //------------------------------------------------
         // Update
@@ -172,7 +166,18 @@ int TestApplication::run()
             SDL_GL_SwapWindow(window);
         }// Render End
 
+		//------------------------------------------------
+		// Quit
+		//------------------------------------------------
+        if (TestApplication::getInstance().quiting)
+        {
+            break;
+		}// Quit End
+
     }// Main Loop End
+
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 
     return 0;
 }
@@ -183,15 +188,14 @@ TestApplication& TestApplication::getInstance()
     return ta;
 }
 
+void TestApplication::Quit()
+{
+	quiting = true;
+}
+
 TestApplication::TestApplication() 
 {
     std::string target = SDL_GetBasePath();
     BasePath = target + "res/";
     spdlog::warn("BasePath inited, BasePath = {}", BasePath);
 }
-
-TestApplication::~TestApplication()
-{
-	SDL_DestroyWindow(window);
-	SDL_Quit();
-}   
