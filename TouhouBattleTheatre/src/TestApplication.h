@@ -14,13 +14,17 @@
 class TestApplication {
 public:
 	static int run();
-	static TestApplication& getInstance();
+	static TestApplication& GetInstance();
 	std::string BasePath;
 	void Quit();
+	int GetScreenWidth() { return screen_width; }
+	int GetScreenHeight() { return screen_height; }
 private:
 	TestApplication();
 	~TestApplication() {};
 	TestApplication(TestApplication const&) = delete;
 	void operator=(TestApplication const&) = delete;
 	bool quiting = false;
+	int screen_width = WINDOW_WIDTH;
+	int screen_height = WINDOW_HEIGHT;
 };

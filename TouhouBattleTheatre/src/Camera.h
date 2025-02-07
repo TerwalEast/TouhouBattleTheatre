@@ -26,7 +26,7 @@ public:
     void ViewParamsMirrored(glm::vec3 const& eye_pos, glm::vec3 const& lookat, glm::vec3 const& up)
     {
         _viewMat = glm::lookAt(eye_pos, lookat, up);
-		_viewMat = glm::scale(_viewMat, glm::vec3(1, 1, -1));
+		//_viewMat = glm::scale(_viewMat, glm::vec3(1, 1, -1));
         _inversedViewMat = glm::inverse(_viewMat);
         //_lookAtDist = glm::distance(eye_pos, lookat);
     }

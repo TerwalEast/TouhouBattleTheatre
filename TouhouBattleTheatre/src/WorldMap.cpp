@@ -5,7 +5,7 @@
 #include <stb_image.h>
 
 
-WorldMap::WorldMap() : _cameraController(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1, glm::vec3(0.0f, -100.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f)
+WorldMap::WorldMap() : _cameraController(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1, glm::vec3(0.0f, 100.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f)
 {
 }
 
@@ -50,12 +50,15 @@ void WorldMap::HandleInput(Uint8* KeyStates)
 	{
 		if (event.type == SDL_EVENT_QUIT)
 		{
-			TestApplication::getInstance().Quit();
+			TestApplication::GetInstance().Quit();
 		}
 		if (event.type == SDL_EVENT_MOUSE_MOTION)
 		{
-
-			//cameraController.Rotate(event.motion.xrel, event.motion.yrel);
+			_cursor.UpdateCursorPos(event.motion.x, event.motion.y, _cameraController.GetPosition().x, 
+								_cameraController.GetPosition().z, _cameraController.GetZoom(), 
+				TestApplication::GetInstance().GetScreenWidth(), TestApplication::GetInstance().GetScreenHeight(), 
+				_cameraController.GetViewWidth(), _cameraController.GetViewHeight());
+			
 		}
 	}
 	if (KeyStates[SDL_SCANCODE_W])
@@ -75,7 +78,7 @@ void WorldMap::HandleInput(Uint8* KeyStates)
 	if (KeyStates[SDL_SCANCODE_E])
 		rotation += 1.0f;
 	if (KeyStates[SDL_SCANCODE_ESCAPE])
-		TestApplication::getInstance().Quit();
+		TestApplication::GetInstance().Quit();
 
 	    // update camera
 	if (movement.x != 0 || movement.y != 0 || movement.z != 0)
@@ -200,13 +203,34 @@ void cursor::HandleInput()
 {
 }
 
-void cursor::_updateCursorPos(const float mouse_x, const float mouse_y, const float camera_x, const float camera_y, const float zoom, const float screen_width, const float screen_height, const float view_width, const float view_height)
+void cursor::UpdateCursorPos(const float mouse_x, const float mouse_y, const float camera_x, const float camera_y, const float zoom, const float screen_width, const float screen_height, const float view_width, const float view_height)
 {
 	spdlog::info("Mouse Pos: {} {}", mouse_x, mouse_y);
 	spdlog::info("Camera Pos: {} {}", camera_x, camera_y);
 	spdlog::info("Screen Size: {} {}", screen_width, screen_height);
 	spdlog::info("View Size: {} {}", view_width, view_height);
 	spdlog::info("Zoom: {}", zoom);
+
+	//map -0.5 to 0.5
+	float normalized_x = mouse_x / screen_width - 0.5f;
+	float normalized_y = mouse_y / screen_height - 0.5f;
+
+	//map to view size
+	float offset_x = normalized_x * view_width;
+	float offset_y = normalized_y * view_height;
+
+	//map to world coord
+	float world_x = camera_x + offset_x;
+	float world_y = camera_y + offset_y;
+
+	spdlog::info("World Pos: {} {}", world_x, world_y);
+
+	//map to tile
+	int tile_x = world_x >= 0 ? (int)world_x / 8 : 0;
+	int tile_y = world_y <= 0 ? (int)world_y / 8 : 0;
+
+	spdlog::info("Tile Pos: {} {}", tile_x, tile_y);
+
 }
 
 

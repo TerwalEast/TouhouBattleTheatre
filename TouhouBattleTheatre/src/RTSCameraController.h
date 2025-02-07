@@ -5,7 +5,7 @@ class RTSCameraController
 {
 public:
 	RTSCameraController(float screenWidth, float screenHeight, const glm::vec3 &position, const glm::vec3 &lookAt, float fov) :
-		_position(position), _lookAt(lookAt), _fov(fov), _screenWidth(screenWidth), _screenHeight(screenHeight), _speed(1.0f), _rotateSpeed(0.1f)
+		_position(position), _lookAt(lookAt), _fov(fov), _viewWidth(screenWidth), _viewHeight(screenHeight), _speed(1.0f), _rotateSpeed(0.1f)
 	{
 		_camera = std::make_unique<Camera>();
 		_up = glm::vec3(0, 1, 0);
@@ -45,7 +45,7 @@ private:
 	void _updateCamera() 
 	{
 		//glm::vec3 diff = glm::normalize(_lookAt - _position);
-		_camera->ProjParams(_fov, _screenWidth / _screenHeight, 10.0f, 1000.0f);
+		_camera->ProjParams(_fov, _viewWidth / _viewHeight, 10.0f, 1000.0f);
 		_camera->ViewParams(_position, _lookAt);
 		_camera->UploadProjViewToShaderManager();
 	}
@@ -62,8 +62,8 @@ private:
 	glm::vec3 _right;
 	glm::vec3 _up;
 	float _fov;
-	float _screenWidth;
-	float _screenHeight;
+	float _viewWidth;
+	float _viewHeight;
 	float _speed;
 	float _rotateSpeed;
 };

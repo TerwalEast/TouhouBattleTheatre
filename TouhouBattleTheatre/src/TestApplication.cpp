@@ -169,7 +169,7 @@ int TestApplication::run()
 		//------------------------------------------------
 		// Quit
 		//------------------------------------------------
-        if (TestApplication::getInstance().quiting)
+        if (TestApplication::GetInstance().quiting)
         {
             break;
 		}// Quit End
@@ -182,7 +182,7 @@ int TestApplication::run()
     return 0;
 }
 
-TestApplication& TestApplication::getInstance()
+TestApplication& TestApplication::GetInstance()
 {
     static TestApplication ta;
     return ta;
