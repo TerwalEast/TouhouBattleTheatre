@@ -213,7 +213,7 @@ void cursor::UpdateCursorPos(const float mouse_x, const float mouse_y, const flo
 
 	//map -0.5 to 0.5
 	float normalized_x = mouse_x / screen_width - 0.5f;
-	float normalized_y = mouse_y / screen_height - 0.5f;
+	float normalized_y = 0.5f - mouse_y / screen_height;
 
 	//map to view size
 	float offset_x = normalized_x * view_width;
@@ -227,7 +227,7 @@ void cursor::UpdateCursorPos(const float mouse_x, const float mouse_y, const flo
 
 	//map to tile
 	int tile_x = world_x >= 0 ? (int)world_x / 8 : 0;
-	int tile_y = world_y <= 0 ? (int)world_y / 8 : 0;
+	int tile_y = world_y >= 0 ? (int)world_y / 8 : 0;
 
 	spdlog::info("Tile Pos: {} {}", tile_x, tile_y);
 
