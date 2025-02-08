@@ -93,7 +93,7 @@ int TestApplication::run()
     Uint8* KeyStates = (Uint8*)SDL_GetKeyboardState(NULL);
 
     glEnable(GL_DEBUG_OUTPUT);
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     glEnable(GL_BLEND);

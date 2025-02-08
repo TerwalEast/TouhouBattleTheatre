@@ -23,13 +23,6 @@ public:
 		_inversedViewMat = glm::inverse(_viewMat);
 		//_lookAtDist = glm::distance(eye_pos, lookat);
     }
-    void ViewParamsMirrored(glm::vec3 const& eye_pos, glm::vec3 const& lookat, glm::vec3 const& up)
-    {
-        _viewMat = glm::lookAt(eye_pos, lookat, up);
-		//_viewMat = glm::scale(_viewMat, glm::vec3(1, 1, -1));
-        _inversedViewMat = glm::inverse(_viewMat);
-        //_lookAtDist = glm::distance(eye_pos, lookat);
-    }
     void ViewParams(float pitch, float yaw, float roll, glm::vec3 const& eye_pos, glm::vec3 const& up)
     {
         glm::vec3 diff = glm::normalize(glm::vec3(
@@ -73,7 +66,7 @@ public:
 		_aspect = w / h;
 		_nearPlane = near_plane;
 		_farPlane = far_plane;
-		_projMat = glm::ortho(w * -0.5f / zoom, w * 0.5f / zoom, h * -0.5f / zoom, h * 0.5f / zoom, near_plane, far_plane);
+		_projMat = glm::ortho<float>(w * -0.5f / zoom, w * 0.5 / zoom, h * -0.5f / zoom, h * 0.5f / zoom, near_plane, far_plane);
 		_inversedProjMat = glm::inverse(_projMat);
     }
     void UploadProjViewToShaderManager()
@@ -112,7 +105,7 @@ private:
 	float		 _zoom = 1.0f;
 
     const std::string _uniformBlockName;
-	bool         _mirrored = false;
+
 };
 
 

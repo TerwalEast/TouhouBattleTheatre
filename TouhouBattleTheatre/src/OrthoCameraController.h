@@ -40,8 +40,8 @@ private:
 	void _updateCamera()
 	{
 		//glm::vec3 diff = glm::normalize(_lookAt - _position);
-		_camera->ProjOrthoParams(_viewWidth, _viewHeight, 10.0f, 1000.0f, _zoom);
-		_camera->ViewParamsMirrored(_position, _lookAt, _up);
+		_camera->ProjOrthoParams(_viewWidth, _viewHeight, -10.0f, 1000.0f, _zoom);
+		_camera->ViewParams(_position, _lookAt, _up);
 		_camera->UploadProjViewToShaderManager();
 	}
 	void _updateDirection()
