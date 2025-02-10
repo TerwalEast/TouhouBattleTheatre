@@ -25,6 +25,7 @@ void WorldMap::Render()
 	//Render Effects
 	
 	//Render UI
+	_cursor.Render();
 }
 
 void WorldMap::Update(const float delta)
@@ -151,10 +152,10 @@ cursor::cursor()
 	glCreateBuffers(1, &_vbo);
 
 	float _vertices[20] = {
-		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-		1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f, 0.0f, 0.0f, 1.0f
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		8.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		8.0f, 0.0f, 8.0f, 1.0f, 1.0f,
+		0.0f, 0.0f, 8.0f, 0.0f, 1.0f
 	};
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
@@ -185,9 +186,15 @@ cursor::~cursor()
 
 void cursor::Render()
 {
-	glUseProgram(ShaderManager::GetInstance().ShaderMap().at("cursor").id);
+	glUseProgram(ShaderManager::GetInstance().ShaderMap().at("actor").id);
 	glBindVertexArray(_vao);
 	glBindTextureUnit(0, _cursorTexture);
+
+	glm::mat4 model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(_cursorTileX * 8.0f, 0.0f, _cursorTileY * 8.0f));
+
+	ShaderManager::GetInstance().SetUniform("actor", "model", UniformType::MAT4, (void*)&model);
+
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 	glBindVertexArray(0);
 }
@@ -205,11 +212,11 @@ void cursor::HandleInput()
 
 void cursor::UpdateCursorPos(const float mouse_x, const float mouse_y, const float camera_x, const float camera_y, const float zoom, const float screen_width, const float screen_height, const float view_width, const float view_height)
 {
-	spdlog::info("Mouse Pos: {} {}", mouse_x, mouse_y);
-	spdlog::info("Camera Pos: {} {}", camera_x, camera_y);
-	spdlog::info("Screen Size: {} {}", screen_width, screen_height);
-	spdlog::info("View Size: {} {}", view_width, view_height);
-	spdlog::info("Zoom: {}", zoom);
+	//spdlog::info("Mouse Pos: {} {}", mouse_x, mouse_y);
+	//spdlog::info("Camera Pos: {} {}", camera_x, camera_y);
+	//spdlog::info("Screen Size: {} {}", screen_width, screen_height);
+	//spdlog::info("View Size: {} {}", view_width, view_height);
+	//spdlog::info("Zoom: {}", zoom);
 
 	//map -0.5 to 0.5
 	float normalized_x = mouse_x / screen_width - 0.5f;
@@ -223,13 +230,16 @@ void cursor::UpdateCursorPos(const float mouse_x, const float mouse_y, const flo
 	float world_x = camera_x + offset_x;
 	float world_y = camera_y + offset_y;
 
-	spdlog::info("World Pos: {} {}", world_x, world_y);
+	//spdlog::info("World Pos: {} {}", world_x, world_y);
 
 	//map to tile
 	int tile_x = world_x >= 0 ? (int)world_x / 8 : 0;
 	int tile_y = world_y >= 0 ? (int)world_y / 8 : 0;
 
 	spdlog::info("Tile Pos: {} {}", tile_x, tile_y);
+
+	_cursorTileX = tile_x;
+	_cursorTileY = tile_y;
 
 }
 

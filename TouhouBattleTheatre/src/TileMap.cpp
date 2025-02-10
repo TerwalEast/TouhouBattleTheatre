@@ -82,8 +82,8 @@ GLuint _bakeVAO(const int map_x, const int map_y)
 
 TileMap::TileMap()
 {
-	_walkableMapSizeX = 1;
-	_walkableMapSizeY = 1;
+	_walkableMapSizeX = 16;
+	_walkableMapSizeY = 9;
 	_tiles = new TerrainTile[(_walkableMapSizeX + 2) * (_walkableMapSizeY + 2)];
 
 	//Load Texture Atlas as texture array

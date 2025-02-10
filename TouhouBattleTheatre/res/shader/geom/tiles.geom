@@ -24,12 +24,12 @@ void makeTile(vec4 position)
     texCoord = vec3(0, 0, gs_in[0].tileId);
     EmitVertex(); 
     
-    gl_Position = projection * view * model * ( position + vec4(0.0, 0.0, 8, 0.0) );   
-    texCoord = vec3(0, 1, gs_in[0].tileId);
-    EmitVertex();
-
     gl_Position = projection * view * model * ( position + vec4(8, 0.0, 0.0, 0.0) );    
     texCoord = vec3(1, 0, gs_in[0].tileId);
+    EmitVertex();
+
+    gl_Position = projection * view * model * ( position + vec4(0.0, 0.0, 8, 0.0) );   
+    texCoord = vec3(0, 1, gs_in[0].tileId);
     EmitVertex();
 
     gl_Position = projection * view * model * ( position + vec4(8, 0.0, 8, 0.0) );    
