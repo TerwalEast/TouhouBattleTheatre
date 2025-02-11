@@ -1,8 +1,7 @@
 #include "TileMap.h"
 
-#include "TextureManager.h"
-#include "ShaderManager.h"
-#include "../TouhouBattleTheatre.h"
+#include "../TextureManager.h"
+#include "../ShaderManager.h"
 
 #include <stb_image.h>
 

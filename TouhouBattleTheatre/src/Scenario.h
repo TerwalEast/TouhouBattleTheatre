@@ -1,7 +1,5 @@
 #pragma once
 
-#include "WorldMap.h"
-
 class Scenario
 {
 

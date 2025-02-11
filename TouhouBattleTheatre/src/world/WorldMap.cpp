@@ -1,6 +1,6 @@
 #include "WorldMap.h"
-#include "ShaderManager.h"
-#include "TextureManager.h"
+#include "../ShaderManager.h"
+#include "../TextureManager.h"
 
 #include <stb_image.h>
 

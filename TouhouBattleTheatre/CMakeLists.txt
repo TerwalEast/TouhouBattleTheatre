@@ -3,7 +3,11 @@
 #
 
 # 将源代码添加到此项目的可执行文件。
-add_executable (TouhouBattleTheatre "TouhouBattleTheatre.cpp" "TouhouBattleTheatre.h" "src/Terrain.h" "src/Terrain.cpp" "src/TestApplication.cpp" "src/TestApplication.h" "src/Touhou.h" "src/ShaderManager.h" "src/ShaderManager.cpp" "src/Camera.h" "src/RTSCameraController.h" "src/MapTool.h" "src/DebugCameraController.h" "src/MapTool.cpp" "src/TileMap.h" "src/TileMap.cpp" "src/Stage.h" "src/WorldMap.h" "src/WorldMap.cpp" "src/Event.h" "src/OrthoCameraController.h" "src/Scenario.h" "src/stb_image.cpp" "src/stb_truetype.cpp" "src/TextureManager.h" "src/Actor.h")
+add_executable (TouhouBattleTheatre "TouhouBattleTheatre.cpp" "TouhouBattleTheatre.h"
+"src/lib/stb_image.cpp" "src/lib/stb_truetype.cpp" 
+"src/Terrain.h" "src/Terrain.cpp" "src/TestApplication.cpp" "src/TestApplication.h" "src/Touhou.h" "src/ShaderManager.h" "src/ShaderManager.cpp" "src/MapTool.h" "src/MapTool.cpp" "src/Stage.h" "src/Event.h" "src/Scenario.h" "src/TextureManager.h" 
+ "src/camera/Camera.h" "src/camera/RTSCameraController.h" "src/camera/DebugCameraController.h" "src/camera/OrthoCameraController.h"
+"src/world/WorldMap.h" "src/world/WorldMap.cpp" "src/world/TileMap.h" "src/world/TileMap.cpp" "src/world/Actor.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET TouhouBattleTheatre PROPERTY CXX_STANDARD 20)

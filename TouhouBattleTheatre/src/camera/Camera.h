@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../TouhouBattleTheatre.h"
-#include "TestApplication.h"
-#include "ShaderManager.h"
+#include "../../TouhouBattleTheatre.h"
+
+#include "../TestApplication.h"
+#include "../ShaderManager.h"
 
 // GLM
 #include <glm/glm.hpp>

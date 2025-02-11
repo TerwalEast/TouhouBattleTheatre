@@ -2,11 +2,16 @@
 #pragma once
 
 #include "../TouhouBattleTheatre.h"
+#include "TestApplication.h"
 
 #include <stb_image.h>
 
+#include <map>
 
 //»¹ÊÇCºÃ°¡¡£
+
+
+
 
 static GLuint Texture_Load(const char* path)
 {
@@ -39,11 +44,13 @@ static GLuint Texture_Load(const char* path)
 		else
 		{
 			spdlog::error("Failed to load texture {}, strange file format", path);
+			texture = 0;
 		}
 	}
 	else
 	{
 		spdlog::error("Failed to load texture {}, cannot read data", path);
+		texture = 0;
 	}
 	stbi_image_free(data);
 	return texture;
@@ -85,3 +92,56 @@ static GLuint Texture_LoadTileAtlas(const char* filePath, const int tileWidth, c
 	stbi_image_free(pixels);
 	return tileset;
 }
+
+class TextureManager
+{
+public:
+	static TextureManager& GetInstance()
+	{
+		static TextureManager instance;
+		return instance;
+	}
+	//GLuint LoadTexture(const char* path);
+	//GLuint LoadTileAtlas(const char* filePath, const int tileWidth, const int tileHeight);
+	std::map<std::string, GLuint> TextureMap() { return _textureMap; }
+
+	GLuint GetTexture(const char* name)
+	{
+		if (_textureMap.find(name) == _textureMap.end())
+		{
+			spdlog::error("Texture {} not found", name);
+			return 0;
+		}
+		return _textureMap[name];
+	}
+
+	//Costly
+	std::string GetTextureName(GLuint texture) 
+	{
+		for (auto& [name, tex] : _textureMap)
+		{
+			if (tex == texture)
+			{
+				return name;
+			}
+		}
+		return "";
+	}
+
+	void LoadTexture(const char* path, const char* name)
+	{
+		int texture = Texture_Load(path);
+		if (texture)
+			_textureMap[name] = Texture_Load(path);
+		else
+			spdlog::error("Failed to load texture {}", path);
+	}
+
+private:
+	TextureManager() {};
+	~TextureManager() {};
+	TextureManager(TextureManager const&) = delete;
+	void operator=(TextureManager const&) = delete;
+	std::map<std::string, GLuint> _textureMap;
+
+};

@@ -17,13 +17,16 @@ public:
 	virtual void HandleInput() = 0;
 private:
 	unsigned int _actorID;
+
+	//-1 means out of map
 	unsigned int _locationX;
 	unsigned int _locationY;
 
-	unsigned int _remainingActionPoints;
-	unsigned int _maxActionPoints;
+	//unsigned int _remainingActionPoints;
+	//unsigned int _maxActionPoints;
 
-
-
-
+	std::string _actorName;
+	std::string _actorType;
+	std::string _actorDescription;
+	std::string _actorPortraitCode;
 };

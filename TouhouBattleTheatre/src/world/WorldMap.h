@@ -1,11 +1,12 @@
 #pragma once
 
 
-#include "Stage.h"
-#include "TileMap.h"
-#include "OrthoCameraController.h"
+#include "../../TouhouBattleTheatre.h"
 
-#include "../TouhouBattleTheatre.h"
+#include "../Stage.h"
+
+#include "../camera/OrthoCameraController.h"
+#include "TileMap.h"
 
 #include <stb_truetype.h>
 #include <vector>

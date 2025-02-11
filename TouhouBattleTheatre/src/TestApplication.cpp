@@ -2,10 +2,9 @@
 #include "TestApplication.h"
 
 #include "../TouhouBattleTheatre.h"
-#include "OrthoCameraController.h"
 #include "MapTool.h"
-#include "TileMap.h"
-#include "WorldMap.h"
+#include "world/TileMap.h"
+#include "world/WorldMap.h"
 
 #include <SDL3/SDL.h>
 

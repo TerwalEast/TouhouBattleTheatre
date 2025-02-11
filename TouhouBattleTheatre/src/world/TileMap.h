@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "../TouhouBattleTheatre.h"
+#include "../../TouhouBattleTheatre.h"
 
 //Tile Map mask dictionary
 // 0 = void
