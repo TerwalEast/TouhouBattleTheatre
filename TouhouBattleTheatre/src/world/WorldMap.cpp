@@ -59,8 +59,10 @@ void WorldMap::HandleInput(Uint8* KeyStates)
 								_cameraController.GetPosition().z, _cameraController.GetZoom(), 
 				TestApplication::GetInstance().GetScreenWidth(), TestApplication::GetInstance().GetScreenHeight(), 
 				_cameraController.GetViewWidth(), _cameraController.GetViewHeight());
-			
 		}
+
+
+
 	}
 	if (KeyStates[SDL_SCANCODE_W])
 		movement.y += 1.0f;

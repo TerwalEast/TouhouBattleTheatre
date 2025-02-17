@@ -132,9 +132,8 @@ int TestApplication::run()
         // Handle Input
         //------------------------------------------------
         {
-			worldMap.HandleInput(KeyStates);
+            worldMap.HandleInput(KeyStates);
         }// Input End
-        
 
         //------------------------------------------------
         // Update
@@ -144,8 +143,6 @@ int TestApplication::run()
             thisFrame = SDL_GetTicks();
             deltaTime = (thisFrame - lastFrame) / 1000.0f;
             lastFrame = thisFrame;
-
-
 
             // Update Stage
 			worldMap.Update(deltaTime);

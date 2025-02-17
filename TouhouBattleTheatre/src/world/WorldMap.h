@@ -94,7 +94,7 @@ private:
 	int _turnNumber = 1;
 	//std::vector<Faction> _factions;
 	cursor _cursor;
-
+	
 
 
 
