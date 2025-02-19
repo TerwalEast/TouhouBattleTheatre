@@ -137,6 +137,15 @@ public:
 			spdlog::error("Failed to load texture {}", path);
 	}
 
+	void LoadTileAtlas(const char* filePath, const int tileWidth, const int tileHeight, const char* name)
+	{
+		int texture = Texture_LoadTileAtlas(filePath, tileWidth, tileHeight);
+		if (texture)
+			_textureMap[name] = texture;
+		else
+			spdlog::error("Failed to load texture {}", filePath);
+	}
+
 private:
 	TextureManager() {};
 	~TextureManager() {};

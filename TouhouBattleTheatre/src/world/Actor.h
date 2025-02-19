@@ -28,8 +28,11 @@ struct Actor_Movement
 
 struct Actor_UI
 {
-	bool _showFactionColor = false;
 	bool _showDescriptionOnHover = false;
+	bool _showPortrait = false;
+	std::string _portraitCode;
+	std::string _actorName;
+	std::string _actorDescription;
 
 };
 
@@ -62,4 +65,20 @@ private:
 	std::string _actorType;
 	std::string _actorDescription;
 	std::string _actorPortraitCode;
+};
+
+
+class ActorManager 
+{
+public:
+	ActorManager() {};
+	~ActorManager() {};
+	void AddActor(Actor* actor);
+	void RemoveActor(Actor* actor);
+	void UpdateActors(const float delta);
+	void RenderActors();
+	void HandleInputActors();
+private:
+
+
 };

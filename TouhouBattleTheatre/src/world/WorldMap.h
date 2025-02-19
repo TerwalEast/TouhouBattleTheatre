@@ -95,7 +95,9 @@ private:
 	//std::vector<Faction> _factions;
 	cursor _cursor;
 	
-
+	float _cursorPosX = 0, _cursorPosY = 0;
+	bool _click = false;
+	float wheel = 0.0f;
 
 
 };

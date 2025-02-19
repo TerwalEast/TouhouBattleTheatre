@@ -1,9 +1,7 @@
+﻿#pragma execution_character_set("utf-8")
 
 #include "TestApplication.h"
 
-#include "../TouhouBattleTheatre.h"
-#include "MapTool.h"
-#include "world/TileMap.h"
 #include "world/WorldMap.h"
 
 #include <SDL3/SDL.h>
@@ -68,7 +66,7 @@ int TestApplication::run()
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
-        window = SDL_CreateWindow(" �� Touhou Battle Theatre", WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+        window = SDL_CreateWindow("東方夢鬥劇 ～ Touhou Battle Theatre", WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
         if (window == NULL)
         {
             spdlog::error("Window creation failed. SDL_Error: {}", SDL_GetError());
@@ -103,9 +101,6 @@ int TestApplication::run()
     glDebugMessageCallback(message_callback, nullptr);
 
     SDL_Event event;
-
-    //Terrain terrain = Terrain(20, 20, 3);
-	//MapTool mapTool = MapTool(20, 20);
 
     ShaderManager::GetInstance();
 

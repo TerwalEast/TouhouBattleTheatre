@@ -3,6 +3,11 @@
 #include "Actor.h"
 
 
+
+/***
+* Explorer
+* 
+*/
 class Explorer : public Actor
 {
 public:
@@ -11,9 +16,13 @@ public:
 	void Update(const float delta);
 	void Render();
 	void HandleInput();
+	
 private:
 	unsigned int _remainingActionPoints;
 	unsigned int _maxActionPoints;
+	bool _showDetail = false;
 	Actor_Movement _movement;
 	Actor_UI _ui;
 };
+
+

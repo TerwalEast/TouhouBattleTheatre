@@ -36,9 +36,16 @@ void WorldMap::Update(const float delta)
 
 	//Update Actors
 
-
 	//Update Camera
 	_cameraController.Update(delta);
+
+	//Update UI
+	_cursor.UpdateCursorPos(_cursorPosX, _cursorPosY, _cameraController.GetPosition().x,
+		_cameraController.GetPosition().z, _cameraController.GetZoom(),
+		TestApplication::GetInstance().GetScreenWidth(), TestApplication::GetInstance().GetScreenHeight(),
+		_cameraController.GetViewWidth(), _cameraController.GetViewHeight());
+
+	
 
 }
 
@@ -55,12 +62,13 @@ void WorldMap::HandleInput(Uint8* KeyStates)
 		}
 		if (event.type == SDL_EVENT_MOUSE_MOTION)
 		{
-			_cursor.UpdateCursorPos(event.motion.x, event.motion.y, _cameraController.GetPosition().x, 
-								_cameraController.GetPosition().z, _cameraController.GetZoom(), 
-				TestApplication::GetInstance().GetScreenWidth(), TestApplication::GetInstance().GetScreenHeight(), 
-				_cameraController.GetViewWidth(), _cameraController.GetViewHeight());
+			_cursorPosX = event.motion.x;
+			_cursorPosY = event.motion.y;
 		}
-
+		if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
+		{
+			_click = true;
+		}
 
 
 	}
@@ -238,7 +246,7 @@ void cursor::UpdateCursorPos(const float mouse_x, const float mouse_y, const flo
 	int tile_x = world_x >= 0 ? (int)world_x / 8 : 0;
 	int tile_y = world_y >= 0 ? (int)world_y / 8 : 0;
 
-	spdlog::info("Tile Pos: {} {}", tile_x, tile_y);
+	//spdlog::info("Tile Pos: {} {}", tile_x, tile_y);
 
 	_cursorTileX = tile_x;
 	_cursorTileY = tile_y;
