@@ -14,6 +14,70 @@ WorldMap::~WorldMap()
 
 }
 
+void WorldMap::Start(SDL_Window* window, Uint8* KeyStates)
+{
+	//------------------------------------------------
+	// Main Loop
+	//------------------------------------------------
+
+	int lastFrame = SDL_GetTicks();
+	int thisFrame = lastFrame;
+	float deltaTime;
+
+	while (1)
+	{
+		//Uint8* KeyStates = (Uint8*)SDL_GetKeyboardState(NULL);
+		
+
+		//------------------------------------------------
+		// Handle Input
+		//------------------------------------------------
+		{
+			this->HandleInput(KeyStates);
+		}// Input End
+
+		//------------------------------------------------
+		// Update
+		//------------------------------------------------
+		{
+			// Get Delta time
+			thisFrame = SDL_GetTicks();
+			deltaTime = (thisFrame - lastFrame) / 1000.0f;
+			lastFrame = thisFrame;
+
+			// Update Stage
+			this->Update(deltaTime);
+
+		}// Update End
+
+
+		//------------------------------------------------
+		// Render
+		//------------------------------------------------
+		{
+			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			//mapTool.Render();
+			this->Render();
+			SDL_Delay(1);
+			SDL_GL_SwapWindow(window);
+		}// Render End
+
+		//------------------------------------------------
+		// Quit
+		//------------------------------------------------
+		if (_quit)
+		{
+			break;
+		}// Quit End
+
+	}// Main Loop End
+
+
+
+
+}
+
 void WorldMap::Render()
 {
 	//Render background
@@ -58,7 +122,7 @@ void WorldMap::HandleInput(Uint8* KeyStates)
 	{
 		if (event.type == SDL_EVENT_QUIT)
 		{
-			TestApplication::GetInstance().Quit();
+			_quit = true;
 		}
 		if (event.type == SDL_EVENT_MOUSE_MOTION)
 		{
@@ -89,7 +153,7 @@ void WorldMap::HandleInput(Uint8* KeyStates)
 	if (KeyStates[SDL_SCANCODE_E])
 		rotation += 1.0f;
 	if (KeyStates[SDL_SCANCODE_ESCAPE])
-		TestApplication::GetInstance().Quit();
+		_quit = true;
 
 	    // update camera
 	if (movement.x != 0 || movement.y != 0 || movement.z != 0)
@@ -104,7 +168,7 @@ void WorldMap::HandleInput(Uint8* KeyStates)
 
 WorldMapBackGround::WorldMapBackGround()
 {
-	_backgroundTexture = Texture_Load("res/texture/background.jpg");
+	_backgroundTexture = Texture_Load(GET_TEXTURE_PATH(background.jpg));
 	glCreateBuffers(1, &_vbo);
 
 	float _vertices[20] = {
@@ -158,7 +222,7 @@ void WorldMapBackGround::Update(const float delta)
 
 cursor::cursor()
 {
-	_cursorTexture = Texture_Load("res/cursor/cursor.png");
+	_cursorTexture = Texture_Load(GET_TEXTURE_PATH(cursor.png));
 	glCreateBuffers(1, &_vbo);
 
 	float _vertices[20] = {

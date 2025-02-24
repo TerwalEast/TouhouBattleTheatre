@@ -104,68 +104,12 @@ int TestApplication::run()
 
     ShaderManager::GetInstance();
 
-    int lastFrame = SDL_GetTicks();
-	int thisFrame = lastFrame;
-    float deltaTime;
-
-    //DebugCameraController cameraController = DebugCameraController(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(-100.0f, 100.0f, -100.0f), 45.0f, -45.0f, 67.5f, 0.0f);
-	
-    glm::vec3 movement;
-    float rotation;
-
-    
-	//TileMap tileMap = TileMap();
 	WorldMap worldMap = WorldMap();
 
     //------------------------------------------------
     // Main Loop
     //------------------------------------------------
-
-    while (1)
-    {
-        //------------------------------------------------
-        // Handle Input
-        //------------------------------------------------
-        {
-            worldMap.HandleInput(KeyStates);
-        }// Input End
-
-        //------------------------------------------------
-        // Update
-        //------------------------------------------------
-        {
-            // Get Delta time
-            thisFrame = SDL_GetTicks();
-            deltaTime = (thisFrame - lastFrame) / 1000.0f;
-            lastFrame = thisFrame;
-
-            // Update Stage
-			worldMap.Update(deltaTime);
-
-        }// Update End
-		
-
-        //------------------------------------------------
-        // Render
-        //------------------------------------------------
-        {
-            glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            //mapTool.Render();
-            worldMap.Render();
-            SDL_Delay(1);
-            SDL_GL_SwapWindow(window);
-        }// Render End
-
-		//------------------------------------------------
-		// Quit
-		//------------------------------------------------
-        if (TestApplication::GetInstance().quiting)
-        {
-            break;
-		}// Quit End
-
-    }// Main Loop End
+    worldMap.Start(window, KeyStates);
 
     SDL_DestroyWindow(window);
     SDL_Quit();

@@ -79,7 +79,7 @@ class WorldMap : public Stage
 public:
 	WorldMap();
 	~WorldMap();
-
+	void Start(SDL_Window* window, Uint8* KeyStates);
 	void Render();
 	void Update(const float delta);
 	void HandleInput(Uint8* KeyStates);
@@ -87,6 +87,7 @@ public:
 protected:
 	
 private:
+	bool _quit = false;
 
 	OrthoCameraController _cameraController;
 	TileMap _tileMap;

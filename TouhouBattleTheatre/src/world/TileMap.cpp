@@ -86,13 +86,10 @@ TileMap::TileMap()
 	_tiles = new TerrainTile[(_walkableMapSizeX + 2) * (_walkableMapSizeY + 2)];
 
 	//Load Texture Atlas as texture array
-	const char path[25] = { "res/tile/grass_atlas.png" };
-	_tilesheetTexture = Texture_LoadTileAtlas(path, 32, 32);
+	_tilesheetTexture = Texture_LoadTileAtlas(GET_TEXTURE_PATH(grass_atlas.png), 32, 32);
 
 	//Create VAO for tile map
 	_vao = _bakeVAO(_walkableMapSizeX, _walkableMapSizeY);
-
-
 }
 
 void TileMap::Render()

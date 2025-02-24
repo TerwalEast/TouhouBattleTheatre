@@ -10,6 +10,10 @@
 
 //»¹ÊÇCºÃ°¡¡£
 
+#define TEXTURE_PATH_PREFIX "res/texture/"
+#define TO_STRING(x) #x
+
+#define GET_TEXTURE_PATH(x) TEXTURE_PATH_PREFIX TO_STRING(x)  //GET_TEXTURE_PATH(x) -> "res/texture/x"
 
 
 
