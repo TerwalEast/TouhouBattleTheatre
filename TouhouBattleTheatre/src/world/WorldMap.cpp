@@ -4,6 +4,7 @@
 
 #include <stb_image.h>
 
+enum StageStatues { command, process, go };
 
 WorldMap::WorldMap() : _cameraController(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1, glm::vec3(0.0f, -100.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f)
 {
@@ -26,9 +27,6 @@ void WorldMap::Start(SDL_Window* window, Uint8* KeyStates)
 
 	while (1)
 	{
-		//Uint8* KeyStates = (Uint8*)SDL_GetKeyboardState(NULL);
-		
-
 		//------------------------------------------------
 		// Handle Input
 		//------------------------------------------------
@@ -72,10 +70,6 @@ void WorldMap::Start(SDL_Window* window, Uint8* KeyStates)
 		}// Quit End
 
 	}// Main Loop End
-
-
-
-
 }
 
 void WorldMap::Render()
@@ -108,9 +102,6 @@ void WorldMap::Update(const float delta)
 		_cameraController.GetPosition().z, _cameraController.GetZoom(),
 		TestApplication::GetInstance().GetScreenWidth(), TestApplication::GetInstance().GetScreenHeight(),
 		_cameraController.GetViewWidth(), _cameraController.GetViewHeight());
-
-	
-
 }
 
 void WorldMap::HandleInput(Uint8* KeyStates)

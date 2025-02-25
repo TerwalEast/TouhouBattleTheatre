@@ -16,7 +16,6 @@ public:
 	static int run();
 	static TestApplication& GetInstance();
 	std::string BasePath;
-	void Quit();
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }
 private:

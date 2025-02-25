@@ -123,10 +123,6 @@ TestApplication& TestApplication::GetInstance()
     return ta;
 }
 
-void TestApplication::Quit()
-{
-	quiting = true;
-}
 
 TestApplication::TestApplication() 
 {
