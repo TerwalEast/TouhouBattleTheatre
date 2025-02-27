@@ -7,9 +7,13 @@
 
 #include "../camera/OrthoCameraController.h"
 #include "TileMap.h"
+#include "Cursor.h"
 
 #include <stb_truetype.h>
 #include <vector>
+
+
+enum StageState { command, animation, resolve, sleep };
 
 class test_actor
 {
@@ -18,28 +22,6 @@ public:
 	~test_actor();
 private:
 	std::string _name;
-};
-
-class cursor
-{
-public:
-	cursor();
-	~cursor();
-	void Render();
-	void Update(const float delta);
-	void HandleInput();
-	void UpdateCursorPos(const float mouse_x, const float mouse_y, const float camera_x, const float camera_y, const float zoom, const float screen_width, const float screen_height, const float view_width, const float view_height);
-private:
-	GLuint _cursorTexture;
-	GLuint _vao;
-	GLuint _vbo;
-	unsigned int _cursorTileX = 0;
-	unsigned int _cursorTileY = 0;
-	
-	//void _updateCursorPos(const float mouse_x, const float mouse_y,
-	//					  const float camera_x, const float camera_y, 
-	//	                  const float zoom, const float screen_width, const float screen_height,
-	//					  const float view_width, const float view_height);
 };
 
 class Leader 
@@ -99,6 +81,7 @@ private:
 	float _cursorPosX = 0, _cursorPosY = 0;
 	bool _click = false;
 	float wheel = 0.0f;
-
+	StageState _state = command;
+	
 
 };
