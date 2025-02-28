@@ -6,7 +6,7 @@
 #include <spdlog/spdlog.h>
 
 
-WorldMap::WorldMap() : _cameraController(WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1, glm::vec3(0.0f, -100.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f)
+WorldMap::WorldMap() 
 {
 
 }
@@ -92,7 +92,7 @@ void WorldMap::Render()
 	//Render Effects
 	
 	//Render UI
-	_cursor.Render();
+	_ui.Render();
 }
 
 void WorldMap::Update(const float delta)
@@ -103,10 +103,8 @@ void WorldMap::Update(const float delta)
 
 	//Update Actors
 
-	//Update Camera
-	_cameraController.Update(delta);
-
 	//Update UI
+	_cameraController.Update(delta);
 	_cursor.UpdateCursorPos(_cursorPosX, _cursorPosY, _cameraController.GetPosition().x,
 		_cameraController.GetPosition().z, _cameraController.GetZoom(),
 		TestApplication::GetInstance().GetScreenWidth(), TestApplication::GetInstance().GetScreenHeight(),

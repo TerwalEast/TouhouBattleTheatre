@@ -4,6 +4,8 @@
 
 #include "../Stage.h"
 
+#include "Cursor.h"
+
 #include <SDL3/SDL_events.h>
 
 
@@ -19,5 +21,6 @@ public:
 	~WorldUI();
 	void HandleClick(SDL_Event mouse_event);
 private:
-
+	Cursor _cursor;
+	OrthoCameraController _cameraController;
 };

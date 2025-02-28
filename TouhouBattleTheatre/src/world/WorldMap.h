@@ -7,40 +7,13 @@
 
 #include "../camera/OrthoCameraController.h"
 #include "TileMap.h"
-#include "Cursor.h"
+#include "WorldUI.h"
 
 #include <stb_truetype.h>
 #include <vector>
 
 
 enum StageState { command, animation, resolve, sleep };
-
-class test_actor
-{
-public:
-	test_actor();
-	~test_actor();
-private:
-	std::string _name;
-};
-
-class Leader 
-{
-public:
-	Leader();
-	~Leader();
-private:
-	std::string _name;
-};
-
-class Faction
-{
-public:
-	Faction();
-	~Faction();
-private:
-	std::vector<Leader> _leaders;
-};
 
 class WorldMapBackGround
 {
@@ -71,12 +44,12 @@ protected:
 private:
 	bool _quit = false;
 
-	OrthoCameraController _cameraController;
+	//OrthoCameraController _cameraController;
 	TileMap _tileMap;
 	WorldMapBackGround _background;
 	int _turnNumber = 1;
 	//std::vector<Faction> _factions;
-	cursor _cursor;
+	WorldUI _ui;
 	
 	float _cursorPosX = 0, _cursorPosY = 0;
 	bool _click = false;

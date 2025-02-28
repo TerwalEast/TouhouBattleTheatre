@@ -5,9 +5,9 @@
 #include <spdlog/spdlog.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-cursor::cursor()
+Cursor::Cursor()
 {
-	_cursorTexture = Texture_Load(GET_TEXTURE_PATH(cursor.png));
+	_cursorTexture = Texture_Load(GET_TEXTURE_PATH(Cursor.png));
 	glCreateBuffers(1, &_vbo);
 
 	float _vertices[20] = {
@@ -36,14 +36,14 @@ cursor::cursor()
 
 }
 
-cursor::~cursor()
+Cursor::~Cursor()
 {
 	glDeleteBuffers(1, &_vbo);
 	glDeleteVertexArrays(1, &_vao);
 	glDeleteTextures(1, &_cursorTexture);
 }
 
-void cursor::Render()
+void Cursor::Render()
 {
 	glUseProgram(ShaderManager::GetInstance().ShaderMap().at("actor").id);
 	glBindVertexArray(_vao);
@@ -58,19 +58,19 @@ void cursor::Render()
 	glBindVertexArray(0);
 }
 
-void cursor::Update(const float delta)
+void Cursor::Update(const float delta)
 {
 	float x, y;
 	SDL_GetMouseState(&x, &y);
 	//_updateCursorPos(x, y);
 }
 
-void cursor::HandleInput()
+void Cursor::HandleInput()
 {
 
 }
 
-void cursor::UpdateCursorPos(const float mouse_x, const float mouse_y, const float camera_x, const float camera_y, const float zoom, const float screen_width, const float screen_height, const float view_width, const float view_height)
+void Cursor::UpdateCursorPos(const float mouse_x, const float mouse_y, const float camera_x, const float camera_y, const float zoom, const float screen_width, const float screen_height, const float view_width, const float view_height)
 {
 
 	//map -0.5 to 0.5
@@ -98,7 +98,7 @@ void cursor::UpdateCursorPos(const float mouse_x, const float mouse_y, const flo
 
 }
 
-glm::vec2 cursor::GetCursorPos()
+glm::vec2 Cursor::GetCursorPos()
 {
 	return glm::vec2(_cursorTileX, _cursorTileY);
 }

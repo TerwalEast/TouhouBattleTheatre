@@ -4,11 +4,11 @@
 
 
 
-class cursor
+class Cursor
 {
 public:
-	cursor();
-	~cursor();
+	Cursor();
+	~Cursor();
 	void Render();
 	void Update(const float delta);
 	void HandleInput();
