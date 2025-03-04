@@ -76,7 +76,13 @@ void WorldMap::Start(SDL_Window* window, Uint8* KeyStates)
 			SDL_GL_SwapWindow(window);
 		}// Render End
 
-		
+		//------------------------------------------------
+		// Quit
+		//------------------------------------------------
+		if (_ui.ExitFlag)
+		{
+			break;
+		}// Quit End
 
 	}// Main Loop End
 }
@@ -104,62 +110,12 @@ void WorldMap::Update(const float delta)
 	//Update Actors
 
 	//Update UI
-	_cameraController.Update(delta);
-	_cursor.UpdateCursorPos(_cursorPosX, _cursorPosY, _cameraController.GetPosition().x,
-		_cameraController.GetPosition().z, _cameraController.GetZoom(),
-		TestApplication::GetInstance().GetScreenWidth(), TestApplication::GetInstance().GetScreenHeight(),
-		_cameraController.GetViewWidth(), _cameraController.GetViewHeight());
+	_ui.Update(delta);
 }
 
 void WorldMap::HandleInput(Uint8* KeyStates)
 {
-	glm::vec3 movement = glm::vec3(0.0f, 0.0f, 0.0f);
-	float rotation = 0.0f;
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		if (event.type == SDL_EVENT_QUIT)
-		{
-			_quit = true;
-		}
-		if (event.type == SDL_EVENT_MOUSE_MOTION)
-		{
-			_cursorPosX = event.motion.x;
-			_cursorPosY = event.motion.y;
-		}
-		if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
-		{
-			_click = true;
-		}
-
-
-	}
-	if (KeyStates[SDL_SCANCODE_W])
-		movement.y += 1.0f;
-	if (KeyStates[SDL_SCANCODE_S])
-		movement.y -= 1.0f;
-	if (KeyStates[SDL_SCANCODE_A])
-		movement.x -= 1.0f;
-	if (KeyStates[SDL_SCANCODE_D])
-		movement.x += 1.0f;
-	//     if (KeyStates[SDL_SCANCODE_SPACE])
-			 //movement.z += 1.0f;
-	//     if (KeyStates[SDL_SCANCODE_LCTRL])
-			 //movement.z -= 1.0f;
-	if (KeyStates[SDL_SCANCODE_Q])
-		rotation -= 1.0f;
-	if (KeyStates[SDL_SCANCODE_E])
-		rotation += 1.0f;
-	if (KeyStates[SDL_SCANCODE_ESCAPE])
-		_quit = true;
-
-	    // update camera
-	if (movement.x != 0 || movement.y != 0 || movement.z != 0)
-		_cameraController.Movement(movement);
-	//if (rotation != 0.0f)
-	    //cameraController.ArcballRotate(rotation);
-	
-
+	_ui.HandleInput(KeyStates);
 }
 
 
