@@ -5,28 +5,30 @@
 #include "../Stage.h"
 
 #include "Cursor.h"
-
-#include <SDL3/SDL_events.h>
+#include "WorldUIItem.h"
 #include "../camera/OrthoCameraController.h"
 
+#include <SDL3/SDL_events.h>
 
-enum UIState
-{
-	hot, active, inactive
-};
+
+
 
 class WorldUI 
 {
 public:
 	WorldUI();
 	~WorldUI();
-	void HandleClick(SDL_Event mouse_event);
+	
 	void HandleInput(Uint8* KeyStates);
 	void Update(const float delta);
 	void Render();
 	bool ExitFlag = false;
 private:
+	void _handleClick(SDL_Event mouse_event);
+	void _handleHover();
 	Cursor _cursor;
 	OrthoCameraController _cameraController;
 	float _cursorPosX = 0, _cursorPosY = 0;
+	bool _cursorMovedInLastFrame = false;
+	std::vector<WorldUIItem> _uiItems;
 };
