@@ -13,7 +13,17 @@ void WorldUI::_handleClick(SDL_Event mouse_event)
 	{
 		if (mouse_event.button.button == SDL_BUTTON_LEFT)
 		{
-
+			for (WorldUIItem item : _uiItems)
+			{
+				if (item.ConsumeClick)
+				{
+					if (item.isWithinUIElement(_cursorPosX, _cursorPosY))
+					{
+						spdlog::info("Clicked on UI Element");
+						// Handle left click
+					}
+				}
+			}
 		}
 		else if (mouse_event.button.button == SDL_BUTTON_RIGHT)
 		{
@@ -37,11 +47,11 @@ void WorldUI::_handleHover()
 {
 	for (WorldUIItem item : _uiItems)
 	{
-		if (item._consumeHover)
+		if (item.ConsumeHover)
 		{
 			if (item.isWithinUIElement(_cursorPosX, _cursorPosY))
 			{
-
+				item.HoverActive = true;
 			}
 		}
 		else
@@ -49,6 +59,14 @@ void WorldUI::_handleHover()
 			// Skip this item
 			continue;
 		}
+	}
+}
+
+void WorldUI::_updateUIItems(const float delta)
+{
+	for (WorldUIItem item : _uiItems)
+	{
+		item.Update(delta);
 	}
 }
 
@@ -81,7 +99,6 @@ void WorldUI::HandleInput(Uint8* KeyStates)
 		this->_handleHover();
 	}
 
-
 	// Handle keyboard input
 
 	if (KeyStates[SDL_SCANCODE_W])
@@ -108,6 +125,11 @@ void WorldUI::HandleInput(Uint8* KeyStates)
 		_cameraController.Movement(movement);
 	//if (rotation != 0.0f)
 		//cameraController.ArcballRotate(rotation);
+
+	if (!_cursorMovedInLastFrame)
+	{
+		this->_handleHover();
+	}
 }
 
 void WorldUI::Update(const float delta)
@@ -117,10 +139,14 @@ void WorldUI::Update(const float delta)
 		_cameraController.GetPosition().z, _cameraController.GetZoom(),
 		TestApplication::GetInstance().GetScreenWidth(), TestApplication::GetInstance().GetScreenHeight(),
 		_cameraController.GetViewWidth(), _cameraController.GetViewHeight());
+	this->_updateUIItems(delta);
 }
 
 void WorldUI::Render()
 {
+	for (WorldUIItem item : _uiItems)
+	{
+		item.Render();
+	}
 	_cursor.Render();
-
 }

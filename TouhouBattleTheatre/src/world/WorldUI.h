@@ -26,6 +26,7 @@ public:
 private:
 	void _handleClick(SDL_Event mouse_event);
 	void _handleHover();
+	void _updateUIItems(const float delta);
 	Cursor _cursor;
 	OrthoCameraController _cameraController;
 	float _cursorPosX = 0, _cursorPosY = 0;

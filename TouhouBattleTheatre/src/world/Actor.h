@@ -22,8 +22,6 @@ struct Actor_Movement
 	bool _canClimb = false;
 	bool _canDig = false;
 	bool _canTeleport = false;
-
-
 };
 
 struct Actor_UI
@@ -36,14 +34,6 @@ struct Actor_UI
 
 };
 
-struct Actor_Interactions_Landmark
-{
-	bool _canEnter = false;
-	bool _hasGarrison = false;
-	bool _canOccupy = false;
-	bool _canSiege = false;
-
-};
 
 
 
