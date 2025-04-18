@@ -17,7 +17,6 @@ endif()
 
 find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3-shared)
 target_link_libraries(TouhouBattleTheatre PRIVATE SDL3::SDL3)
-
 find_path(CUTE_HEADERS_INCLUDE_DIRS "cute_alloc.h")
 target_include_directories(TouhouBattleTheatre PRIVATE ${CUTE_HEADERS_INCLUDE_DIRS})
 find_package(glad CONFIG REQUIRED)
@@ -46,5 +45,7 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E copy_directory
                 ${CMAKE_SOURCE_DIR}/TouhouBattleTheatre/res
                 ${CMAKE_CURRENT_BINARY_DIR}/res)
+
+
 
 

@@ -93,7 +93,7 @@ void Terrain::Render()
 	modelMatrixPyramid = glm::rotate(modelMatrixPyramid, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Then rotate
 	modelMatrixPyramid = glm::scale(modelMatrixPyramid, glm::vec3(3.0f, 3.0f, 3.0f)); // Scale at last
 
-	glm::vec4 color;
+	glm::vec4 color = glm::vec4(1.0f);
 
 	ShaderManager::GetInstance().SetUniform("terrain", "model", UniformType::MAT4, (void*)&modelMatrixPyramid);
 	color = glm::vec4((64.0f/255.0f), (224.0f / 255.0f), (205.0f / 255.0f), 1.0f);

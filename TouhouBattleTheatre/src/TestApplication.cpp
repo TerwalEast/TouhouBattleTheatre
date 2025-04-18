@@ -66,7 +66,7 @@ int TestApplication::run()
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
-        window = SDL_CreateWindow("東方夢鬥劇 ～ Touhou Battle Theatre", WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+        window = SDL_CreateWindow("東方夢鬥劇 ～ Touhou Battle Theatre", WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
         if (window == NULL)
         {
             spdlog::error("Window creation failed. SDL_Error: {}", SDL_GetError());
@@ -78,9 +78,11 @@ int TestApplication::run()
 
     SDL_GLContext context = SDL_GL_CreateContext(window);
     SDL_GL_MakeCurrent(window, context);
-    SDL_SetWindowMouseGrab(window, SDL_TRUE);
+    //SDL_SetWindowMouseGrab(window, SDL_TRUE);
     //SDL_SetWindowRelativeMouseMode(window, true);
-    SDL_ShowCursor();
+	SDL_SetWindowResizable(window, SDL_TRUE);
+    //SDL_SetWindowFullscreen(window, SDL_TRUE);
+    //SDL_ShowCursor();
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
     {
         spdlog::error("Failed to initialize GLAD");
@@ -100,10 +102,6 @@ int TestApplication::run()
     //glAlphaFunc(GL_GREATER, 0.1);
     glDebugMessageCallback(message_callback, nullptr);
 
-    SDL_Event event;
-
-    ShaderManager::GetInstance();
-
 	WorldMap worldMap = WorldMap();
 
     //------------------------------------------------
@@ -122,7 +120,6 @@ TestApplication& TestApplication::GetInstance()
     static TestApplication ta;
     return ta;
 }
-
 
 TestApplication::TestApplication() 
 {

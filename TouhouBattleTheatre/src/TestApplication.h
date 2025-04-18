@@ -7,8 +7,8 @@
 
 #include <SDL3/SDL.h>
 
-#define WINDOW_WIDTH 1600
-#define WINDOW_HEIGHT 900
+#define WINDOW_WIDTH 2400
+#define WINDOW_HEIGHT 1100
 
 
 class TestApplication {
@@ -18,6 +18,10 @@ public:
 	std::string BasePath;
 	int GetScreenWidth() { return screen_width; }
 	int GetScreenHeight() { return screen_height; }
+	void SetScreenSize(int width, int height) {
+		screen_width = width;
+		screen_height = height;
+	}
 private:
 	TestApplication();
 	~TestApplication() {};

@@ -34,6 +34,12 @@ public:
 	float GetZoom() const {	return _zoom; }
 	float GetViewWidth() const { return _viewWidth; }
 	float GetViewHeight() const { return _viewHeight; }
+	void SetViewPort(int x, int y) 
+	{
+		_viewHeight = y;
+		_viewWidth = x;
+		_updateCamera();
+	}
 
 private:
 
