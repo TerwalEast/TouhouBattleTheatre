@@ -78,10 +78,10 @@ int TestApplication::run()
 
     SDL_GLContext context = SDL_GL_CreateContext(window);
     SDL_GL_MakeCurrent(window, context);
-    //SDL_SetWindowMouseGrab(window, SDL_TRUE);
+    //SDL_SetWindowMouseGrab(window, true);
     //SDL_SetWindowRelativeMouseMode(window, true);
-	SDL_SetWindowResizable(window, SDL_TRUE);
-    //SDL_SetWindowFullscreen(window, SDL_TRUE);
+	SDL_SetWindowResizable(window, true);
+    //SDL_SetWindowFullscreen(window, true);
     //SDL_ShowCursor();
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
     {

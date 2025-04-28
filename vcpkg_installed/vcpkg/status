@@ -3,7 +3,7 @@ Version: 2019-09-20
 Port-Version: 2
 Architecture: x64-windows
 Multi-Arch: same
-Abi: e64982936c218835898d989d33a9156dd8d4aa6188318982dbc026dcc5fc2677
+Abi: 582adbaf6a93dd0f53faf9f5fe9a1e4ca24e6a33b70d9d4c01cf8a74b76d33d9
 Description: Collection of cross-platform one-file C/C++ libraries with no dependencies
 Status: install ok installed
 
@@ -11,21 +11,21 @@ Package: vcpkg-cmake-config
 Version: 2024-05-23
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 4ab085b19f8322b0a5ddbf39cbae87bcdd39dfed51e4266c8e3aeb14a642c9dd
+Abi: 04d175d7eb1a221bc082495fb42e6c6dadc17ef322a3de42af48eb3912aa9cb2
 Status: install ok installed
 
 Package: vcpkg-cmake
 Version: 2024-04-23
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 6920797aac074e5bd1c383926983c156dfdcc38eba3ff16379f0a2c42fe602f2
+Abi: dc9e7ef41c74971d1d9ea05a539f5e868595eeb89628e5bc17173c5e3b1a3e12
 Status: install ok installed
 
 Package: egl-registry
 Version: 2024-01-25
 Architecture: x64-windows
 Multi-Arch: same
-Abi: cbc69ed935081e56e27c1d601a3e14a0da38bab3fab7ba69da28847aae38bfb7
+Abi: 4406084357f856bbf4524ef12fed3000c8813b36ca8abff6bb3a4f3216c57bb7
 Description: EGL API and Extension Registry
 Status: install ok installed
 
@@ -35,7 +35,7 @@ Port-Version: 1
 Depends: egl-registry
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 13939a95cf867330e057c466d01d8fc84cb6520d13c7eb8b6b246de2c6e03a8a
+Abi: 21977a5c90fa2b05dd8fa5ebd88c42b40f645eef032f219dd518e28866d1ad66
 Description: OpenGL, OpenGL ES, and OpenGL ES-SC API and Extension Registry
 Status: install ok installed
 
@@ -44,7 +44,7 @@ Version: 0.1.36
 Depends: egl-registry, opengl-registry, vcpkg-cmake, vcpkg-cmake-config
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 19bcebba8aa047d461350dc421faa5f481eaa58a53ff6d213a5ed9b02811a061
+Abi: 3231a8fcadbc088a19f983bb36a6d808a357b16a8661fd9ca258464583015361
 Description: Multi-Language Vulkan/GL/GLES/EGL/GLX/WGL Loader-Generator based on the official specs.
 Default-Features: loader
 Status: install ok installed
@@ -195,7 +195,7 @@ Port-Version: 3
 Depends: vcpkg-cmake, vcpkg-cmake-config
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 3492fa64b50f01438ac524cbd7fd15f33238bb84f16672a3052b216dd94e2321
+Abi: 98606927f73841a9433b6a20d05280f7617c9d6e52307b2c26ae8ab297c217dc
 Description: OpenGL Mathematics (GLM)
 Status: install ok installed
 
@@ -205,7 +205,7 @@ Port-Version: 3
 Depends: opengl-registry
 Architecture: x64-windows
 Multi-Arch: same
-Abi: b00988a813e7623d85b65785f06db75108662938d0de0ae5c5226697c094e2e7
+Abi: eeb9f1365dd1fd73409bc7c112fbc1f9a81133779ff5e93139d17c45ed4ad7e5
 Description: Open Graphics Library (OpenGL)[3][4][5] is a cross-language, cross-platform application programming interface (API) for rendering 2D and 3D vector graphics.
 Status: install ok installed
 
@@ -217,7 +217,7 @@ Architecture: x64-windows
 Multi-Arch: same
 Abi: ca9a9eaa2a54ef20b571240f636af1936c0b3b9e7290dbe111117412d9091328
 Description: Simple OpenGL Image Library 2
-Status: install ok installed
+Status: purge ok not-installed
 
 Package: eabase
 Version: 2.09.12
@@ -244,7 +244,7 @@ Port-Version: 1
 Depends: vcpkg-cmake, vcpkg-cmake-config
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 12f9e84efeaab1cdacadae9751610018e8b1afcf1339bfdf7bd47e7466acc281
+Abi: 453d5b499a995127ebb28cb213ff248831b2854aaf300dae33f3e21d6188b626
 Description: {fmt} is an open-source formatting library providing a fast and safe alternative to C stdio and C++ iostreams.
 Status: install ok installed
 
@@ -254,7 +254,7 @@ Port-Version: 1
 Depends: fmt, vcpkg-cmake, vcpkg-cmake-config
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 07ca25193131309d4d4b1e55e3e664e7f048312255adae0a8bccf3cb9416bf5a
+Abi: 0e1ae1684b4257513035239577aa478ec89e6223c9a57d1ea2165b4b04d9d1a5
 Description: Very fast, header-only/compiled, C++ logging library.
 Status: install ok installed
 
@@ -264,7 +264,7 @@ Port-Version: 1
 Depends: vcpkg-cmake, vcpkg-cmake-config
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 71556d1ae63b507c2befc88ddad92c4959437abbfdb5cd65b741600b1a214cc0
+Abi: a1353bec0da868c6958ab1f809ac03261f1d5133a2139543c25e5011cf9bbc82
 Description: Navigation-mesh Toolset for Games
 Status: install ok installed
 
@@ -317,4 +317,13 @@ Architecture: x64-windows
 Multi-Arch: same
 Abi: e76276818b8f52a6f471ea6c5994a70ef4b7a5bc7524324471be58109ff767fa
 Status: purge ok not-installed
+
+Package: stb
+Version: 2024-07-29
+Port-Version: 1
+Architecture: x64-windows
+Multi-Arch: same
+Abi: 6ad20ecad119fa5bcbbb277bc5b482c3fb2ebd8023cedc7441c5b427e5197d5c
+Description: public domain header-only libraries
+Status: install ok installed
 
