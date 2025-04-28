@@ -13,5 +13,6 @@
     "stb",
     "sdl3",
     "sdl3-image"
-  ]
+  ],
+  "builtin-baseline": "96d5fb3de135b86d7222c53f2352ca92827a156b"
 }
