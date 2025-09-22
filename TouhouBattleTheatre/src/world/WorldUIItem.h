@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 
 enum WorldUIState
 {
@@ -28,6 +29,9 @@ public:
 
 
 private:
+
+	std::string _name = "Unamed WorldUI";
+
 	WorldUIState _state = inactive;
 	WorldUIShape _shape = rectangle;
 

@@ -2,6 +2,7 @@
 
 WorldUIItem::WorldUIItem()
 {
+	// 创建UIItem时默认状态为inactive
 }
 
 WorldUIItem::~WorldUIItem()

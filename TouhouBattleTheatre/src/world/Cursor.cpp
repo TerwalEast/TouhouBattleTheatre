@@ -60,8 +60,8 @@ void Cursor::Render()
 
 void Cursor::Update(const float delta)
 {
-	float x, y;
-	SDL_GetMouseState(&x, &y);
+	//float x, y;
+	//SDL_GetMouseState(&x, &y);
 	//_updateCursorPos(x, y);
 }
 

@@ -81,6 +81,7 @@ int TestApplication::run()
     //SDL_SetWindowMouseGrab(window, true);
     //SDL_SetWindowRelativeMouseMode(window, true);
 	SDL_SetWindowResizable(window, true);
+	//SDL_HideCursor();
     //SDL_SetWindowFullscreen(window, true);
     //SDL_ShowCursor();
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
