@@ -27,17 +27,10 @@ public:
 	void Render();
 	bool isWithinUIElement(int x, int y);
 
-
 private:
-
 	std::string _name = "Unamed WorldUI";
-
 	WorldUIState _state = inactive;
 	WorldUIShape _shape = rectangle;
-
 	float _hoverTime = 0.0f;
-
-	
-
 };
 

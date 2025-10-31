@@ -2,7 +2,7 @@
 
 #include "TestApplication.h"
 
-#include "world/WorldMap.h"
+#include "WorldMap/WorldMap.h"
 
 #include <SDL3/SDL.h>
 
@@ -12,8 +12,7 @@
 
 using namespace std;
 
-SDL_Window* window = nullptr;
-
+// The message_callback remains unchanged as it's a free function.
 void message_callback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, GLchar const* message, void const* user_param)
 {
     auto const src_str = [source]() {
@@ -52,66 +51,85 @@ void message_callback(GLenum source, GLenum type, GLuint id, GLenum severity, GL
     spdlog::warn("{}, {}, {}, {}, {}", src_str, type_str, severity_str, id, message);
 }
 
-int TestApplication::run()
+TestApplication::TestApplication() 
 {
+    std::string target = SDL_GetBasePath();
+    BasePath = target + "res/";
     spdlog::set_level(spdlog::level::debug);
+    spdlog::warn("BasePath inited, BasePath = {}", BasePath);
+}
+
+TestApplication::~TestApplication()
+{
+    Cleanup();
+}
+
+bool TestApplication::Init()
+{
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0)
     {
         spdlog::error("Failed to init SDL. SDL_Error : {}", SDL_GetError());
         return false;
     }
-    else
-    {
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
-        window = SDL_CreateWindow("東方夢鬥劇 ～ Touhou Battle Theatre", WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
-        if (window == NULL)
-        {
-            spdlog::error("Window creation failed. SDL_Error: {}", SDL_GetError());
-            return false;
-        }
-        spdlog::info("Window init success, Basepath: {}", SDL_GetBasePath());
-        
-    }
 
-    SDL_GLContext context = SDL_GL_CreateContext(window);
-    SDL_GL_MakeCurrent(window, context);
-    //SDL_SetWindowMouseGrab(window, true);
-    //SDL_SetWindowRelativeMouseMode(window, true);
-	SDL_SetWindowResizable(window, true);
-	//SDL_HideCursor();
-    //SDL_SetWindowFullscreen(window, true);
-    //SDL_ShowCursor();
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
+    _window = SDL_CreateWindow("東方夢鬥劇 ～ Touhou Battle Theatre", _screenWidth, _screenHeight, SDL_WINDOW_OPENGL);
+    if (_window == nullptr)
+    {
+        spdlog::error("Window creation failed. SDL_Error: {}", SDL_GetError());
+        return false;
+    }
+    spdlog::info("Window init success, Basepath: {}", SDL_GetBasePath());
+
+    SDL_GLContext context = SDL_GL_CreateContext(_window);
+    SDL_GL_MakeCurrent(_window, context);
+    SDL_SetWindowResizable(_window, true);
+
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
     {
         spdlog::error("Failed to initialize GLAD");
         return false;
     }
 
-    Uint8* KeyStates = (Uint8*)SDL_GetKeyboardState(NULL);
-
     glEnable(GL_DEBUG_OUTPUT);
     glEnable(GL_CULL_FACE);
-    //glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     glEnable(GL_BLEND);
     glEnable(GL_DEPTH_CLAMP);
-
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    //glAlphaFunc(GL_GREATER, 0.1);
     glDebugMessageCallback(message_callback, nullptr);
+
+    return true;
+}
+
+void TestApplication::Cleanup()
+{
+    if (_window)
+    {
+        SDL_DestroyWindow(_window);
+        _window = nullptr;
+    }
+    SDL_Quit();
+}
+
+int TestApplication::run()
+{
+    if (!Init())
+    {
+        return -1; // Indicate initialization failure
+    }
+
+    Uint8* KeyStates = (Uint8*)SDL_GetKeyboardState(NULL);
 
 	WorldMap worldMap = WorldMap();
 
     //------------------------------------------------
     // Main Loop
     //------------------------------------------------
-    worldMap.Start(window, KeyStates);
-
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    worldMap.Start(_window, KeyStates);
 
     return 0;
 }
@@ -120,11 +138,4 @@ TestApplication& TestApplication::GetInstance()
 {
     static TestApplication ta;
     return ta;
-}
-
-TestApplication::TestApplication() 
-{
-    std::string target = SDL_GetBasePath();
-    BasePath = target + "res/";
-    spdlog::warn("BasePath inited, BasePath = {}", BasePath);
 }

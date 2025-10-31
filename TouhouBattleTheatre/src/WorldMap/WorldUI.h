@@ -33,10 +33,5 @@ private:
 	std::vector<WorldUIItem> _uiItems; //后创建的UIItem优先级更高
 
 	void _handleClick(SDL_Event mouse_event);
-	void _handleHover();
 	void _updateUIItems(const float delta);
-
-	
-
-	
 };

@@ -9,6 +9,5 @@
 
 int main()
 {
-	TestApplication::run();
-	return 0;
+	return TestApplication::GetInstance().run();
 }

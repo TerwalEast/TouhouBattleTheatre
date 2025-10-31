@@ -54,4 +54,6 @@ private:
 	bool _click = false;
 	float wheel = 0.0f;
 	StageState _state = command;
+
+	//ActorManager _actorManager;
 };

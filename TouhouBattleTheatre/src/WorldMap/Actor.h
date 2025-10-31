@@ -4,8 +4,6 @@
 
 #include <vector>
 
-
-
 struct Actor_Movement
 {
 	//-1 means out of map
@@ -13,7 +11,7 @@ struct Actor_Movement
 	unsigned int _locationY;
 
 	unsigned int _remainingActionPoints = 0;
-	unsigned int _maxActionPoints = 0; //0 means the actor is passive, will neither move nor act
+	unsigned int _maxActionPoints = 0; //最大行动点为0代表棋子是被动棋子，永远不会主动行动
 
 	bool _moveable = false;
 	bool _isFloating = false;
@@ -35,10 +33,8 @@ struct Actor_UI
 };
 
 
-
-
 /**
-* @brief Base class for all actors in the worldmap
+* @brief 地图可动棋子的父类.
 */
 class Actor
 {
@@ -67,8 +63,9 @@ public:
 	void RemoveActor(Actor* actor);
 	void UpdateActors(const float delta);
 	void RenderActors();
-	void HandleInputActors();
+	void HandleInputActors(); //处理所有Actor的输入，输入点击格子的坐标
 private:
+	std::vector<Actor*> _actors;
 
 
 };

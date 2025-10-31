@@ -10,24 +10,33 @@
 #define WINDOW_WIDTH 2400
 #define WINDOW_HEIGHT 1100
 
-
 class TestApplication {
 public:
-	static int run();
 	static TestApplication& GetInstance();
-	std::string BasePath;
-	int GetScreenWidth() { return screen_width; }
-	int GetScreenHeight() { return screen_height; }
-	void SetScreenSize(int width, int height) {
-		screen_width = width;
-		screen_height = height;
-	}
-private:
-	TestApplication();
-	~TestApplication() {};
+
 	TestApplication(TestApplication const&) = delete;
 	void operator=(TestApplication const&) = delete;
-	bool quiting = false;
-	int screen_width = WINDOW_WIDTH;
-	int screen_height = WINDOW_HEIGHT;
+
+	int run();
+
+	std::string BasePath;
+	int GetScreenWidth() const { return _screenWidth; }
+	int GetScreenHeight() const { return _screenHeight; }
+	void SetScreenSize(int width, int height) {
+		_screenWidth = width;
+		_screenHeight = height;
+	}
+
+private:
+	TestApplication();
+	~TestApplication();
+
+	bool Init();
+	void Cleanup();
+
+	bool _quiting = false;
+	int _screenWidth = WINDOW_WIDTH;
+	int _screenHeight = WINDOW_HEIGHT;
+
+	SDL_Window* _window = nullptr;
 };
