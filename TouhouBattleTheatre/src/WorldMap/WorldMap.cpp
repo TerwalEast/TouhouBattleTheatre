@@ -1,10 +1,6 @@
 #include "WorldMap.h"
 #include "../ShaderManager.h"
-#include "../TextureManager.h"
-
-#include <stb_image.h>
-#include <spdlog/spdlog.h>
-
+#include "../TextureLoader.h"
 
 WorldMap::WorldMap() 
 {
@@ -122,7 +118,7 @@ void WorldMap::HandleInput(Uint8* KeyStates)
 
 WorldMapBackGround::WorldMapBackGround()
 {
-	_backgroundTexture = Texture_Load(GET_TEXTURE_PATH(background.jpg));
+	_backgroundTexture = TextureLoader::Load("background.jpg");
 	glCreateBuffers(1, &_vbo);
 
 	float _vertices[20] = {

@@ -12,7 +12,6 @@
 
 using namespace std;
 
-// The message_callback remains unchanged as it's a free function.
 void message_callback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, GLchar const* message, void const* user_param)
 {
     auto const src_str = [source]() {
@@ -86,11 +85,11 @@ bool TestApplication::Init()
 
     SDL_GLContext context = SDL_GL_CreateContext(_window);
     SDL_GL_MakeCurrent(_window, context);
-    SDL_SetWindowResizable(_window, true);
+    SDL_SetWindowResizable(_window, false);
 
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
     {
-        spdlog::error("Failed to initialize GLAD");
+        spdlog::error("GLAD初始化失败，无法启动");
         return false;
     }
 

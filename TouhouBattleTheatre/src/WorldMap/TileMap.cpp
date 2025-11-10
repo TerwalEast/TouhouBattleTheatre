@@ -1,6 +1,6 @@
 #include "TileMap.h"
 
-#include "../TextureManager.h"
+#include "../TextureLoader.h"
 #include "../ShaderManager.h"
 
 #include <stb_image.h>
@@ -86,8 +86,8 @@ TileMap::TileMap()
 	_tiles = new TerrainTile[(_walkableMapSizeX + 2) * (_walkableMapSizeY + 2)];
 
 	//Load Texture Atlas as texture array
-	_tilesheetTexture = Texture_LoadTileAtlas(GET_TEXTURE_PATH(grass_atlas.png), 32, 32);
-
+	_tilesheetTexture = TextureLoader::LoadTileAtlas("grass_atlas.png", 32, 32);
+	
 	//Create VAO for tile map
 	_vao = _bakeVAO(_walkableMapSizeX, _walkableMapSizeY);
 }

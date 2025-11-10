@@ -1,6 +1,6 @@
 #include "Cursor.h"
 #include "../ShaderManager.h"
-#include "../TextureManager.h"
+#include "../TextureLoader.h"
 
 #include <spdlog/spdlog.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -21,7 +21,11 @@ namespace {
 
 Cursor::Cursor()
 {
-	_cursorTexture = Texture_Load(GET_TEXTURE_PATH(Cursor.png));
+	_cursorTexture = TextureLoader::Load("cursor/cursor.png");
+	_selectTexture = TextureLoader::Load("cursor/select.png");
+	_pathTexture = TextureLoader::Load("cursor/path.png");
+	_targetTexture = TextureLoader::Load("cursor/target.png");
+
 	glCreateBuffers(1, &_vbo);
 	glNamedBufferStorage(_vbo, sizeof(VERTICES), VERTICES, 0); // Removed GL_DYNAMIC_STORAGE_BIT as it's not dynamic
 
@@ -62,6 +66,7 @@ void Cursor::Render()
 	glBindVertexArray(_vao);
 	glBindTextureUnit(0, _cursorTexture);
 
+
 	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(_cursorTileX * TILE_SIZE, 0.0f, _cursorTileY * TILE_SIZE));
 
 	shaderManager.SetUniform("actor", "model", UniformType::MAT4, (void*)&model);
@@ -79,7 +84,14 @@ void Cursor::Update(const float delta)
 
 void Cursor::HandleInput()
 {
-
+	if (_state == CursorState::CURSOR_DEFAULT)
+	{
+		_state = CursorState::CURSOR_SELECT;
+	}
+	else
+	{
+		_state = CursorState::CURSOR_DEFAULT;
+	}
 }
 
 void Cursor::UpdateCursorPos(const float mouse_x, const float mouse_y, const float camera_x, const float camera_y, const float zoom, const float screen_width, const float screen_height, const float view_width, const float view_height)

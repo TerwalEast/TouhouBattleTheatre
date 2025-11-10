@@ -5,7 +5,7 @@
 # 将源代码添加到此项目的可执行文件。
 add_executable (TouhouBattleTheatre "TouhouBattleTheatre.cpp" "TouhouBattleTheatre.h"
 "src/lib/stb_image.cpp" "src/lib/stb_truetype.cpp" 
-"src/Terrain.h" "src/Terrain.cpp" "src/TestApplication.cpp" "src/TestApplication.h" "src/Touhou.h" "src/ShaderManager.h" "src/ShaderManager.cpp" "src/MapTool.h" "src/MapTool.cpp" "src/Stage.h" "src/Event.h" "src/Scenario.h" "src/TextureManager.h" 
+"src/Terrain.h" "src/Terrain.cpp" "src/TestApplication.cpp" "src/TestApplication.h" "src/Touhou.h" "src/ShaderManager.h" "src/ShaderManager.cpp" "src/MapTool.h" "src/MapTool.cpp" "src/Stage.h" "src/Event.h" "src/Scenario.h" "src/TextureManager.h" "src/TextureLoader.h" "src/TextureLoader.cpp"
 "src/Camera/Camera.h" "src/Camera/RTSCameraController.h" "src/Camera/DebugCameraController.h" "src/Camera/OrthoCameraController.h"
 "src/WorldMap/WorldMap.h" "src/WorldMap/WorldMap.cpp" "src/WorldMap/TileMap.h" "src/WorldMap/TileMap.cpp" "src/WorldMap/Actor.h" "src/WorldMap/Explorer.h" "src/WorldMap/Explorer.cpp" "src/WorldMap/Roamer.h" "src/WorldMap/Cursor.h" "src/WorldMap/Cursor.cpp" "src/WorldMap/WorldUI.h" "src/WorldMap/WorldUI.cpp" "src/WorldMap/WorldUIItem.h" "src/WorldMap/WorldUIItem.cpp" "src/WorldMap/Actor.cpp")
 

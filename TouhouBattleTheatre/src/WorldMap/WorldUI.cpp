@@ -1,10 +1,18 @@
 #include "WorldUI.h"
 #include "../TestApplication.h"
+#include <spdlog/spdlog.h>
 
 WorldUI::WorldUI() : _cameraController(TestApplication::GetInstance().GetScreenWidth() * 0.1,
 										TestApplication::GetInstance().GetScreenHeight() * 0.1,
 										glm::vec3(0.0f, -100.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f)
-{}
+{
+	auto testButton = std::make_unique<WorldUIItem>(glm::vec2(100, 100), glm::vec2(200, 50));
+	testButton->OnClick = []() {
+		spdlog::info("Button clicked!");
+	};
+	testButton->ConsumeClick = true;
+	_uiItems.push_back(std::move(testButton));
+}
 
 WorldUI::~WorldUI()
 {}
@@ -15,15 +23,15 @@ void WorldUI::_handleClick(SDL_Event mouse_event)
 	{
 		if (mouse_event.button.button == SDL_BUTTON_LEFT)
 		{
-			for (auto& item : _uiItems)
+			for (auto it = _uiItems.rbegin(); it != _uiItems.rend(); ++it)
 			{
-				if (item.ConsumeClick)
+				auto& item = *it;
+				if (item->isWithinUIElement(_cursorPosX, _cursorPosY))
 				{
-					if (item.isWithinUIElement(_cursorPosX, _cursorPosY))
+					if (item->ConsumeClick)
 					{
-						spdlog::info("Clicked on UI Element");
-						// Handle left click
-						break; // 通常点击后应中断循环
+						item->Click(); // 触发点击事件
+						break; // 事件被消耗，则停止传递
 					}
 				}
 			}
@@ -50,7 +58,7 @@ void WorldUI::_updateUIItems(const float delta)
 {
 	for (auto& item : _uiItems)
 	{
-		item.Update(delta);
+		item->Update(delta);
 	}
 }
 
@@ -76,7 +84,7 @@ void WorldUI::HandleInput(Uint8* KeyStates)
 		{
 			_handleClick(event);
 		}
-		if (event.type == SDL_EVENT_WINDOW_RESIZED)
+		if (event.type == SDL_EVENT_WINDOW_RESIZED) //测试用，运行时禁止动态调整窗口大小
 		{
 			TestApplication::GetInstance().SetScreenSize(event.window.data1, event.window.data2);
 			_cameraController.SetViewPort(event.window.data1 * 0.1, event.window.data2 * 0.1);
@@ -147,7 +155,7 @@ void WorldUI::Render()
 {
 	for (auto& item : _uiItems)
 	{
-		item.Render();
+		item->Render();
 	}
 	_cursor.Render();
 }

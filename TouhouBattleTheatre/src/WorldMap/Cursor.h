@@ -2,7 +2,13 @@
 
 #include "../../TouhouBattleTheatre.h"
 
-
+enum CursorState
+{
+	CURSOR_DEFAULT,
+	CURSOR_SELECT,
+	CURSOR_TARGET,
+	CURSOR_PATH
+};
 
 class Cursor
 {
@@ -16,9 +22,13 @@ public:
 	glm::vec2 GetCursorPos();
 private:
 	GLuint _cursorTexture;
+	GLuint _selectTexture;
+	GLuint _targetTexture;
+	GLuint _pathTexture;
 	GLuint _vao;
 	GLuint _vbo;
 	unsigned int _cursorTileX = 0;
 	unsigned int _cursorTileY = 0;
+	CursorState _state = CURSOR_DEFAULT;
 
 };

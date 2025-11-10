@@ -25,7 +25,7 @@ bool ShaderManager::CompileShader(ShaderInfo shaderInfo)
 {
 	if (_shaderMap.contains(shaderInfo.shaderCode))
 	{
-		spdlog::info("Shader {} is already inited", shaderInfo.shaderCode);
+		spdlog::info("着色器 {} 已经初始化过了。请检查资源名。", shaderInfo.shaderCode);
 		return true;
 	}
 
@@ -46,18 +46,17 @@ bool ShaderManager::CompileShader(ShaderInfo shaderInfo)
 	shaderIDList.reserve(compileList.size());
 
 	// Base path once
-	std::filesystem::path basePath = TestApplication::GetInstance().BasePath;
-	std::filesystem::path shaderBase = basePath / "shader";
+	std::filesystem::path shaderBase = std::filesystem::path("res/shader");
 
 	for (const auto& code : compileList)
 	{
 		std::filesystem::path filePath = shaderBase / code / (shaderInfo.shaderCode + "." + code);
-		spdlog::debug("Path is {}", filePath.string());
+		//spdlog::debug("Path is {}", filePath.string());
 
 		std::ifstream file(filePath, std::ios::binary);
 		if (!file.is_open())
 		{
-			spdlog::warn("File {} failed to load!", filePath.string());
+			//spdlog::warn("File {} failed to load!", filePath.string());
 			glDeleteProgram(shaderProgramID);
 			return false;
 		}
@@ -196,8 +195,7 @@ bool ShaderManager::CompileShader(ShaderInfo shaderInfo)
 
 			uniformInfo.type = uniformType;
 			shaderProgram.uniformMap.emplace(uniformName, uniformInfo);
-			spdlog::debug("Got a uniform. Name:[{}], Shader ID:[{}], Location:[{}], ArraySize: [{}], type: [{}]",
-				uniformName, shaderProgramID, uniformInfo.location, size, (int)uniformType);
+			//spdlog::debug("Got a uniform. Name:[{}], Shader ID:[{}], Location:[{}], ArraySize: [{}], type: [{}]",uniformName, shaderProgramID, uniformInfo.location, size, (int)uniformType);
 		}
 	}
 
@@ -214,7 +212,7 @@ bool ShaderManager::CompileShader(ShaderInfo shaderInfo)
 			GLsizei nameLength = 0;
 			glGetActiveUniformBlockName(shaderProgramID, i, nameMaxLengthUB, &nameLength, ubNameBuf.data());
 			std::string ubName(ubNameBuf.data(), static_cast<size_t>(nameLength));
-			spdlog::debug("Got a uniform block. Name:[{}], Shader ID:[{}]", ubName, shaderProgramID);
+			//spdlog::debug("Got a uniform block. Name:[{}], Shader ID:[{}]", ubName, shaderProgramID);
 
 			if (!_uniformBlockMap.contains(ubName))
 			{
@@ -224,8 +222,7 @@ bool ShaderManager::CompileShader(ShaderInfo shaderInfo)
 
 				GLint blockSize = 0;
 				glGetActiveUniformBlockiv(shaderProgramID, i, GL_UNIFORM_BLOCK_DATA_SIZE, &blockSize);
-				spdlog::debug("New uniform block: [{}], assigned to binding point [{}], block size is [{}]",
-					ubName, bindingPoint, blockSize);
+				//spdlog::debug("New uniform block: [{}], assigned to binding point [{}], block size is [{}]",ubName, bindingPoint, blockSize);
 
 				GLuint uniformBufferID = 0;
 				glCreateBuffers(1, &uniformBufferID);
@@ -240,7 +237,7 @@ bool ShaderManager::CompileShader(ShaderInfo shaderInfo)
 			}
 			else
 			{
-				spdlog::debug("Uniform block [{}] already exists in uniform block map", ubName);
+				spdlog::debug("Uniform块 [{}] 已经存在。", ubName);
 			}
 		}
 	}
@@ -350,19 +347,15 @@ bool ShaderManager::SetUniformBlock(const std::string& uniformBlockName, const v
 
 void ShaderManager::_initShaderInfoList()
 {
-	std::filesystem::path path = TestApplication::GetInstance().BasePath;
-	path /= "shader";
-	path /= "vert";
+	std::filesystem::path path = std::filesystem::path("res/shader/vert");
 
 	for (auto const& entry : std::filesystem::directory_iterator(path))
 	{
 		std::string code = entry.path().filename().stem().string();
-		spdlog::debug("Scanned shader code: [{}]", code);
+		spdlog::debug("扫描到了着色器名: [{}]", code);
 		ShaderInfo shaderInfo;
 		shaderInfo.shaderCode = code;
-		std::filesystem::path geomPath = TestApplication::GetInstance().BasePath;
-		geomPath /= "shader";
-		geomPath /= "geom";
+		std::filesystem::path geomPath = std::filesystem::path("res/shader/geom");
 		geomPath /= code + ".geom";
 		if (std::filesystem::exists(geomPath))
 			shaderInfo.hasGeom = true;
