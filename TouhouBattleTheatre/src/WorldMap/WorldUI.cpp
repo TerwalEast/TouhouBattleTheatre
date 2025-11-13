@@ -1,21 +1,51 @@
 #include "WorldUI.h"
 #include "../TestApplication.h"
 #include <spdlog/spdlog.h>
+#include <algorithm>
 
 WorldUI::WorldUI() : _cameraController(TestApplication::GetInstance().GetScreenWidth() * 0.1,
 										TestApplication::GetInstance().GetScreenHeight() * 0.1,
 										glm::vec3(0.0f, -100.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f)
 {
-	auto testButton = std::make_unique<WorldUIItem>(glm::vec2(100, 100), glm::vec2(200, 50));
+	// 构造函数中的测试按钮现在也使用新机制创建
+	auto testButton = std::make_shared<WorldUIItem>( glm::vec2(0.0f, 0.0f), 
+		glm::vec2(	TestApplication::GetInstance().GetScreenWidth(), 
+					TestApplication::GetInstance().GetScreenHeight()));
 	testButton->OnClick = []() {
-		spdlog::info("Button clicked!");
+		spdlog::info("兜底测试按钮接收到点击！");
+
 	};
 	testButton->ConsumeClick = true;
-	_uiItems.push_back(std::move(testButton));
+	// 注意：这里直接调用注册函数，但为了演示，我们保留一个shared_ptr。
+	// 在实际使用中，这个shared_ptr可能由另一个对象持有。
+	// 为防止此处的testButton立即失效，我们需要一个地方持有它。
+	// 在这个例子中，我们暂时不处理，因为重点是展示注册机制。
+	// 更好的做法是在一个管理器中持有它。
+	this->RegisterUIItem(testButton);
 }
 
 WorldUI::~WorldUI()
 {}
+
+void WorldUI::RegisterUIItem(std::shared_ptr<WorldUIItem> item)
+{
+	if (item)
+	{
+		// 添加到UI项列表
+		_uiItems.push_back(item);
+	}
+}
+
+void WorldUI::UnregisterUIItem(const std::shared_ptr<WorldUIItem>& item)
+{
+	std::erase_if(_uiItems, [&](const std::weak_ptr<WorldUIItem>& weak_item) {
+		if (weak_item.expired()) {
+			return true;
+		}
+		return weak_item.lock() == item;
+	});
+}
+
 
 void WorldUI::_handleClick(SDL_Event mouse_event)
 {
@@ -23,15 +53,18 @@ void WorldUI::_handleClick(SDL_Event mouse_event)
 	{
 		if (mouse_event.button.button == SDL_BUTTON_LEFT)
 		{
+			// 从后往前遍历，因为后添加的UI在更上层
 			for (auto it = _uiItems.rbegin(); it != _uiItems.rend(); ++it)
 			{
-				auto& item = *it;
-				if (item->isWithinUIElement(_cursorPosX, _cursorPosY))
+				if (auto item = it->lock()) 
 				{
-					if (item->ConsumeClick)
+					if (item->isWithinUIElement(_cursorPosX, _cursorPosY))
 					{
-						item->Click(); // 触发点击事件
-						break; // 事件被消耗，则停止传递
+						if (item->ConsumeClick)
+						{
+							item->Click(); // 触发点击事件
+							break; // 事件被消耗，则停止传递
+						}
 					}
 				}
 			}
@@ -58,8 +91,15 @@ void WorldUI::_updateUIItems(const float delta)
 {
 	for (auto& item : _uiItems)
 	{
-		item->Update(delta);
+		if (auto weak_item = item.lock())
+		{
+			weak_item->Update(delta);
+		}
 	}
+
+	std::erase_if(_uiItems, [](const std::weak_ptr<WorldUIItem>& item) {
+		return item.expired();
+	});
 }
 
 void WorldUI::HandleInput(Uint8* KeyStates)
@@ -107,7 +147,7 @@ void WorldUI::HandleInput(Uint8* KeyStates)
 	//handle cursor on edge
 	const float screenWidth = TestApplication::GetInstance().GetScreenWidth();
 	const float screenHeight = TestApplication::GetInstance().GetScreenHeight();
-	const float edgeRegionSize = 0.1f; // 10% of the screen dimension
+	const float edgeRegionSize = 0.05f; // 5%
 
 	const float edgeLeft = screenWidth * edgeRegionSize;
 	const float edgeRight = screenWidth * (1.0f - edgeRegionSize);
@@ -141,21 +181,33 @@ void WorldUI::HandleInput(Uint8* KeyStates)
 		_cameraController.Movement(movement);
 }
 
-void WorldUI::Update(const float delta)
-{
-	_cameraController.Update(delta);
-	_cursor.UpdateCursorPos(_cursorPosX, _cursorPosY, _cameraController.GetPosition().x,
-		_cameraController.GetPosition().z, _cameraController.GetZoom(),
-		TestApplication::GetInstance().GetScreenWidth(), TestApplication::GetInstance().GetScreenHeight(),
-		_cameraController.GetViewWidth(), _cameraController.GetViewHeight());
-	this->_updateUIItems(delta);
-}
 
 void WorldUI::Render()
 {
-	for (auto& item : _uiItems)
+	for (auto& weak_item : _uiItems)
 	{
-		item->Render();
+		if (auto item = weak_item.lock()) 
+		{
+			item->Render();
+		}
 	}
 	_cursor.Render();
 }
+
+void WorldUI::Update(const float delta)
+{
+	_cameraController.Update(delta);
+
+	CameraParams params;
+	params.camera_x = _cameraController.GetPosition().x;
+	params.camera_y = _cameraController.GetPosition().z; // 注意：世界坐标的 Y 值来自相机的 Z 值
+	params.view_width = _cameraController.GetViewWidth();
+	params.view_height = _cameraController.GetViewHeight();
+	params.screen_width = TestApplication::GetInstance().GetScreenWidth();
+	params.screen_height = TestApplication::GetInstance().GetScreenHeight();
+
+	_cursor.UpdateCursorPos(_cursorPosX, _cursorPosY, params);
+
+	this->_updateUIItems(delta);
+}
+

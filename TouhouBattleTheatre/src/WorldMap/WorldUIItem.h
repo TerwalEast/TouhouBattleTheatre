@@ -27,9 +27,10 @@ public:
 
 	// 事件回调
 	std::function<void()> OnClick;
+	void SetClickAction(std::function<void()> action) { OnClick = action; }
 
 	virtual void Update(const float delta);
-	virtual void Render();
+	virtual void Render() {};
 	bool isWithinUIElement(int x, int y);
 
 	// 触发点击事件

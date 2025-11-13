@@ -8,7 +8,7 @@ namespace TextureLoader
 
 GLuint Load(std::string_view filePath)
 {
-	spdlog::info("读取材质文件中，相对路径为 {}", filePath.data());
+	spdlog::info("读取材质文件中，相对路径为 {} ", filePath.data());
 	stbi_set_flip_vertically_on_load(true);
 
 	std::filesystem::path path = std::filesystem::path("res") / "texture" / filePath;

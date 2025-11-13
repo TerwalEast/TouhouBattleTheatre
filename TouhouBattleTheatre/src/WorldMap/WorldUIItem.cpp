@@ -1,4 +1,5 @@
 #include "WorldUIItem.h"
+#include <spdlog/spdlog.h>
 
 WorldUIItem::WorldUIItem(const glm::vec2& position, const glm::vec2& size)
 	: _position(position), _size(size)
@@ -24,13 +25,9 @@ void WorldUIItem::Update(const float delta)
 
 }
 
-void WorldUIItem::Render()
-{
-	// TODO
-}
-
 bool WorldUIItem::isWithinUIElement(int x, int y)
 {
+	//spdlog::debug("Checking if point ({}, {}) is within UI element '{}' at position ({}, {}) with size ({}, {})", x, y, _name, _position.x, _position.y, _size.x, _size.y);
 	switch (_shape)
 	{
 	case rectangle:

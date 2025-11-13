@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Camera.h"
-#include <glm/gtx/norm.hpp> // For glm::distance2
+#include <glm/gtx/norm.hpp> 
+#include <glm/common.hpp> 
 
 // 使用常量定义方向向量
 static const glm::vec3 RIGHT(1.0f, 0.0f, 0.0f);
@@ -26,7 +27,9 @@ public:
 		_targetZoom(zoom),
 		// 设置插值速度
 		_moveLerpFactor(5.5f),
-		_zoomLerpFactor(5.5f)
+		_zoomLerpFactor(5.5f),
+		// 设置镜头限制范围
+		_viewLimits( 0.0f, 100.0f, 0.0f, 200.0f)
 	{
 		_updateCamera();
 	}
@@ -35,8 +38,15 @@ public:
 	{
 		bool needsUpdate = false;
 
+		// 限制位置范围
+		_targetLookAt.x = glm::clamp(_targetLookAt.x, _viewLimits.x, _viewLimits.y);
+		_targetLookAt.z = glm::clamp(_targetLookAt.z, _viewLimits.z, _viewLimits.w);
+		_targetPosition.x = _targetLookAt.x;
+		_targetPosition.z = _targetLookAt.z;
+
+
 		// 平滑移动位置
-		if (glm::distance2(_position, _targetPosition) > 0.00001f)
+		if (glm::distance2(_position, _targetPosition) > 0.0001f)
 		{
 			// Lerp
 			_position += (_targetPosition - _position) * _moveLerpFactor * dt;
@@ -48,7 +58,7 @@ public:
 		}
 
 		// 平滑移动视点
-		if (glm::distance2(_lookAt, _targetLookAt) > 0.00001f)
+		if (glm::distance2(_lookAt, _targetLookAt) > 0.0001f)
 		{
 			_lookAt += (_targetLookAt - _lookAt) * _moveLerpFactor * dt;
 			needsUpdate = true;
@@ -139,6 +149,8 @@ private:
 	glm::vec3 _position;
 	glm::vec3 _lookAt;
 	glm::vec3 _up;
+
+	glm::vec4 _viewLimits; // xMin, xMax, zMin, zMax
 
 	float _viewWidth;
 	float _viewHeight;

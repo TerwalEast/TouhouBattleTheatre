@@ -1,36 +1,34 @@
 #pragma once
-
-#include "../../TouhouBattleTheatre.h"
-
-#include "../Stage.h"
-
-#include "Cursor.h"
 #include "WorldUIItem.h"
-#include "../camera/OrthoCameraController.h"
+#include "../Camera/OrthoCameraController.h"
+#include "Cursor.h"
+#include <vector>
+#include <memory>
 
-#include <SDL3/SDL_events.h>
-#include <memory> 
-
-
-class WorldUI 
+class WorldUI
 {
 public:
 	WorldUI();
 	~WorldUI();
-	
+
 	void HandleInput(Uint8* KeyStates);
 	void Update(const float delta);
 	void Render();
+
+	void RegisterUIItem(std::shared_ptr<WorldUIItem> item);
+	void UnregisterUIItem(const std::shared_ptr<WorldUIItem>& item);
+
 	bool ExitFlag = false;
-
 private:
-	Cursor _cursor;
-	OrthoCameraController _cameraController;
-
-	float _cursorPosX = 0, _cursorPosY = 0;
-	bool _cursorMovedInLastFrame = false;
-	std::vector<std::unique_ptr<WorldUIItem>> _uiItems; 
-
 	void _handleClick(SDL_Event mouse_event);
 	void _updateUIItems(const float delta);
+
+	std::vector<std::weak_ptr<WorldUIItem>> _uiItems;
+	OrthoCameraController _cameraController;
+
+	float _cursorPosX = 0.0f;
+	float _cursorPosY = 0.0f;
+	bool _cursorMovedInLastFrame = false;
+
+	Cursor _cursor;
 };
