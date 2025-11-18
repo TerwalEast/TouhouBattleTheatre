@@ -345,6 +345,19 @@ bool ShaderManager::SetUniformBlock(const std::string& uniformBlockName, const v
 	return true;
 }
 
+const ShaderProgram ShaderManager::GetShaderProgram(const std::string& shaderName)
+{
+	if (_shaderMap.find(shaderName) != _shaderMap.end())
+	{
+		return _shaderMap[shaderName];
+	}
+	else
+	{
+		spdlog::warn("Shader program [{}] not found!", shaderName);
+		return ShaderProgram{};
+	}
+}
+
 void ShaderManager::_initShaderInfoList()
 {
 	std::filesystem::path path = std::filesystem::path("res/shader/vert");

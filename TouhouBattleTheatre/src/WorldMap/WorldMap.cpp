@@ -2,11 +2,6 @@
 #include "../ShaderManager.h"
 #include "../TextureLoader.h"
 
-WorldMap::WorldMap() 
-{
-
-}
-
 WorldMap::~WorldMap()
 {
 
@@ -112,6 +107,17 @@ void WorldMap::Update(const float delta)
 void WorldMap::HandleInput(Uint8* KeyStates)
 {
 	_ui.HandleInput(KeyStates);
+}
+
+void WorldMap::UpdateTilePick(const int tile_x, const int tile_y)
+{
+	_ui.GetCursor().UpdateCursorPos(tile_x, tile_y);
+}
+
+void WorldMap::_updateCursorPosOnMap()
+{
+	// Convert mouse coordinates to world coordinates
+	
 }
 
 

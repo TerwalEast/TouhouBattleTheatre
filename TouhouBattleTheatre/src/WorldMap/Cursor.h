@@ -3,8 +3,12 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include "WorldUIItem.h"
+#include <memory>
 
-struct CameraParams {
+class WorldUI;
+
+struct CameraParams 
+{
 	float camera_x, camera_y;
 	float view_width, view_height;
 	float screen_width, screen_height;
@@ -29,19 +33,20 @@ public:
 
 
 
-class Cursor
-{
+class Cursor{
 public:
-	Cursor();
+	Cursor(WorldUI& worldUI);
 	~Cursor();
 
 	void Render();
 	void Update(const float delta);
-	void UpdateCursorPos(const float mouse_x, const float mouse_y, const CameraParams& params);
+	void UpdateCursorPos(const int tile_x, const int tile_y);
+
 	void SetState(CursorState state);
 	void SetTargetTile(int tile_x, int tile_y);
 
 	void Click();
+	void Select(int tile_x, int tile_y);
 
 	glm::vec2 GetCursorPos();
 
@@ -60,4 +65,7 @@ private:
 	int _targetTileY = 0;
 
 	CursorState _state = CURSOR_DEFAULT;
+	std::shared_ptr<WorldUIItem> _cursorUIItem;
+	WorldUI& _worldUI;
+	
 };

@@ -2,14 +2,9 @@
 #include <spdlog/spdlog.h>
 
 WorldUIItem::WorldUIItem(const glm::vec2& position, const glm::vec2& size)
-	: _position(position), _size(size)
-{
-	//TODO
-}
+	: _position(position), _size(size){}
 
-WorldUIItem::~WorldUIItem()
-{
-}
+WorldUIItem::~WorldUIItem(){}
 
 void WorldUIItem::Update(const float delta)
 {

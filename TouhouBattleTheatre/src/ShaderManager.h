@@ -54,6 +54,8 @@ public:
     bool CompileShader(ShaderInfo shaderInfo);
     bool SetUniform(const std::string& shaderName, const std::string& uniformName, UniformType type, const void* value);
     bool SetUniformBlock(const std::string& uniformBlockName, const void* value);
+    const ShaderProgram GetShaderProgram(const std::string& shaderName);
+    
 private:
     std::unordered_map<std::string, ShaderProgram> _shaderMap;
     std::vector<ShaderInfo> _shaderInfoList;

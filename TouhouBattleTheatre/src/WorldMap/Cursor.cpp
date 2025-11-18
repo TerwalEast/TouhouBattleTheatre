@@ -1,25 +1,15 @@
 #include "Cursor.h"
+#include "WorldUI.h"
 #include "../ShaderManager.h"
 #include "../TextureLoader.h"
+#include "UnitManager.h"
 
 #include <spdlog/spdlog.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-namespace {
-    constexpr float TILE_SIZE = 8.0f;
-    constexpr float VERTICES[] = {
-        // Positions        // Texture Coords
-        0.0f,      0.0f, 0.0f,       0.0f, 0.0f,
-        TILE_SIZE, 0.0f, 0.0f,       1.0f, 0.0f,
-        TILE_SIZE, 0.0f, TILE_SIZE,  1.0f, 1.0f,
-        0.0f,      0.0f, TILE_SIZE,  0.0f, 1.0f
-    };
-    constexpr size_t VERTEX_COUNT = 4;
-    constexpr size_t COMPONENTS_PER_VERTEX = 5;
-    constexpr size_t VERTEX_STRIDE = COMPONENTS_PER_VERTEX * sizeof(float);
-}
 
-Cursor::Cursor()
+
+Cursor::Cursor(WorldUI &worldUI) : _worldUI(worldUI)
 {
 	_cursorTexture = TextureLoader::Load("cursor/cursor.png");
 	_selectTexture = TextureLoader::Load("cursor/select.png");
@@ -31,20 +21,30 @@ Cursor::Cursor()
 
 	glCreateVertexArrays(1, &_vao);
 
-    // Bind VBO to the VAO's binding point 0
+	// Bind VBO to the VAO's binding point 0
 	glVertexArrayVertexBuffer(_vao, 0, _vbo, 0, VERTEX_STRIDE);
 
-    // Position attribute (location = 0)
+	// Position attribute (location = 0)
 	glEnableVertexArrayAttrib(_vao, 0);
 	glVertexArrayAttribBinding(_vao, 0, 0);
 	glVertexArrayAttribFormat(_vao, 0, 3, GL_FLOAT, GL_FALSE, 0);
 
-    // Texture coordinate attribute (location = 1)
+	// Texture coordinate attribute (location = 1)
 	glEnableVertexArrayAttrib(_vao, 1);
 	glVertexArrayAttribBinding(_vao, 1, 0);
 	glVertexArrayAttribFormat(_vao, 1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(float));
 
-}
+	_cursorUIItem = std::make_shared<WorldUIItem>(glm::vec2(0.0f, 0.0f),
+		glm::vec2(TestApplication::GetInstance().GetScreenWidth(),
+			TestApplication::GetInstance().GetScreenHeight()));
+	_cursorUIItem->OnClick = [this]() {
+		this->Click();
+		};
+	_cursorUIItem->ConsumeClick = true;
+
+	_worldUI.RegisterUIItem(_cursorUIItem);
+
+};
 
 Cursor::~Cursor()
 {
@@ -94,18 +94,21 @@ void Cursor::Update(const float delta)
 	//float x, y;
 	//SDL_GetMouseState(&x, &y);
 	//_updateCursorPos(x, y);
+	if (_state == CursorState::CURSOR_DEFAULT)
+	{
+		// 什么也不做，指针处于默认状态
+	}
+	else if (_state == CursorState::CURSOR_SELECT)
+	{
+		// 指针处于选择状态，选中了一个单位
+	}
+
 }
 
-
-void Cursor::UpdateCursorPos(const float mouse_x, const float mouse_y, const CameraParams& params)
+void Cursor::UpdateCursorPos(const int tile_x, const int tile_y)
 {
-	// Convert mouse coordinates to world coordinates
-	float world_x = params.camera_x + (mouse_x / params.screen_width - 0.5f) * params.view_width;
-	float world_y = params.camera_y + (0.5f - mouse_y / params.screen_height) * params.view_height;
-
-	// Convert world coordinates to tile coordinates, ensuring they are not negative.
-	_cursorTileX = static_cast<int>(glm::max(0.0f, world_x / TILE_SIZE));
-	_cursorTileY = static_cast<int>(glm::max(0.0f, world_y / TILE_SIZE));
+	_cursorTileX = tile_x;
+	_cursorTileY = tile_y;
 }
 
 
@@ -128,4 +131,24 @@ glm::vec2 Cursor::GetCursorPos()
 void Cursor::Click()
 {
 	spdlog::info("Cursor clicked at tile ({}, {})", _cursorTileX, _cursorTileY);
+	if (_state == CursorState::CURSOR_DEFAULT)
+	{
+		Select(_cursorTileX, _cursorTileY);
+	}
+	else if (_state == CursorState::CURSOR_SELECT)
+	{
+		_state = CursorState::CURSOR_DEFAULT;
+	}
+}
+
+void Cursor::Select(int tile_x, int tile_y)
+{
+	// TODO 先检查是否处于战争迷雾中 等战争迷雾实装
+	//CheckVisible();
+
+	// 检查逻辑：友军-》敌人-》地表特征-》地形
+	//UnitManager& unitManager = 
+
+	
+
 }

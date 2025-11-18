@@ -2,27 +2,8 @@
 #include "../TestApplication.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include "WorldMap.h"
 
-WorldUI::WorldUI() : _cameraController(TestApplication::GetInstance().GetScreenWidth() * 0.1,
-										TestApplication::GetInstance().GetScreenHeight() * 0.1,
-										glm::vec3(0.0f, -100.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f)
-{
-	// 构造函数中的测试按钮现在也使用新机制创建
-	auto testButton = std::make_shared<WorldUIItem>( glm::vec2(0.0f, 0.0f), 
-		glm::vec2(	TestApplication::GetInstance().GetScreenWidth(), 
-					TestApplication::GetInstance().GetScreenHeight()));
-	testButton->OnClick = []() {
-		spdlog::info("兜底测试按钮接收到点击！");
-
-	};
-	testButton->ConsumeClick = true;
-	// 注意：这里直接调用注册函数，但为了演示，我们保留一个shared_ptr。
-	// 在实际使用中，这个shared_ptr可能由另一个对象持有。
-	// 为防止此处的testButton立即失效，我们需要一个地方持有它。
-	// 在这个例子中，我们暂时不处理，因为重点是展示注册机制。
-	// 更好的做法是在一个管理器中持有它。
-	this->RegisterUIItem(testButton);
-}
 
 WorldUI::~WorldUI()
 {}
@@ -206,7 +187,14 @@ void WorldUI::Update(const float delta)
 	params.screen_width = TestApplication::GetInstance().GetScreenWidth();
 	params.screen_height = TestApplication::GetInstance().GetScreenHeight();
 
-	_cursor.UpdateCursorPos(_cursorPosX, _cursorPosY, params);
+	float world_x = params.camera_x + (_cursorPosX / params.screen_width - 0.5f) * params.view_width;
+	float world_y = params.camera_y + (0.5f - _cursorPosY / params.screen_height) * params.view_height;
+
+	// 把世界坐标转换为图块坐标，确保非负数
+	int _cursorTileX = static_cast<int>(glm::max(0.0f, world_x / TILE_SIZE));
+	int _cursorTileY = static_cast<int>(glm::max(0.0f, world_y / TILE_SIZE));
+
+	_worldMap.UpdateTilePick(_cursorTileX, _cursorTileY);
 
 	this->_updateUIItems(delta);
 }

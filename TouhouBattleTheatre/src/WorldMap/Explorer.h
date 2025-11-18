@@ -6,7 +6,7 @@
 
 /***
 * Explorer
-* 
+* Ì½Ë÷Õß¡£
 */
 class Explorer : public Actor
 {

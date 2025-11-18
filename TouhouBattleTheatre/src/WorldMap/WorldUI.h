@@ -5,10 +5,31 @@
 #include <vector>
 #include <memory>
 
+namespace {
+	constexpr float TILE_SIZE = 8.0f;
+	constexpr float VERTICES[] = {
+		// Positions        // Texture Coords
+		0.0f,      0.0f, 0.0f,       0.0f, 0.0f,
+		TILE_SIZE, 0.0f, 0.0f,       1.0f, 0.0f,
+		TILE_SIZE, 0.0f, TILE_SIZE,  1.0f, 1.0f,
+		0.0f,      0.0f, TILE_SIZE,  0.0f, 1.0f
+	};
+	constexpr size_t VERTEX_COUNT = 4;
+	constexpr size_t COMPONENTS_PER_VERTEX = 5;
+	constexpr size_t VERTEX_STRIDE = COMPONENTS_PER_VERTEX * sizeof(float);
+}
+
+
+class WorldMap;
+
 class WorldUI
 {
 public:
-	WorldUI();
+	WorldUI(WorldMap& worldMap) : _cameraController(TestApplication::GetInstance().GetScreenWidth() * 0.1,
+		TestApplication::GetInstance().GetScreenHeight() * 0.1,
+		glm::vec3(0.0f, -100.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f),
+		_cursor(*this), _worldMap(worldMap) {};
+
 	~WorldUI();
 
 	void HandleInput(Uint8* KeyStates);
@@ -17,6 +38,8 @@ public:
 
 	void RegisterUIItem(std::shared_ptr<WorldUIItem> item);
 	void UnregisterUIItem(const std::shared_ptr<WorldUIItem>& item);
+
+	Cursor& GetCursor() { return _cursor; }
 
 	bool ExitFlag = false;
 private:
@@ -31,4 +54,6 @@ private:
 	bool _cursorMovedInLastFrame = false;
 
 	Cursor _cursor;
+	WorldMap& _worldMap;
+
 };

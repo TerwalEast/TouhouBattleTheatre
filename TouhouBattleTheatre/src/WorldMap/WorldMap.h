@@ -8,6 +8,7 @@
 #include "../camera/OrthoCameraController.h"
 #include "TileMap.h"
 #include "WorldUI.h"
+#include "UnitManager.h"
 
 #include <stb_truetype.h>
 #include <vector>
@@ -36,17 +37,19 @@ private:
 class WorldMap : public Stage
 {
 public:
-	WorldMap();
+	WorldMap() :_ui(*this) {};
 	~WorldMap();
 	void Start(SDL_Window* window, Uint8* KeyStates);
 	void Render();
 	void Update(const float delta);
 	void HandleInput(Uint8* KeyStates);
 
-protected:
-	
+	void UpdateTilePick(const int tile_x, const int tile_y);
+	UnitManager& GetUnitManager() { return _unitManager; }
+
 private:
 	bool _quit = false;
+	void _updateCursorPosOnMap();
 
 	//Í¼¿éµØÍ¼Àà
 	TileMap _tileMap;
@@ -65,5 +68,5 @@ private:
 	float wheel = 0.0f;
 	StageState _state = command;
 
-	//ActorManager _actorManager;
+	UnitManager _unitManager{ 100,100 };
 };

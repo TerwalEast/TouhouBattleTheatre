@@ -1,44 +1,52 @@
 ﻿#pragma once
 
 #include "../../TouhouBattleTheatre.h"
+#include "../EnumFlags.h"
 
-// Tile Map mask dictionary
-// Mask determine the terrain of the tile.
-// 
-// 0 = void
-// 1 = plain ( or other flat land. )
-// 2 = forest ( or other thick vegeterain )
-// 4 = grass ( or other thin vegeterain )
-// 8 = mountain ( or other rugged high land )
-// 16 = hill ( or other rugged low land )
-// 32 = lake/river ( or other fresh liquid )
-// 64 = sea ( or other salty liquid )
-// 128 = lava
-// 256 = swamp ( or other muddy land )
-// 512 = cave ( or other underground land )
-// 1024 = cavewall ( or other solid wall )
-// For example, 1024 + 4 + 64 = enclosed kelp farm, 512 + 2 = mushroom cave, 8 + 2 = forested mountain
+// 基础地形类型。一个格子只有一个基础地形。
+enum class TerrainType : uint8_t
+{
+	Void,
+	Plain,
+	Mountain,
+	Hill,
+	Water,
+	Lava,
+	Swamp,
+	CaveFloor,
+	SolidWall
+};
 
+// 地形地貌特征。一个格子可以有多个特征（例如，森林覆盖的山丘）。
+// 使用位掩码来组合它们。
+enum class TerrainFeature : uint16_t
+{
+	None = 0,
+	Forest = 1 << 0,    // 森林
+	Grass = 1 << 1,     // 草地
+	River = 1 << 2,     // 河流
+	Sea = 1 << 3,       // 海洋
+	Cave = 1 << 4      // 洞穴入口
+};
+ENABLE_BITMASK_OPERATORS(TerrainFeature);
 
+// 生物群系。一个格子通常属于一个生物群系。
+enum class Biome : uint16_t
+{
+	Void,
+	MakaiNormal,
+	MakaiHot,
+	MakaiCold,
 
-// Land feature and wonder points dictionary
-// 0 = nothing
-// 1 = shrine
+	ModernOutsideworld,
+	FutureOutsideworld,
 
-// Land biome dictionary
-// 0 = void
-// 1 = Makai Normal (Temperatue countryside)
-// 2 = Makai Hot
-// 4 = Makai Cold
-// 8 = Modern Outsideworld (Main storyline)
-// 16 = Gensokyo
-// 32 = Future Outsideworld (Seal club)
-// 64 = Netherworld
-// 128 = Celestial Realm
-// 256 = Old Hell
-// 512 = Lunar Capital
-// 1024 = PC-98 Hell
-// 2048 = PC-98 Heaven
+	Gensokyo,
+	Netherworld,
+	CelestialRealm,
+	OldHell,
+	LunarCapital,
+};
 
 
 class TerrainTile
@@ -46,6 +54,23 @@ class TerrainTile
 public:
 	TerrainTile();
 	~TerrainTile();
+
+	// --- 类型安全的地形访问接口 ---
+
+	// 设置/获取基础地形
+	void SetTerrainType(TerrainType type) { _terrainType = type; }
+	TerrainType GetTerrainType() const { return _terrainType; }
+
+	// 添加/移除/检查地貌特征
+	void AddFeature(TerrainFeature feature) { _features |= feature; }
+	void RemoveFeature(TerrainFeature feature) { _features &= ~feature; }
+	bool HasFeature(TerrainFeature feature) const { return HasFlag(_features, feature); }
+	TerrainFeature GetAllFeatures() const { return _features; }
+
+	// 设置/获取生物群系
+	void SetBiome(Biome biome) { _biome = biome; }
+	Biome GetBiome() const { return _biome; }
+
 protected:
 	// ------------------------------------------------
 	//+Y
@@ -58,7 +83,9 @@ protected:
 	// |T-X-3  T-X-2  T-X-1
 	// O---------------------> +X
 	// -----------------------------------------------
-	int _tileType = 0;
+	TerrainType _terrainType = TerrainType::Void;
+	TerrainFeature _features = TerrainFeature::None;
+	Biome _biome = Biome::Void;
 };
 
 

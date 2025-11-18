@@ -107,7 +107,6 @@ void TileMap::Render()
 
 TerrainTile::TerrainTile()
 {
-	_tileType = 0;
 }
 
 TerrainTile::~TerrainTile()

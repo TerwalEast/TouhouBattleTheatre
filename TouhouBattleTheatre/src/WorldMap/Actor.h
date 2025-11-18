@@ -34,7 +34,7 @@ struct Actor_UI
 
 
 /**
-* @brief 地图可动棋子的父类.
+* @brief 地图可动棋子。
 */
 class Actor
 {
@@ -54,18 +54,3 @@ private:
 };
 
 
-class ActorManager 
-{
-public:
-	ActorManager() {};
-	~ActorManager() {};
-	void AddActor(Actor* actor);
-	void RemoveActor(Actor* actor);
-	void UpdateActors(const float delta);
-	void RenderActors();
-	void HandleInputActors(); //处理所有Actor的输入，输入点击格子的坐标
-private:
-	std::vector<Actor*> _actors;
-
-
-};
