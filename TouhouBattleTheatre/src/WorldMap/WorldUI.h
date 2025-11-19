@@ -32,21 +32,22 @@ public:
 
 	~WorldUI();
 
-	void HandleInput(Uint8* KeyStates);
+	void HandleInput(const Uint8* KeyStates);
 	void Update(const float delta);
 	void Render();
 
-	void RegisterUIItem(std::shared_ptr<WorldUIItem> item);
-	void UnregisterUIItem(const std::shared_ptr<WorldUIItem>& item);
+	void AddUIRoot(std::shared_ptr<WorldUIItem> item);
+	void RemoveUIRoot(const std::shared_ptr<WorldUIItem>& item);
 
-	Cursor& GetCursor() { return _cursor; }
+	Cursor& GetCursor();
 
 	bool ExitFlag = false;
-private:
-	void _handleClick(SDL_Event mouse_event);
-	void _updateUIItems(const float delta);
 
-	std::vector<std::weak_ptr<WorldUIItem>> _uiItems;
+private:
+	void _handleClick(SDL_MouseButtonEvent& mouse_event);
+	
+	std::vector<std::shared_ptr<WorldUIItem>> _uiRoots; // 只存储根节点
+
 	OrthoCameraController _cameraController;
 
 	float _cursorPosX = 0.0f;
@@ -55,5 +56,4 @@ private:
 
 	Cursor _cursor;
 	WorldMap& _worldMap;
-
 };

@@ -41,8 +41,9 @@ Cursor::Cursor(WorldUI &worldUI) : _worldUI(worldUI)
 		this->Click();
 		};
 	_cursorUIItem->ConsumeClick = true;
+	_cursorUIItem->Name = "CursorUIItem";
 
-	_worldUI.RegisterUIItem(_cursorUIItem);
+	_worldUI.AddUIRoot(_cursorUIItem);
 
 };
 

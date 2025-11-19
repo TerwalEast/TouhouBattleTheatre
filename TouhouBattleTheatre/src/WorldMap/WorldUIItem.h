@@ -1,22 +1,24 @@
 #pragma once
 
-#include <string>
 #include <glm/glm.hpp>
 #include <functional>
+#include <vector>
+#include <memory>
+#include <string>
 
-enum WorldUIState
-{
-	hot, active, inactive
+
+enum class WorldUIState {
+	inactive,
+	active,
+	hover
 };
 
-enum WorldUIShape
-{
-	rectangle, circle
+enum class WorldUIShape {
+	rectangle,
+	circle
 };
 
-
-class WorldUIItem
-{
+class WorldUIItem : public std::enable_shared_from_this<WorldUIItem> {
 public:
 	WorldUIItem(const glm::vec2& position, const glm::vec2& size);
 	virtual ~WorldUIItem();
@@ -24,25 +26,36 @@ public:
 	bool ConsumeClick = false;
 	bool ConsumeHover = false;
 	bool HoverActive = false;
+	bool Visible = true;
 
-	// 事件回调
 	std::function<void()> OnClick;
-	void SetClickAction(std::function<void()> action) { OnClick = action; }
+	void SetClickAction(std::function<void()> action);
 
 	virtual void Update(const float delta);
-	virtual void Render() {};
-	bool isWithinUIElement(int x, int y);
+	virtual void Render();
 
-	// 触发点击事件
+	bool IsWithinUIElement(int x, int y);
 	void Click();
 
-protected:
-	std::string _name = "Unamed WorldUI";
-	WorldUIState _state = inactive;
-	WorldUIShape _shape = rectangle;
-	float _hoverTime = 0.0f;
+	// 层级管理
+	void AddChild(std::shared_ptr<WorldUIItem> child);
+	void RemoveChild(std::shared_ptr<WorldUIItem> child);
+	glm::vec2 GetAbsolutePosition() const;
 
-	glm::vec2 _position; // UI元素左上角位置
-	glm::vec2 _size;     // UI元素尺寸
+	// 事件处理
+	virtual void HandleClick(int x, int y) { this->OnClick(); };
+
+	std::string Name = "Unamed WorldUI";
+
+protected:
+	WorldUIState _state = WorldUIState::inactive;
+	WorldUIShape _shape = WorldUIShape::rectangle;
+	float _hoverTime = 0.0f;
+	glm::vec2 _position; // 相对于父节点的坐标
+	glm::vec2 _size;
+
+	// 层级结构
+	WorldUIItem* _parent = nullptr;
+	std::vector<std::shared_ptr<WorldUIItem>> _children;
 };
 

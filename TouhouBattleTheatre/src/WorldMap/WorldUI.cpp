@@ -8,82 +8,77 @@
 WorldUI::~WorldUI()
 {}
 
-void WorldUI::RegisterUIItem(std::shared_ptr<WorldUIItem> item)
+void WorldUI::Update(const float delta)
 {
-	if (item)
+	_cameraController.Update(delta);
+
+	CameraParams params;
+	params.camera_x = _cameraController.GetPosition().x;
+	params.camera_y = _cameraController.GetPosition().z; // 注意：世界坐标的 Y 值来自相机的 Z 值
+	params.view_width = _cameraController.GetViewWidth();
+	params.view_height = _cameraController.GetViewHeight();
+	params.screen_width = TestApplication::GetInstance().GetScreenWidth();
+	params.screen_height = TestApplication::GetInstance().GetScreenHeight();
+
+	float world_x = params.camera_x + (_cursorPosX / params.screen_width - 0.5f) * params.view_width;
+	float world_y = params.camera_y + (0.5f - _cursorPosY / params.screen_height) * params.view_height;
+
+	// 把世界坐标转换为图块坐标，确保非负数
+	int _cursorTileX = static_cast<int>(glm::max(0.0f, world_x / TILE_SIZE));
+	int _cursorTileY = static_cast<int>(glm::max(0.0f, world_y / TILE_SIZE));
+
+	_worldMap.UpdateTilePick(_cursorTileX, _cursorTileY);
+
+	_cursor.Update(delta);
+
+	// 更新所有UI根节点及其子节点
+	for (auto& root : _uiRoots)
 	{
-		// 添加到UI项列表
-		_uiItems.push_back(item);
+		root->Update(delta);
 	}
 }
 
-void WorldUI::UnregisterUIItem(const std::shared_ptr<WorldUIItem>& item)
+void WorldUI::Render()
 {
-	std::erase_if(_uiItems, [&](const std::weak_ptr<WorldUIItem>& weak_item) {
-		if (weak_item.expired()) {
-			return true;
-		}
-		return weak_item.lock() == item;
-	});
+	_cursor.Render();
+	for (auto& root : _uiRoots)
+	{
+		root->Render();
+	}
 }
 
-
-void WorldUI::_handleClick(SDL_Event mouse_event)
+void WorldUI::AddUIRoot(std::shared_ptr<WorldUIItem> item)
 {
-	if (mouse_event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
+	_uiRoots.push_back(item);
+}
+
+void WorldUI::RemoveUIRoot(const std::shared_ptr<WorldUIItem>& item)
+{
+	_uiRoots.erase(std::remove(_uiRoots.begin(), _uiRoots.end(), item), _uiRoots.end());
+}
+
+Cursor& WorldUI::GetCursor()
+{
+	return _cursor;
+}
+
+void WorldUI::_handleClick(SDL_MouseButtonEvent& mouse_event)
+{
+	// 从最上层的根节点开始遍历整棵UI树
+	for (auto it = _uiRoots.rbegin(); it != _uiRoots.rend(); ++it)
 	{
-		if (mouse_event.button.button == SDL_BUTTON_LEFT)
+		//spdlog::debug("Checking click for UI element: {}", (*it)->Name);
+		if ((*it)->ConsumeClick)
 		{
-			// 从后往前遍历，因为后添加的UI在更上层
-			for (auto it = _uiItems.rbegin(); it != _uiItems.rend(); ++it)
-			{
-				if (auto item = it->lock()) 
-				{
-					if (item->isWithinUIElement(_cursorPosX, _cursorPosY))
-					{
-						if (item->ConsumeClick)
-						{
-							item->Click(); // 触发点击事件
-							break; // 事件被消耗，则停止传递
-						}
-					}
-				}
-			}
-		}
-		else if (mouse_event.button.button == SDL_BUTTON_RIGHT)
-		{
-			// Handle right click
-		}
-	}
-	else if (mouse_event.type == SDL_EVENT_MOUSE_BUTTON_UP)
-	{
-		if (mouse_event.button.button == SDL_BUTTON_LEFT)
-		{
-			// Handle left click release
-		}
-		else if (mouse_event.button.button == SDL_BUTTON_RIGHT)
-		{
-			// Handle right click release
+			//spdlog::debug("UI element {} consumed the click event.", (*it)->Name);
+			(*it)->HandleClick(mouse_event.x, mouse_event.y);
+			return; // 事件已被某个UI元素处理
 		}
 	}
 }
 
-void WorldUI::_updateUIItems(const float delta)
-{
-	for (auto& item : _uiItems)
-	{
-		if (auto weak_item = item.lock())
-		{
-			weak_item->Update(delta);
-		}
-	}
 
-	std::erase_if(_uiItems, [](const std::weak_ptr<WorldUIItem>& item) {
-		return item.expired();
-	});
-}
-
-void WorldUI::HandleInput(Uint8* KeyStates)
+void WorldUI::HandleInput(const Uint8* KeyStates)
 {
 	glm::vec3 movement = glm::vec3(0.0f, 0.0f, 0.0f);
 	float rotation = 0.0f;
@@ -103,7 +98,7 @@ void WorldUI::HandleInput(Uint8* KeyStates)
 		}
 		if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN || event.type == SDL_EVENT_MOUSE_BUTTON_UP)
 		{
-			_handleClick(event);
+			_handleClick(event.button);
 		}
 		if (event.type == SDL_EVENT_WINDOW_RESIZED) //测试用，运行时禁止动态调整窗口大小
 		{
@@ -162,40 +157,4 @@ void WorldUI::HandleInput(Uint8* KeyStates)
 		_cameraController.Movement(movement);
 }
 
-
-void WorldUI::Render()
-{
-	for (auto& weak_item : _uiItems)
-	{
-		if (auto item = weak_item.lock()) 
-		{
-			item->Render();
-		}
-	}
-	_cursor.Render();
-}
-
-void WorldUI::Update(const float delta)
-{
-	_cameraController.Update(delta);
-
-	CameraParams params;
-	params.camera_x = _cameraController.GetPosition().x;
-	params.camera_y = _cameraController.GetPosition().z; // 注意：世界坐标的 Y 值来自相机的 Z 值
-	params.view_width = _cameraController.GetViewWidth();
-	params.view_height = _cameraController.GetViewHeight();
-	params.screen_width = TestApplication::GetInstance().GetScreenWidth();
-	params.screen_height = TestApplication::GetInstance().GetScreenHeight();
-
-	float world_x = params.camera_x + (_cursorPosX / params.screen_width - 0.5f) * params.view_width;
-	float world_y = params.camera_y + (0.5f - _cursorPosY / params.screen_height) * params.view_height;
-
-	// 把世界坐标转换为图块坐标，确保非负数
-	int _cursorTileX = static_cast<int>(glm::max(0.0f, world_x / TILE_SIZE));
-	int _cursorTileY = static_cast<int>(glm::max(0.0f, world_y / TILE_SIZE));
-
-	_worldMap.UpdateTilePick(_cursorTileX, _cursorTileY);
-
-	this->_updateUIItems(delta);
-}
 
