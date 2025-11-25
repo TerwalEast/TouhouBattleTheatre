@@ -8,14 +8,20 @@
 
 
 enum class WorldUIState {
-	inactive,
-	active,
-	hover
+	INACTIVE,
+	ACTIVE,
+	HOVER
 };
 
 enum class WorldUIShape {
-	rectangle,
-	circle
+	RECT,
+	CIRCLE
+};
+
+enum class MouseButton {
+	LEFT,
+	RIGHT,
+	MIDDLE
 };
 
 class WorldUIItem : public std::enable_shared_from_this<WorldUIItem> {
@@ -28,14 +34,16 @@ public:
 	bool HoverActive = false;
 	bool Visible = true;
 
-	std::function<void()> OnClick;
-	void SetClickAction(std::function<void()> action);
+	std::function<void()> OnLeftClick;
+	std::function<void()> OnRightClick;
+	std::function<void()> OnMiddleClick;
+
+	void SetClickAction(std::function<void()> action, MouseButton mouseButton);
 
 	virtual void Update(const float delta);
 	virtual void Render();
 
 	bool IsWithinUIElement(int x, int y);
-	void Click();
 
 	// 层级管理
 	void AddChild(std::shared_ptr<WorldUIItem> child);
@@ -43,13 +51,13 @@ public:
 	glm::vec2 GetAbsolutePosition() const;
 
 	// 事件处理
-	virtual void HandleClick(int x, int y) { this->OnClick(); };
+	virtual void HandleClick(int x, int y, MouseButton mouseButton);
 
 	std::string Name = "Unamed WorldUI";
 
 protected:
-	WorldUIState _state = WorldUIState::inactive;
-	WorldUIShape _shape = WorldUIShape::rectangle;
+	WorldUIState _state = WorldUIState::INACTIVE;
+	WorldUIShape _shape = WorldUIShape::RECT;
 	float _hoverTime = 0.0f;
 	glm::vec2 _position; // 相对于父节点的坐标
 	glm::vec2 _size;

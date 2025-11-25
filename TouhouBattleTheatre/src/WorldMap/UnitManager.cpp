@@ -1,5 +1,6 @@
 #include "UnitManager.h"
-#include <algorithm> // For std::remove
+
+#include <algorithm> 
 
 UnitManager::UnitManager(int mapWidth, int mapHeight)
     : _mapWidth(mapWidth), _mapHeight(mapHeight)
@@ -38,7 +39,6 @@ void UnitManager::RemoveUnit(UnitID id)
     unitsOnTile.erase(std::remove(unitsOnTile.begin(), unitsOnTile.end(), id), unitsOnTile.end());
 
     // 将ID添加到freelist以供重用
-    // 注意：我们不从_units向量中删除元素，以保持ID的稳定性
     _freeIDs.push_back(id);
 }
 
@@ -59,14 +59,14 @@ void UnitManager::MoveUnit(UnitID id, int newX, int newY)
     _spatialGrid[newY * _mapWidth + newX].push_back(id);
 }
 
-const std::vector<UnitID>& UnitManager::GetUnitsAt(int x, int y) const
+std::span<const UnitID> UnitManager::GetUnitsAt(int x, int y) const
 {
-    return _spatialGrid[y * _mapWidth + x];
-}
-
-Unit& UnitManager::GetUnit(UnitID id)
-{
-    return _units[id];
+    if (x < 0 || x >= _mapWidth || y < 0 || y >= _mapHeight)
+    {
+        return {}; // 返回一个空的 span
+    }
+    const auto& unitIDs = _spatialGrid[y * _mapWidth + x];
+    return { unitIDs.data(), unitIDs.size() };
 }
 
 const Unit& UnitManager::GetUnit(UnitID id) const
@@ -79,13 +79,5 @@ void UnitManager::UpdateAllUnits()
     for (auto& unit : _units)
     {
         unit.Update();
-    }
-}
-
-void UnitManager::RenderAllUnits()
-{
-    for (auto& unit : _units)
-    {
-        unit.Render();
     }
 }

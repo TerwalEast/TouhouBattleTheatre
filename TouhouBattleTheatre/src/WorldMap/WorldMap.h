@@ -11,6 +11,7 @@
 #include "UnitManager.h"
 
 #include <stb_truetype.h>
+#include <memory>
 #include <vector>
 
 /**
@@ -18,7 +19,7 @@
  */
 
 
-enum StageState { command, animation, resolve, sleep };
+enum StageState { plot, command, animation, resolve, sleep };
 
 class WorldMapBackGround
 {
@@ -37,19 +38,17 @@ private:
 class WorldMap : public Stage
 {
 public:
-	WorldMap() :_ui(*this) {};
+	WorldMap();
 	~WorldMap();
 	void Start(SDL_Window* window, Uint8* KeyStates);
 	void Render();
 	void Update(const float delta);
 	void HandleInput(Uint8* KeyStates);
 
-	void UpdateTilePick(const int tile_x, const int tile_y);
 	UnitManager& GetUnitManager() { return _unitManager; }
 
 private:
 	bool _quit = false;
-	void _updateCursorPosOnMap();
 
 	//图块地图类
 	TileMap _tileMap;
@@ -62,11 +61,16 @@ private:
 	
 	//派系列表
 	//std::vector<Faction> _factions;
+
+	UnitManager _unitManager{ 100,100 };
+
+	UnitRenderer _unitRenderer;
+
 	WorldUI _ui;
 	
 	bool _click = false;
 	float wheel = 0.0f;
 	StageState _state = command;
 
-	UnitManager _unitManager{ 100,100 };
+
 };

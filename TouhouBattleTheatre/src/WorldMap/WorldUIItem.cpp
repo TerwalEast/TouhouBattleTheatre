@@ -6,9 +6,22 @@ WorldUIItem::WorldUIItem(const glm::vec2& position, const glm::vec2& size)
 
 WorldUIItem::~WorldUIItem(){}
 
-void WorldUIItem::SetClickAction(std::function<void()> action)
+void WorldUIItem::SetClickAction(std::function<void()> action, MouseButton mouseButton)
 {
-	OnClick = action;
+	switch (mouseButton)
+	{
+	case MouseButton::LEFT:
+		OnLeftClick = action;
+		break;
+	case MouseButton::RIGHT:
+		OnRightClick = action;
+		break;
+	case MouseButton::MIDDLE:
+		OnMiddleClick = action;
+		break;
+	default:
+		break;
+	}
 }
 
 void WorldUIItem::Update(const float delta)
@@ -46,14 +59,6 @@ bool WorldUIItem::IsWithinUIElement(int x, int y)
 	//TODO 数据驱动的圆形判定
 }
 
-void WorldUIItem::Click()
-{
-	if (OnClick)
-	{
-		OnClick();
-	}
-}
-
 void WorldUIItem::AddChild(std::shared_ptr<WorldUIItem> child) 
 {
 	child->_parent = this;
@@ -79,4 +84,31 @@ glm::vec2 WorldUIItem::GetAbsolutePosition() const
 		return _parent->GetAbsolutePosition() + _position;
 	}
 	return _position;
+}
+
+void WorldUIItem::HandleClick(int x, int y, MouseButton mouseButton)
+{
+	switch (mouseButton)
+	{
+	case MouseButton::LEFT:
+		if (OnLeftClick)
+			OnLeftClick();
+		else
+			spdlog::debug("WorldUIItem [{}] received left click, but no action assigned.", Name);
+		break;
+	case MouseButton::RIGHT:
+		if (OnRightClick)
+			OnRightClick();
+		else
+			spdlog::debug("WorldUIItem [{}] received right click, but no action assigned.", Name);
+		break;
+	case MouseButton::MIDDLE:
+		if (OnMiddleClick)
+			OnMiddleClick();
+		else
+			spdlog::debug("WorldUIItem [{}] received middle click, but no action assigned.", Name);
+		break;
+	default:
+		break;
+	}
 }

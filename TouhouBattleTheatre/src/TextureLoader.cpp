@@ -61,13 +61,14 @@ GLuint Load(std::string_view filePath)
 
 GLuint LoadTileAtlas(std::string_view filePath, const int tileWidth, const int tileHeight)
 {
+	spdlog::info("读取材质文件合集中，相对路径为 {} ", filePath.data());
 	stbi_set_flip_vertically_on_load(true);
 	GLsizei tilesheetWidth, tilesheetHeight, nrChannel;
 	std::filesystem::path path = std::filesystem::path("res") / "texture" / filePath;
 	stbi_uc* pixels = stbi_load(path.string().c_str(), &tilesheetWidth, &tilesheetHeight, &nrChannel, STBI_rgb_alpha);
 	if (!pixels)
 	{
-		spdlog::error("读取材质文件失败，路径为 {}", path.string()); return 0;
+		spdlog::error("读取材质文件合集失败，路径为 {}", path.string()); return 0;
 	}
 
 	const GLsizei

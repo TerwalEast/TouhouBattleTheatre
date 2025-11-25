@@ -19,6 +19,7 @@ public:
 
 	const std::string& GetName() const { return _name; }
 
+
 private:
     int _x, _y;
     std::string _name = "Unamed Unit";

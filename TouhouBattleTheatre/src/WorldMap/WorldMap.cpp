@@ -2,6 +2,15 @@
 #include "../ShaderManager.h"
 #include "../TextureLoader.h"
 
+WorldMap::WorldMap()
+	: _ui(*this, _unitManager)
+{
+	UnitID testUnit = _unitManager.AddUnit(0, 0);
+	spdlog::debug("test unit 1 name: {}",_unitManager.GetUnit(testUnit).GetName());
+	UnitID testUnit2 = _unitManager.AddUnit(1, 1);
+	spdlog::debug("test unit 2 name: {}", _unitManager.GetUnit(testUnit).GetName());
+}
+
 WorldMap::~WorldMap()
 {
 
@@ -85,7 +94,7 @@ void WorldMap::Render()
 	//Render tilemap
 	_tileMap.Render();
 	//Render Actors
-	
+	_unitRenderer.RenderUnits(_unitManager);
 	//Render Effects
 	
 	//Render UI
@@ -108,18 +117,6 @@ void WorldMap::HandleInput(Uint8* KeyStates)
 {
 	_ui.HandleInput(KeyStates);
 }
-
-void WorldMap::UpdateTilePick(const int tile_x, const int tile_y)
-{
-	_ui.GetCursor().UpdateCursorPos(tile_x, tile_y);
-}
-
-void WorldMap::_updateCursorPosOnMap()
-{
-	// Convert mouse coordinates to world coordinates
-	
-}
-
 
 
 WorldMapBackGround::WorldMapBackGround()

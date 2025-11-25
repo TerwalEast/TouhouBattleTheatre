@@ -2,7 +2,6 @@
 #include "WorldUI.h"
 #include "../ShaderManager.h"
 #include "../TextureLoader.h"
-#include "UnitManager.h"
 
 #include <spdlog/spdlog.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -33,18 +32,6 @@ Cursor::Cursor(WorldUI &worldUI) : _worldUI(worldUI)
 	glEnableVertexArrayAttrib(_vao, 1);
 	glVertexArrayAttribBinding(_vao, 1, 0);
 	glVertexArrayAttribFormat(_vao, 1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(float));
-
-	_cursorUIItem = std::make_shared<WorldUIItem>(glm::vec2(0.0f, 0.0f),
-		glm::vec2(TestApplication::GetInstance().GetScreenWidth(),
-			TestApplication::GetInstance().GetScreenHeight()));
-	_cursorUIItem->OnClick = [this]() {
-		this->Click();
-		};
-	_cursorUIItem->ConsumeClick = true;
-	_cursorUIItem->Name = "CursorUIItem";
-
-	_worldUI.AddUIRoot(_cursorUIItem);
-
 };
 
 Cursor::~Cursor()
@@ -97,11 +84,11 @@ void Cursor::Update(const float delta)
 	//_updateCursorPos(x, y);
 	if (_state == CursorState::CURSOR_DEFAULT)
 	{
-		// 什么也不做，指针处于默认状态
+		// 指针处于默认状态
 	}
 	else if (_state == CursorState::CURSOR_SELECT)
 	{
-		// 指针处于选择状态，选中了一个单位
+		// 选中了一个单位
 	}
 
 }
@@ -116,6 +103,10 @@ void Cursor::UpdateCursorPos(const int tile_x, const int tile_y)
 void Cursor::SetState(CursorState state)
 {
 	_state = state;
+	if (state == CURSOR_SELECT)
+	{
+		SetTargetTile(_cursorTileX, _cursorTileY);
+	}
 }
 
 void Cursor::SetTargetTile(int tile_x, int tile_y)
@@ -127,29 +118,4 @@ void Cursor::SetTargetTile(int tile_x, int tile_y)
 glm::vec2 Cursor::GetCursorPos()
 {
 	return glm::vec2(_cursorTileX, _cursorTileY);
-}
-
-void Cursor::Click()
-{
-	spdlog::info("Cursor clicked at tile ({}, {})", _cursorTileX, _cursorTileY);
-	if (_state == CursorState::CURSOR_DEFAULT)
-	{
-		Select(_cursorTileX, _cursorTileY);
-	}
-	else if (_state == CursorState::CURSOR_SELECT)
-	{
-		_state = CursorState::CURSOR_DEFAULT;
-	}
-}
-
-void Cursor::Select(int tile_x, int tile_y)
-{
-	// TODO 先检查是否处于战争迷雾中 等战争迷雾实装
-	//CheckVisible();
-
-	// 检查逻辑：友军-》敌人-》地表特征-》地形
-	//UnitManager& unitManager = 
-
-	
-
 }
